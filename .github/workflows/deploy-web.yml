@@ -1,0 +1,66 @@
+name: Deploy Web app on port 80
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'web/**'
+      - '.github/workflows/deploy-web.yml'
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Git checkout
+      uses: actions/checkout@v3
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        role-to-assume: ${{ secrets.AWS_ROLE }}
+        role-session-name: deploy-frontend-session
+        aws-region: ${{secrets.AWS_REGION}}
+
+    - name: Generate .env
+      run: |
+          cd web
+          echo "PORT_LOCAL=80" > .env
+
+    - name: List files
+      run: |
+          cd web
+          ls -a
+          cat .env
+
+    - name: Package artifact
+      run: zip -r ./web.zip *
+      working-directory: web
+
+    - name: Upload artifact to S3
+      run: |
+        cd web
+        aws s3 cp web.zip s3://${{ secrets.BUCKET_NAME }}/frontend/application-${{ github.run_id }}.zip
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE }}
+          role-session-name: deploy-server-session
+          aws-region: ${{secrets.AWS_REGION}}
+
+      - name: Deploy to Elastic Beanstalk
+        run: |
+          aws elasticbeanstalk create-application-version --application-name ${{ secrets.WEB_APP_NAME }} --version-label ${{ github.run_id }} --source-bundle S3Bucket="${{ secrets.BUCKET_NAME }}",S3Key="frontend/application-${{ github.run_id }}.zip"
+          aws elasticbeanstalk update-environment --application-name ${{ secrets.WEB_APP_NAME }} --environment-name ${{ secrets.WEB_ENV_NAME }} --version-label ${{ github.run_id }}
