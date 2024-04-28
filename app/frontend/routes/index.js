@@ -8,7 +8,7 @@ router.get('/', function (req, res, next) {
 
 // Display welcome message 
 router.get('/welcome', function (req, res, next) {
-  res.send('welcome to the spider-recipes API');
+  res.send('welcome to the spider-recipes frontend');
 });
 
 module.exports = router;

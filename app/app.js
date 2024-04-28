@@ -17,12 +17,16 @@ app.use(express.urlencoded({ extended: false })); // Middleware to parse URL-enc
 app.use(cookieParser()); // Middleware to parse cookies
 app.use(express.static(path.join(__dirname, 'public'))); // Middleware to serve static files
 
-// Routers
-var indexRouter = require('./routes/index');
-var apiRouter = require('./routes/api');
+// Frontend routes
+var indexRouter = require('./frontend/routes/index');
 
-// Mount routers
+// Backend routes
+var apiRouter = require('./backend/routes/api');
+
+// Mount frontend routers
 app.use('/', indexRouter);
+
+// Mount backend routers
 app.use('/api', apiRouter);
 
 // catch 404 and forward to error handler
