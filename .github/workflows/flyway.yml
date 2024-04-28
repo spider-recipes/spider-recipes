@@ -25,9 +25,9 @@ jobs:
 
     - name: Run Flyway Migrations
       env:
-        FLYWAY_URL: ${{ secrets.DB_DEV_URL}}
-        FLYWAY_USER: ${{ secrets.DB_DEV_USERNAME }}
-        FLYWAY_PASSWORD: ${{ secrets.DB_DEV_PASSWORD }}
+        FLYWAY_URL: ${{ secrets.DB_CONNECTION_STRING }}
+        FLYWAY_USER: ${{ secrets.DB_USERNAME }}
+        FLYWAY_PASSWORD: ${{ secrets.DB_PASSWORD }}
       run: |
         flyway repair -X -locations=sql/
         flyway info -X -locations=sql/
