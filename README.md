@@ -15,18 +15,13 @@ Project slogan.
 - Launch postman and import postman folder 
 
 ## Run-instructions
-### Running
+### Running Single Page Application Web app
 ```sh
-cd server
-npm install
-npm run server
-```
-### Running Web
-```sh
-cd server
+cd app
 npm install
 npm run web
 ```
+There is an option to decouple the two and host the static pages on an s3 bucket
 
 ## Access the database using MS SQL Server studio
 - Open ms sql sever studio
