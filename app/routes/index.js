@@ -3,11 +3,12 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.sendFile('index.html', { root: __dirname + '/../views/' });
 });
 
+// Display welcome message 
 router.get('/welcome', function (req, res, next) {
-  res.render('welcome', { message: 'Welcome to My Website' });
+  res.send('welcome to the spider-recipes API');
 });
 
 module.exports = router;

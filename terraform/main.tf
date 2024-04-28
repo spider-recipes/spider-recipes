@@ -90,66 +90,6 @@ resource "aws_key_pair" "eb_key_pair" {
   public_key = var.eb_public_key
 }
 
-resource "aws_elastic_beanstalk_application" "server_app" {
-  name        = "${var.project_name}-server-app"
-  description = "Beanstalk application"
-}
-
-resource "aws_elastic_beanstalk_environment" "server_env" {
-  name                = "${var.project_name}-server-env"
-  application         = aws_elastic_beanstalk_application.server_app.name
-  solution_stack_name = "64bit Amazon Linux 2023 v4.3.1 running Docker"
-  cname_prefix        = var.project_name
-
-  setting {
-    namespace = "aws:ec2:vpc"
-    name      = "VPCId"
-    value     = aws_vpc.vpc.id
-  }
-  setting {
-    namespace = "aws:ec2:vpc"
-    name      = "Subnets"
-    value     = join(",", aws_subnet.public_subnets[*].id)
-  }
-  setting {
-    namespace = "aws:ec2:instances"
-    name      = "InstanceTypes"
-    value     = "t3.micro"
-  }
-  setting {
-    namespace = "aws:autoscaling:launchconfiguration"
-    name      = "IamInstanceProfile"
-    value     = aws_iam_instance_profile.ec2_instance_profile.name
-  }
-  setting {
-    namespace = "aws:autoscaling:launchconfiguration"
-    name      = "EC2KeyName"
-    value     = aws_key_pair.eb_key_pair.key_name
-  }
-  setting {
-    namespace = "aws:autoscaling:launchconfiguration"
-    name      = "SecurityGroups"
-    value     = aws_security_group.eb_security_group_server.id
-  }
-  setting {
-    namespace = "aws:elasticbeanstalk:environment"
-    name      = "EnvironmentType"
-    value     = "SingleInstance"
-  }
-  setting {
-    namespace = "aws:elasticbeanstalk:environment"
-    name      = "ServiceRole"
-    value     = aws_iam_role.eb_service_role.name
-  }
-
-  setting {
-    namespace = "aws:elasticbeanstalk:healthreporting:system"
-    name      = "SystemType"
-    value     = "basic"
-  }
-  # depends_on = [aws_db_instance.sql_server, aws_s3_bucket.source]
-}
-
 resource "aws_elastic_beanstalk_application" "web_app" {
   name        = "${var.project_name}-web-app"
   description = "Beanstalk application"

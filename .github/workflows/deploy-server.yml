@@ -1,12 +1,12 @@
-name: Deploy Server on port 80
+name: Deploy app on port 80
 
 on:
   push:
     branches:
       - main
     paths:
-      - 'server/**'
-      - '.github/workflows/deploy-server.yml'
+      - 'app/**'
+      - '.github/workflows/deploy-app.yml'
   workflow_dispatch:
 
 permissions:
@@ -30,23 +30,17 @@ jobs:
 
     - name: Generate .env
       run: |
-          cd server
+          cd app
           echo "PORT_LOCAL=80" > .env
-          cat .env
-
-    - name: List files
-      run: |
-          cd server
-          ls -a
 
     - name: Package artifact
-      run: zip -r ./server.zip *
-      working-directory: server
+      run: zip -r ./app.zip *
+      working-directory: app
 
     - name: Upload artifact to S3
       run: |
-        cd server
-        aws s3 cp server.zip s3://${{ secrets.BUCKET_NAME }}/backend/application-${{ github.run_id }}.zip
+        cd app
+        aws s3 cp app.zip s3://${{ secrets.BUCKET_NAME }}/backend/application-${{ github.run_id }}.zip
 
   deploy:
     needs: build
@@ -62,5 +56,5 @@ jobs:
 
       - name: Deploy to Elastic Beanstalk
         run: |
-          aws elasticbeanstalk create-application-version --application-name ${{ secrets.SERVER_APP_NAME }} --version-label ${{ github.run_id }} --source-bundle S3Bucket="${{ secrets.BUCKET_NAME }}",S3Key="backend/application-${{ github.run_id }}.zip"
-          aws elasticbeanstalk update-environment --application-name ${{ secrets.SERVER_APP_NAME }} --environment-name ${{ secrets.SERVER_ENV_NAME }} --version-label ${{ github.run_id }}
+          aws elasticbeanstalk create-application-version --application-name ${{ secrets.WEB_APP_NAME }} --version-label ${{ github.run_id }} --source-bundle S3Bucket="${{ secrets.BUCKET_NAME }}",S3Key="backend/application-${{ github.run_id }}.zip"
+          aws elasticbeanstalk update-environment --application-name ${{ secrets.WEB_APP_NAME }} --environment-name ${{ secrets.WEB_ENV_NAME }} --version-label ${{ github.run_id }}

@@ -18,3 +18,6 @@ As always,
 - Almost absolutely no absolute
 - Relatively ok with relative (if you can explain why you needed it)
 - Logins and Oauth
+
+## Can we use a template engine like EJS or Pug?
+- In summary, while plain HTML and JavaScript can create static pages, template engines enhance your ability to generate dynamic content, reuse components, and maintain a clear separation of concerns. Choose the approach that aligns with your project’s requirements and complexity. 🌟
