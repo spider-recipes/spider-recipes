@@ -1,13 +1,12 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 require('dotenv').config(); // Load environment variables from .env file
 
 const PORT = process.env.PORT || process.env.PORT_LOCAL || 80;
 
-var app = express();
+const app = express();
 
 if (process.env.MODE === 'debug') {
   app.use(logger('dev')); // Middleware to log requests
@@ -15,32 +14,18 @@ if (process.env.MODE === 'debug') {
 app.use(express.json()); // Middleware to parse JSON bodies
 app.use(express.urlencoded({ extended: false })); // Middleware to parse URL-encoded bodies
 app.use(cookieParser()); // Middleware to parse cookies
-app.use(express.static(path.join(__dirname, './frontend/public'))); // Middleware to serve static files
-
-// Frontend routes
-var indexRouter = require('./frontend/routes/index');
+app.use("/public", express.static(path.resolve(__dirname, 'frontend', 'public'))); // Middleware to serve static files
 
 // Backend routes
-var apiRouter = require('./backend/routes/api');
+let apiRouter = require('./backend/routes/api');
 
-// Mount frontend routers
-app.use('/', indexRouter);
-
-// Mount backend routers
-app.use('/api', apiRouter);
-
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  next(createError(404));
+app.get("/*", (request, response) => {
+  response.sendFile(path.resolve(__dirname, "frontend", "index.html"));
 });
 
-// error handler
-app.use(function (err, req, res, next) {
-  // render the error page
-  res.status(err.status || 500);
-  res.send(err.message);
-  console.log(err.message);
-});
+// app.use((req, res, next) => {
+//   res.status(404).sendFile(path.join(__dirname, "frontend", "public", "views", "404.html"));
+// });
 
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
