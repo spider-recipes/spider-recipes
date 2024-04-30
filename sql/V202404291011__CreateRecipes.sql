@@ -8,5 +8,5 @@ CREATE TABLE Recipes (
     recipe_image NVARCHAR(MAX),
     time_created DATETIME NOT NULL,
     deleted BIT NOT NULL DEFAULT 0,
-    FOREIGN KEY (user_id) REFERENCES Users(user_id)
+    user_id INT FOREIGN KEY REFERENCES [SpiderRecipes].[dbo].[Users](user_id)
 );
