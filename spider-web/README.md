@@ -1,1 +1,0 @@
-Move our static content here and create another workflow to host the content on an s3 bucket

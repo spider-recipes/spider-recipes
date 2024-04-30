@@ -1,5 +1,4 @@
 # Project
-
 Project slogan.
 
 ## Sections
@@ -26,7 +25,7 @@ There is an option to decouple the two and host the static pages on an s3 bucket
 ## Access the database using MS SQL Server studio
 - Open ms sql sever studio
 - Set server type to database engine
-- Insert {} as the server name
+- Insert {spider-recipes-db.cnsrxqmoyvuz.eu-west-1.rds.amazonaws.com} as the server name
 - Select SQL sever authentication
 - login as admin
 - Password: 
