@@ -43,8 +43,6 @@ app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
 });
 
-
-
 async function executeQuery(connection_config, query) {
   try {
 
@@ -56,7 +54,7 @@ async function executeQuery(connection_config, query) {
 
   } catch (err) {
     // Handle errors
-    console.error('Error:', err);
+    console.error('This specific error:', err);
   }
 }
 query1 = 'SELECT * FROM Recipes';
