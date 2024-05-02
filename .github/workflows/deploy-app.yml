@@ -32,6 +32,9 @@ jobs:
       run: |
           cd app
           echo "PORT_LOCAL=80" > .env
+          echo "DB_CONNECTION_STRING_NO_PORT=${{ secrets.DB_CONNECTION_STRING}}" > .env
+          echo "DB_USERNAME=${{ secrets.DB_USERNAME}}" > .env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD}}" > .env
 
     - name: Package artifact
       run: zip -r ./app.zip *
