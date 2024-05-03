@@ -5,6 +5,7 @@ CREATE TABLE Recipes (
     recipe_steps NVARCHAR(MAX),
     recipe_preparation_time_minutes INT NOT NULL,
     recipe_cooking_time_minutes INT NOT NULL,
+    recipe_serving_size INT NOT NULL,
     recipe_image NVARCHAR(MAX),
     time_created DATETIME NOT NULL,
     deleted BIT NOT NULL DEFAULT 0,

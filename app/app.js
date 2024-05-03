@@ -35,6 +35,10 @@ app.get("/*", (request, response) => {
   response.sendFile(path.resolve(__dirname, "frontend", "index.html"));
 });
 
+
+app.get("/api/recipes", (request, response) => {
+
+});
 // app.use((req, res, next) => {
 //   res.status(404).sendFile(path.join(__dirname, "frontend", "public", "views", "404.html"));
 // });
@@ -59,5 +63,5 @@ async function executeQuery(connection_config, query) {
 }
 query1 = 'SELECT * FROM Recipes';
 query2 = 'SELECT * FROM Users';
-executeQuery(db_connection_config, query1);
-executeQuery(db_connection_config, query2);
+await executeQuery(db_connection_config, query1);
+await executeQuery(db_connection_config, query2);
