@@ -1,3 +1,6 @@
+USE SpiderRecipes;
+GO
+
 -- Insert into Users table
 INSERT INTO Users (username, auth_token, created_date)
 VALUES 

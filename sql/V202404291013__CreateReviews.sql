@@ -1,3 +1,6 @@
+USE SpiderRecipes;
+GO
+
 CREATE TABLE Reviews (
     review_id INT PRIMARY KEY IDENTITY(1,1),
     review_rating INT NOT NULL,

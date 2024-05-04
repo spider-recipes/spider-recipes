@@ -1,3 +1,6 @@
+USE SpiderRecipes;
+GO
+
 CREATE TABLE Users (
    user_id INT PRIMARY KEY IDENTITY(1,1),
    username NVARCHAR(50) UNIQUE NOT NULL,
