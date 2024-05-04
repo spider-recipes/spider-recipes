@@ -20,11 +20,11 @@ VALUES
 ('Cold');
 
 -- Insert into Recipes table
-INSERT INTO Recipes (recipe_name, recipe_ingredients, recipe_steps, recipe_preparation_time_minutes, recipe_cooking_time_minutes, recipe_image, time_created, user_id)
+INSERT INTO Recipes (recipe_name, recipe_ingredients, recipe_steps, recipe_preparation_time_minutes, recipe_cooking_time_minutes, recipe_serves, recipe_image, time_created, user_id)
 VALUES 
-('Spider leg soup', '60g of Spider leg;3 cups of broth;Salt;Black pepper', 'To a pan on high heat, add spider legs and salt and pepper to taste.;Once almost cooked, add broth and allow to simmer.;Serve immediately.', 2, 10, 'image_link1', GETDATE(), 1),
-('Spider cake', 'Cake batter;Black and red food colouring', 'Add half of cake batter to baking dish and decorate with black and red food colouring to resemble a spider.;Add the other half of the batter and cook until set.;Allow to cool before slicing.', 10, 35, 'image_link2', GETDATE(), 1),
-('Spider sugar webs', 'White sugar;Water', 'Heat sugar and water until it reaches 80 degrees celsius.;With a toothpick, dip into the mixture and pull strands out. Lay them on a piece of baking paper and let cool.;Once cooled, make into spiderweb shape and enjoy.', 2, 15, 'image_link3', GETDATE(), 5);
+('Spider leg soup', '60g of Spider leg;3 cups of broth;Salt;Black pepper', 'To a pan on high heat, add spider legs and salt and pepper to taste.;Once almost cooked, add broth and allow to simmer.;Serve immediately.', 2, 10, 3, 'image_link1', GETDATE(), 1),
+('Spider cake', 'Cake batter;Black and red food colouring', 'Add half of cake batter to baking dish and decorate with black and red food colouring to resemble a spider.;Add the other half of the batter and cook until set.;Allow to cool before slicing.', 10, 35, 5, 'image_link2', GETDATE(), 1),
+('Spider sugar webs', 'White sugar;Water', 'Heat sugar and water until it reaches 80 degrees celsius.;With a toothpick, dip into the mixture and pull strands out. Lay them on a piece of baking paper and let cool.;Once cooled, make into spiderweb shape and enjoy.', 2, 15, 2, 'image_link3', GETDATE(), 5);
 
 
 -- Insert into FavouritedRecipes table
