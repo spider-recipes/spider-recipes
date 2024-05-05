@@ -29,8 +29,8 @@ app.use(cookieParser()); // Middleware to parse cookies
 app.use("/public", express.static(path.resolve(__dirname, 'frontend', 'public'))); // Middleware to serve static files
 
 // Backend routes
-let apiRouter = require('./backend/routes/api');
-let createRecipeRouter = require('./backend/routes/create-recipe-routes');
+let apiRouter = require('./backend/controllers/api');
+let createRecipeRouter = require('./backend/controllers/create-recipe-controller');
 // Mount routers
 app.use('/api', apiRouter);
 app.use('/api/create-recipe', createRecipeRouter);
