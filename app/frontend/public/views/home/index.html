@@ -1,12 +1,19 @@
-<h1>Home Page</h1>
-<ul>
-  <li>
-    <a href="/recipe/spider-bread" data-link>Spider Bread</a>
-  </li>
-  <li>
-    <a href="/recipe/spider-pizza" data-link>Spider Pizza</a>
-  </li>
-  <li>
-    <a href="/recipe/spider-soup" data-link>Spider Soup</a>
-  </li>
-</ul>
+<link rel="stylesheet" href="/public/stylesheets/home.css">
+
+<section class="title-section">
+  <h1>Recipes</h1>
+  <p>Explore our exquisite spider recipes, where delectable flavours and creative cooking techniques converge to spin a tale of culinary adventure.</p>
+</section>
+<section class="cards-section">
+  <div class="search-bar">
+    <span>search</span>
+    <input type="text" placeholder="search">
+  </div>
+  <div class="filters">
+    <span>Sweet</span>
+    <span>Savory</span>
+    <span>Bake</span>
+    <span>Fry</span>
+  </div>
+  <ul id="cards-container"></ul>
+</section>
