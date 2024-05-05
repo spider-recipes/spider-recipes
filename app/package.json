@@ -5,7 +5,8 @@
   "scripts": {
     "web": "node app.js",
     "web-live": "nodemon app.js",
-    "debug": "DEBUG=website:* npm web"
+    "debug": "DEBUG=website:* npm web",
+    "s3": "$env:AWS_PROFILE=\"mserv-grad9\" && aws sso login && node app.js"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
