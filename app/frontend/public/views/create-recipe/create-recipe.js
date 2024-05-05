@@ -23,7 +23,7 @@ export default class extends AbstractView {
       const file = imageInput.files[0];
 
       // get secure url from our server
-      const { url } = await fetch("/api/create-recipe/putImage").then(res => res.json());
+      const { url } = await fetch("/api/recipe/putImage").then(res => res.json());
       console.log(url);
 
       // post the image directly to the s3 bucket
