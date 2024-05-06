@@ -32,18 +32,23 @@ jobs:
       run: |
           cd app
           echo "PORT_LOCAL=80" > .env
-          echo "DB_CONNECTION_STRING_NO_PORT=${{ secrets.DB_CONNECTION_STRING}}" >> .env
+          echo "MODE=production" >> .env
           echo "DB_USERNAME=${{ secrets.DB_USERNAME}}" >> .env
           echo "DB_PASSWORD=${{ secrets.DB_PASSWORD}}" >> .env
           echo "DB_NAME=${{ secrets.DB_NAME}}" >> .env
           echo "IMAGE_BUCKET_NAME=${{ secrets.IMAGE_BUCKET_NAME}}" >> .env
           echo "DB_ENDPOINT=${{ secrets.DB_ENDPOINT}}" >> .env
-
+          echo "AWS_REGION=${{ secrets.AWS_REGION}}" >> .env
 
     - name: Package artifact
-      run: zip -r ./app.zip *
+      run: zip -r ./app.zip .env .dockerignore *
       working-directory: app
 
+    - name: list files
+      run: |
+          cd app
+          ls -la
+          
     - name: Upload artifact to S3
       run: |
         cd app
