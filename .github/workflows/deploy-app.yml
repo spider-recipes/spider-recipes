@@ -49,8 +49,14 @@ jobs:
           cat .env
 
     - name: Package artifact
-      run: zip -r ./app.zip *
+      run: zip -r ./app.zip .env .dockerignore *
       working-directory: app
+
+    - name: list files
+      run: |
+          cd app
+          cd app.zip
+          ls -la
 
     - name: Upload artifact to S3
       run: |
