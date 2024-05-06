@@ -1,12 +1,15 @@
 name: Deploy app on port 80
 
 on:
-  push:
+  pull_request:
     branches:
       - main
-    paths:
-      - 'app/**'
-      - '.github/workflows/deploy-app.yml'
+  # push:
+  #   branches:
+  #     - main
+  #   paths:
+  #     - 'app/**'
+  #     - '.github/workflows/deploy-app.yml'
   workflow_dispatch:
 
 permissions:
@@ -44,9 +47,10 @@ jobs:
       run: zip -r ./app.zip .env .dockerignore *
       working-directory: app
 
-    - name: list files 2
+    - name: list files 1
       run: |
           cd app
+          ls -la
           cd app.zip
           ls -la
 
