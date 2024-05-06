@@ -109,11 +109,13 @@ export default class extends AbstractView
 
     document.getElementById("main-content").innerHTML = homeHtml;
 
+    data = await response.json();
+
     for(let i = 1; i <= 20; i++)
     {
       document.getElementById("cards-container").appendChild(this.makeCard(
         "/public/images/spider-dish.png",
-        `Spider recipe #${i}`,
+        `Spider recipe ${i}`,
         3,
         "https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff6ccabba-ea38-411f-a673-04f26b5e919c_980x980.jpeg",
         "Gordon Ramsay",
