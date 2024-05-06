@@ -1,6 +1,4 @@
 import AbstractView from "../AbstractView.js";
-const imageForm = document.querySelector("#imageForm")
-const imageInput = document.querySelector("#imageInput")
 
 export default class extends AbstractView {
   constructor(params) {

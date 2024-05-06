@@ -10,6 +10,8 @@ if (creds.accessKeyId !== undefined) {
   aws.config.credentials = creds;
 }
 
+console.log(creds)
+
 const s3 = new aws.S3({
   region,
   signatureVersion: 'v4'
