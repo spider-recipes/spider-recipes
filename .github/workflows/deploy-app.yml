@@ -51,10 +51,7 @@ jobs:
       run: |
           cd app
           ls -la
-    # - name: List files in app.zip
-    #   run: |
-    #     unzip -l app/app.zip
-
+          
     - name: Upload artifact to S3
       run: |
         cd app
