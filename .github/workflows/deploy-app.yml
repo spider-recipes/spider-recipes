@@ -52,7 +52,7 @@ jobs:
       run: zip -r ./app.zip .env .dockerignore *
       working-directory: app
 
-    - name: list files
+    - name: list files 2
       run: |
           cd app
           cd app.zip
