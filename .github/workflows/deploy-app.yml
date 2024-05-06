@@ -41,6 +41,8 @@ jobs:
           echo "DB_NAME=${{ secrets.DB_NAME}}" >> .env
           echo "IMAGE_BUCKET_NAME=${{ secrets.IMAGE_BUCKET_NAME}}" >> .env
           echo "DB_ENDPOINT=${{ secrets.DB_ENDPOINT}}" >> .env
+          echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID}}" >> .env
+          echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY}}" >> .env
 
 
     - name: Package artifact
