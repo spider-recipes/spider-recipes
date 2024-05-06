@@ -30,10 +30,10 @@ app.use("/public", express.static(path.resolve(__dirname, 'frontend', 'public'))
 
 // Backend routes
 let apiRouter = require('./backend/controllers/api');
-let createRecipeRouter = require('./backend/controllers/create-recipe-controller');
+let recipeRouter = require('./backend/controllers/recipe-controller');
 // Mount routers
 app.use('/api', apiRouter);
-app.use('/api/create-recipe', createRecipeRouter);
+app.use('/api/recipe', recipeRouter);
 
 //All other routes route to the single page application
 app.get("/*", (request, response) => {
