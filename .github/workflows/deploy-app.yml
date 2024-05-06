@@ -47,32 +47,32 @@ jobs:
       run: zip -r ./app.zip .env .dockerignore *
       working-directory: app
 
-    - name: list files 1
+    - name: list files
       run: |
           cd app
           ls -la
-    - name: List files in app.zip
-      run: |
-        unzip -l app/app.zip
-
-    # - name: Upload artifact to S3
+    # - name: List files in app.zip
     #   run: |
-    #     cd app
-    #     aws s3 cp app.zip s3://${{ secrets.BUCKET_NAME }}/backend/application-${{ github.run_id }}.zip
+    #     unzip -l app/app.zip
 
-  # deploy:
-  #   needs: build
-  #   runs-on: ubuntu-latest
+    - name: Upload artifact to S3
+      run: |
+        cd app
+        aws s3 cp app.zip s3://${{ secrets.BUCKET_NAME }}/backend/application-${{ github.run_id }}.zip
 
-  #   steps:
-  #     - name: Configure AWS credentials
-  #       uses: aws-actions/configure-aws-credentials@v2
-  #       with:
-  #         role-to-assume: ${{ secrets.AWS_ROLE }}
-  #         role-session-name: deploy-server-session
-  #         aws-region: ${{secrets.AWS_REGION}}
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
 
-  #     - name: Deploy to Elastic Beanstalk
-  #       run: |
-  #         aws elasticbeanstalk create-application-version --application-name ${{ secrets.WEB_APP_NAME }} --version-label ${{ github.run_id }} --source-bundle S3Bucket="${{ secrets.BUCKET_NAME }}",S3Key="backend/application-${{ github.run_id }}.zip"
-  #         aws elasticbeanstalk update-environment --application-name ${{ secrets.WEB_APP_NAME }} --environment-name ${{ secrets.WEB_ENV_NAME }} --version-label ${{ github.run_id }}
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE }}
+          role-session-name: deploy-server-session
+          aws-region: ${{secrets.AWS_REGION}}
+
+      - name: Deploy to Elastic Beanstalk
+        run: |
+          aws elasticbeanstalk create-application-version --application-name ${{ secrets.WEB_APP_NAME }} --version-label ${{ github.run_id }} --source-bundle S3Bucket="${{ secrets.BUCKET_NAME }}",S3Key="backend/application-${{ github.run_id }}.zip"
+          aws elasticbeanstalk update-environment --application-name ${{ secrets.WEB_APP_NAME }} --environment-name ${{ secrets.WEB_ENV_NAME }} --version-label ${{ github.run_id }}
