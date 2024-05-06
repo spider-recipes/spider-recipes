@@ -11,6 +11,54 @@ resource "aws_s3_bucket_versioning" "bucket_versioning" {
   }
 }
 
+resource "aws_s3_bucket" "image_bucket" {
+  bucket = "${var.project_name}-image-bucket-1465"
+  tags   = merge(var.mandatory_tags, { Name = "${var.project_name}-image-bucket-1465" })
+}
+
+resource "aws_s3_bucket_public_access_block" "image_bucket_public_access_block" {
+  bucket = aws_s3_bucket.image_bucket.id
+
+  block_public_acls       = false
+  block_public_policy     = false
+  ignore_public_acls      = false
+  restrict_public_buckets = false
+}
+
+resource "aws_s3_bucket_policy" "bucket_image_policy" {
+  bucket     = aws_s3_bucket.image_bucket.id
+  policy     = data.aws_iam_policy_document.ready_only_image_bucket_policy.json
+  depends_on = [aws_s3_bucket_public_access_block.image_bucket_public_access_block]
+}
+
+data "aws_iam_policy_document" "ready_only_image_bucket_policy" {
+  statement {
+    actions   = ["s3:GetObject"]
+    resources = ["${aws_s3_bucket.image_bucket.arn}/*"]
+    effect    = "Allow"
+    principals {
+      type        = "AWS"
+      identifiers = ["*"]
+    }
+  }
+}
+
+resource "aws_s3_bucket_cors_configuration" "image-bucket_cors_configuration" {
+  bucket = aws_s3_bucket.image_bucket.id
+
+  cors_rule {
+    allowed_headers = ["*"]
+    allowed_methods = ["PUT", "HEAD", "GET"]
+    allowed_origins = ["*"] // Change this to the URL of the website later
+    expose_headers  = []
+  }
+
+  cors_rule {
+    allowed_methods = ["GET"]
+    allowed_origins = ["*"]
+  }
+}
+
 resource "aws_vpc" "vpc" {
   cidr_block           = var.cidr_block
   enable_dns_hostnames = true
