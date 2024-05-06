@@ -18,12 +18,12 @@ app.use(cookieParser()); // Middleware to parse cookies
 app.use("/public", express.static(path.resolve(__dirname, 'frontend', 'public'))); // Middleware to serve static files
 
 // Backend routes
-let apiRouter = require('./backend/controllers/api');
-let recipeRouter = require('./backend/controllers/recipe-controller');
-let tagRouter = require('./backend/controllers/tag-controller');
-let recipeTagRouter = require('./backend/controllers/recipe-tag-controller');
-let userRouter = require('./backend/controllers/user-controller');
-let reviewRouter = require('./backend/controllers/review-controller');
+let apiRouter = require('./backend/handlers/api');
+let recipeRouter = require('./backend/handlers/recipe-handler');
+let tagRouter = require('./backend/handlers/tag-handler');
+let recipeTagRouter = require('./backend/handlers/recipe-tag-handler');
+let userRouter = require('./backend/handlers/user-handler');
+let reviewRouter = require('./backend/handlers/review-handler');
 // Mount routers
 app.use('/api', apiRouter);
 app.use('/api/recipe', recipeRouter);
@@ -40,6 +40,7 @@ app.get("/*", (request, response) => {
 app.get("/api/recipes", (request, response) => {
 
 });
+
 // app.use((req, res, next) => {
 //   res.status(404).sendFile(path.join(__dirname, "frontend", "public", "views", "404.html"));
 // });
