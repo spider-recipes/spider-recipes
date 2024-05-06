@@ -1,5 +1,5 @@
 IF DB_ID('SpiderRecipes') IS NULL
-  CREATE DATABASE SpiderRecipes;
-
-USE SpiderRecipes;
+BEGIN
+    CREATE DATABASE SpiderRecipes;
+END
 GO
