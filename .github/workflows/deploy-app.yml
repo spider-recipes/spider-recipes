@@ -1,15 +1,12 @@
 name: Deploy app on port 80
 
 on:
-  pull_request:
+  push:
     branches:
       - main
-  # push:
-  #   branches:
-  #     - main
-  #   paths:
-  #     - 'app/**'
-  #     - '.github/workflows/deploy-app.yml'
+    paths:
+      - 'app/**'
+      - '.github/workflows/deploy-app.yml'
   workflow_dispatch:
 
 permissions:
@@ -42,7 +39,6 @@ jobs:
           echo "IMAGE_BUCKET_NAME=${{ secrets.IMAGE_BUCKET_NAME}}" >> .env
           echo "DB_ENDPOINT=${{ secrets.DB_ENDPOINT}}" >> .env
           echo "AWS_REGION=${{ secrets.AWS_REGION}}" >> .env
-
 
     - name: Package artifact
       run: zip -r ./app.zip .env .dockerignore *
