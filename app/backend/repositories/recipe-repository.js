@@ -6,7 +6,8 @@ async function getRecipes() {
     const recipes = await pool.request().query("SELECT * FROM Recipes");
     return recipes.recordsets;
   } catch (error) {
-    throw error;
+    console.log(error);
+    return [];
   }
 }
 

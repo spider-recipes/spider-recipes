@@ -35,7 +35,7 @@ jobs:
       run: |
           cd app
           echo "PORT_LOCAL=80" > .env
-          echo "DB_CONNECTION_STRING_NO_PORT=${{ secrets.DB_CONNECTION_STRING}}" >> .env
+          echo "MODE=production" >> .env
           echo "DB_USERNAME=${{ secrets.DB_USERNAME}}" >> .env
           echo "DB_PASSWORD=${{ secrets.DB_PASSWORD}}" >> .env
           echo "DB_NAME=${{ secrets.DB_NAME}}" >> .env
