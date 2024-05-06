@@ -1,13 +1,45 @@
-const UserRepo = require('../repositories/user-repository');
+var { getPool } = require('../config/db.js')
+var sql = require('mssql');
 
-async function getAllUsernames() {
-  var usernames = await UserRepo.getAllUsernames();
-  return usernames;
+async function getUsers() {
+  try {
+    const pool = await getPool();
+    const users = await pool.request().query("SELECT * FROM Users");
+    return users.recordsets;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+}
+
+async function getUserInfo(userId) {
+  try {
+    const pool = await getPool();
+    const userInfo = await pool.request()
+      .input('user_id', sql.Int, userId)
+      .query("SELECT * FROM Users \
+              WHERE Users.user_id=@user_id;");
+    return userInfo.recordsets;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
 }
 
 async function getProfileInfo(userId) {
-  var profileInfo = await UserRepo.getProfileInfo(userId);
-  return profileInfo;
+  try {
+    const pool = await getPool();
+    const profileInfo = await pool.request()
+      .input('user_id', sql.Int, userId)
+      .query("SELECT Users.*, Reviews.*, Recipes.* FROM Users \
+                        INNER JOIN Reviews ON Users.user_id = Reviews.user_id \
+                        INNER JOIN Recipes ON Users.user_id = Recipes.user_id \
+                        WHERE Users.user_id=@user_id;");
+    return profileInfo.recordsets;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
 }
 
-module.exports = { getAllUsernames, getProfileInfo };
+module.exports = { getUsers, getUserInfo, getProfileInfo };
