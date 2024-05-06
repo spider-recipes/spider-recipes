@@ -9,7 +9,7 @@ var creds = new aws.EC2MetadataCredentials();
 // console.log("Using EC2 instance metadata credentials")
 // aws.config.credentials = creds;
 // }
-
+console.log("creds")
 console.log(creds)
 
 const s3 = new aws.S3({
@@ -17,6 +17,7 @@ const s3 = new aws.S3({
   signatureVersion: 'v4'
 })
 
+console.log("s3")
 console.log(s3)
 
 module.exports = s3;
