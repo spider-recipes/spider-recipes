@@ -19,7 +19,7 @@
 .cards-section {
   background-color: #F5F7FA;
   padding: 6.4rem 3.2rem 6.4rem 3.2rem;
-  box-shadow: inset 0 1px 4px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 0.1rem 0.4rem 0 rgba(0, 0, 0, 0.1);
 }
 
 .cards-section::before, body::before, .cards-section::after, body::after, #cards-container::before, #cards-container::after{
@@ -84,19 +84,19 @@
 
 #cards-container {
   list-style: none;
-  max-width: 1040px;
+  max-width: 104rem;
   padding: 0;
   margin: 0 auto;
 }
 
 .card {
-  transform: translateY(150px);
+  transform: translateY(15rem);
   opacity: 0;
   transition: transform 2s ease, opacity 2s ease;
 }
 
 .card.active {
-  transform: translateY(0px);
+  transform: translateY(0);
   opacity: 1;
 }
 
@@ -109,16 +109,16 @@
   border-radius: 0.2em;
   transition: box-shadow 0.3s, transform 1s ease, opacity 1s ease;
 
-  box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.2);
-  -webkit-box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.2);
-  -moz-box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.2);
+  box-shadow: 0 0.1rem 0.4rem 0 rgba(0,0,0,0.2);
+  -webkit-box-shadow: 0 0.1rem 0.4rem 0 rgba(0,0,0,0.2);
+  -moz-box-shadow: 0 0.1rem 0.4rem 0 rgba(0,0,0,0.2);
 }
 
 #cards-container li:hover {
   cursor: pointer;
-  box-shadow: 0px 1px 4px 4px rgba(0,0,0,0.2);
-  -webkit-box-shadow: 0px 1px 4px 4px rgba(0,0,0,0.2);
-  -moz-box-shadow: 0px 1px 4px 4px rgba(0,0,0,0.2);
+  box-shadow: 0 0.1rem 0.4rem 0.4rem rgba(0,0,0,0.2);
+  -webkit-box-shadow: 0 0.1rem 0.4rem 0.4rem rgba(0,0,0,0.2);
+  -moz-box-shadow: 0 0.1rem 0.4rem 0.4rem rgba(0,0,0,0.2);
 }
 
 #cards-container li a {
@@ -196,7 +196,7 @@
   font-weight: 400;
 }
 
-@media only screen and (min-width: 428px) {
+@media only screen and (min-width: 42.8rem) {
   .title-section {
     padding: 8rem 4.3rem 0 4.3rem;
   }
@@ -221,9 +221,9 @@
   }
 }
 
-@media only screen and (min-width: 830px) {
+@media only screen and (min-width: 83rem) {
   .title-section {
-    max-width: 1024px;
+    max-width: 102.4rem;
     padding: 9.6rem 4.3rem 0 4.3rem;
   }
   

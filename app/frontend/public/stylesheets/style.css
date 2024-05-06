@@ -62,8 +62,8 @@ nav li {
   height: 6.4rem;
   display: block;
   list-style: none;
-  border-top: #506073 solid 1px;
-  border-bottom: #506073 solid 1px;
+  border-top: #506073 solid 0.1rem;
+  border-bottom: #506073 solid 0.1rem;
 }
 
 nav li a {
@@ -87,7 +87,7 @@ footer {
   line-height: 6rem;
 }
 
-@media only screen and (min-width: 830px) {
+@media only screen and (min-width: 83rem) {
   .title {
     font-size: 3rem;
     margin-top: 1.5rem;
