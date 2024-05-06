@@ -15,6 +15,6 @@ const s3 = new aws.S3({
   signatureVersion: 'v4'
 })
 
-console.log(s3)
+// console.log(s3)
 
 module.exports = s3;
