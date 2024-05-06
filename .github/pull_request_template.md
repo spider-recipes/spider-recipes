@@ -1,4 +1,4 @@
 ### This PR affects / introduces the following:
 - 
 
-### Related Ticket: [SCRUM-XXXX](https://{name}.atlassian.net/browse/SCRUM-XXXX)
+### Related Ticket: [SPID-XXXX](https://spiderrecipes.atlassian.net/browse/SPID-XXXX)
