@@ -56,8 +56,14 @@ document.addEventListener("DOMContentLoaded", () => {
   document.body.addEventListener("click", e => {
     if (e.target.matches("[data-link]")) {
       e.preventDefault();
+      document.getElementById("nav-links").classList.toggle("visible");
       navigateTo(e.target.href);
     }
   })
   router();
+});
+
+document.getElementById("menu").addEventListener("click", () =>
+{
+  document.getElementById("nav-links").classList.toggle("visible");
 });
