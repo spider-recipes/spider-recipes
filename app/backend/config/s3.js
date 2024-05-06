@@ -1,7 +1,7 @@
 require('dotenv').config(); // Load environment variables from .env file
 const aws = require('aws-sdk')
 
-const region = process.env.REGION
+const region = process.env.AWS_REGION
 const accessKeyId = process.env.AWS_ACCESS_KEY_ID
 const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY
 
