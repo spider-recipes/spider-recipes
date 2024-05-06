@@ -15,8 +15,8 @@ if (creds.accessKeyId !== undefined) {
 
 const s3 = new aws.S3({
   region,
-  accessKeyId,
-  secretAccessKey,
+  // accessKeyId,
+  // secretAccessKey,
   signatureVersion: 'v4'
 })
 
