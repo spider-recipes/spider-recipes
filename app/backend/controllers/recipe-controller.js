@@ -13,4 +13,9 @@ router.get('/getRecipes', async (req, res) => {
   res.send({ recipes })
 })
 
+router.get('/getRecipe/:recipeId', async (req, res) => {
+  const recipeById = await RecipeService.getRecipeById(req.params.recipeId)
+  res.send({ recipeById })
+})
+
 module.exports = router;

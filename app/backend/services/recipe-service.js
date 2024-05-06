@@ -5,4 +5,9 @@ async function getRecipes() {
   return recipes
 }
 
-module.exports = { getRecipes };
+async function getRecipeById(recipeId) {
+  var recipeById = await RecipeRepo.getRecipeById(recipeId)
+  return recipeById
+}
+
+module.exports = { getRecipes, getRecipeById };
