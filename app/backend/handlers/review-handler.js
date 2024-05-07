@@ -12,4 +12,9 @@ router.get('/getReviews/:recipeId', async (req, res) => {
   res.send({ reviewsForRecipe });
 });
 
+router.get('/getRating/:recipeId', async (req, res) => {
+  const rating = await ReviewService.getRating(req.params.recipeId);
+  res.send({ rating });
+});
+
 module.exports = router;
