@@ -3,7 +3,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const sql = require('mssql');
-require('dotenv').config(); // Load environment variables from .env file
+require('dotenv').config({override: true}); // Load environment variables from .env file
 
 const PORT = process.env.PORT || process.env.PORT_LOCAL || 80;
 
@@ -32,13 +32,13 @@ app.use('/api/recipeTag', recipeTagRouter);
 app.use('/api/user', userRouter);;
 app.use('/api/review', reviewRouter);
 
+app.get("/api/recipes", (request, response) => {
+
+});
+
 //All other routes route to the single page application
 app.get("/*", (request, response) => {
   response.sendFile(path.resolve(__dirname, "frontend", "index.html"));
-});
-
-app.get("/api/recipes", (request, response) => {
-
 });
 
 // app.use((req, res, next) => {

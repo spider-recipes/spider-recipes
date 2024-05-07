@@ -1,4 +1,4 @@
-require('dotenv').config(); // Load environment variables from .env file
+require('dotenv').config({override: true}); // Load environment variables from .env file
 var sql = require('mssql');
 
 let pool;

@@ -1,4 +1,4 @@
-require('dotenv').config(); // Load environment variables from .env file
+require('dotenv').config({override: true}); // Load environment variables from .env file
 const aws = require('aws-sdk')
 
 const region = process.env.AWS_REGION
