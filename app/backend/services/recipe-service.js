@@ -91,6 +91,63 @@ async function getUserFavouritedRecipes(userId) {
     return [];
   }
 }
+
+async function getUserFavouritedRecipesExtended(userId) {
+  try {
+    const pool = await getPool();
+    const userFavouritedRecipesExtended = await pool.request()
+        .input('user_id', sql.Int, userId)
+        .query(`
+            SELECT 
+            Recipes.recipe_id, 
+            Recipes.recipe_name, 
+            Recipes.recipe_ingredients, 
+            Recipes.recipe_steps, 
+            Recipes.recipe_preparation_time_minutes, 
+            Recipes.recipe_cooking_time_minutes, 
+            Recipes.recipe_serves, 
+            Recipes.recipe_image, 
+            Recipes.time_created, 
+            Recipes.deleted, 
+            Recipes.user_id, 
+            (SELECT 
+              STRING_AGG(T.tag_name, ', ') AS tags
+                FROM 
+                RecipeTags RT
+                INNER JOIN 
+                Tags T ON RT.tag_id = T.tag_id
+                WHERE 
+                RT.recipe_id = Recipes.recipe_id ) AS tags, 
+            (SELECT CAST(AVG(CAST(Reviews.review_rating AS DECIMAL(10,2))) AS DECIMAL(10,2)) 
+              FROM reviews 
+              WHERE Reviews.recipe_id=Recipes.recipe_id) AS avg_rating 
+            FROM FavouritedRecipes
+            INNER JOIN Recipes ON FavouritedRecipes.recipe_id = Recipes.recipe_id
+            LEFT JOIN Reviews ON FavouritedRecipes.recipe_id = Reviews.recipe_id
+            LEFT JOIN RecipeTags ON Recipes.recipe_id = RecipeTags.recipe_id
+            LEFT JOIN Tags ON RecipeTags.tag_id = Tags.tag_id
+            WHERE FavouritedRecipes.user_id=@user_id
+            GROUP BY 
+              Recipes.recipe_id, 
+              Recipes.recipe_name, 
+              Recipes.recipe_ingredients, 
+              Recipes.recipe_steps, 
+              Recipes.recipe_preparation_time_minutes, 
+              Recipes.recipe_cooking_time_minutes, 
+              Recipes.recipe_serves, 
+              Recipes.recipe_image, 
+              Recipes.time_created, 
+              Recipes.deleted, 
+              Recipes.user_id;
+        `);
+          
+    return userFavouritedRecipesExtended.recordsets;
+
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+}
     
 async function getRecipeExtendedById(recipeId) {
   try {
@@ -220,5 +277,5 @@ async function deleteFavourite(body){
   }
 }
 
-module.exports = { getRecipes, getRecipesExtended, getRecipeExtendedById, getRecipesByTags, getRecipeById, getUserFavouritedRecipes, createRecipe, createFavouriteForRecipe, deleteFavourite };
+module.exports = { getRecipes, getRecipesExtended, getRecipeExtendedById, getRecipesByTags, getRecipeById, getUserFavouritedRecipes, getUserFavouritedRecipesExtended, createRecipe, createFavouriteForRecipe, deleteFavourite };
 

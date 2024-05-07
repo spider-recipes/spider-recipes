@@ -28,6 +28,11 @@ router.get('/getFavouritedRecipes/:userId', async (req, res) => {
   res.send({ userFavouritedRecipes })
 })
 
+router.get('/getFavouritedRecipesExtended/:userId', async (req, res) => {
+  const userFavouritedRecipesExtended = await RecipeService.getUserFavouritedRecipesExtended(req.params.userId)
+  res.send({ userFavouritedRecipesExtended })
+})
+
 router.post('/addRecipe', async (req, res) => {
   recipeName = req.body["recipe_name"];
   console.log(recipeName);

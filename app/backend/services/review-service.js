@@ -40,6 +40,7 @@ async function getRating(recipeId) {
     return [];
   }
 }
+
 async function createReview(body) {
   try {
     const pool = await getPool();
