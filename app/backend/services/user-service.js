@@ -42,4 +42,22 @@ async function getProfileInfo(userId) {
   }
 }
 
-module.exports = { getUsers, getUserInfo, getProfileInfo };
+async function createUser(user) {
+  try {
+    const pool = await getPool();
+    const userInfo = await pool.request()
+      .input('username', sql.VarChar(255), user.username)
+      .input('auth_token', sql.VarChar(255), user.authToken)
+      .input('created_date', sql.DateTime, user.createdDate)
+      .query(`INSERT INTO Users (username, auth_token, created_date)
+              OUTPUT inserted.user_id, inserted.username, inserted.auth_token, inserted.created_date
+              VALUES (@username, @auth_token, @created_date);
+            `);
+    return userInfo.recordsets;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+}
+
+module.exports = { getUsers, getUserInfo, getProfileInfo, createUser };

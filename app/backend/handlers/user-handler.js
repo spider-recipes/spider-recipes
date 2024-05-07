@@ -17,4 +17,9 @@ router.get('/getProfileInfo/:userId', async (req, res) => {
   res.send({ profileInfo });
 });
 
+router.post('/createUser', async (req, res) => {
+  const user = await UserService.createUser(req.body);
+  res.send({ user });
+});
+
 module.exports = router;

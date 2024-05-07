@@ -4,7 +4,8 @@ var sql = require('mssql')
 async function getRecipes() {
   try {
     const pool = await getPool();
-    const recipes = await pool.request().query("SELECT * FROM Recipes");
+    const recipes = await pool.request().query(`SELECT * FROM Recipes R WHERE 
+    R.deleted = 0`);
     return recipes.recordsets;
   } catch (error) {
     console.log(error);
@@ -16,7 +17,37 @@ async function getRecipesExtended() {
   try {
     const pool = await getPool();
     const recipesExtended = await pool.request().query(`
-      SELECT 
+    SELECT 
+    R.recipe_id,
+    R.recipe_name,
+    R.recipe_ingredients,
+    R.recipe_steps,
+    R.recipe_preparation_time_minutes,
+    R.recipe_cooking_time_minutes,
+    R.recipe_serves,
+    R.recipe_image,
+    R.time_created,
+    U.username AS creator_username,
+    CAST(AVG(CAST(RV.review_rating AS DECIMAL(10,2))) AS DECIMAL(10,2)) AS avg_rating,
+    (
+        SELECT 
+            STRING_AGG(T.tag_name, ', ') AS tags
+        FROM 
+            RecipeTags RT
+        INNER JOIN 
+            Tags T ON RT.tag_id = T.tag_id
+        WHERE 
+            RT.recipe_id = R.recipe_id
+    ) AS tags
+    FROM 
+        Recipes R
+    LEFT JOIN 
+        Reviews RV ON R.recipe_id = RV.recipe_id
+    LEFT JOIN
+        Users U ON R.user_id = U.user_id
+    WHERE 
+        R.deleted = 0
+    GROUP BY 
         R.recipe_id,
         R.recipe_name,
         R.recipe_ingredients,
@@ -26,33 +57,7 @@ async function getRecipesExtended() {
         R.recipe_serves,
         R.recipe_image,
         R.time_created,
-        CAST(AVG(CAST(review_rating AS DECIMAL(10,2))) AS DECIMAL(10,2)) AS avg_rating,
-        (
-          SELECT 
-            STRING_AGG(T.tag_name, ', ') AS tags
-          FROM 
-            RecipeTags RT
-          INNER JOIN 
-            Tags T ON RT.tag_id = T.tag_id
-          WHERE 
-            RT.recipe_id = R.recipe_id
-        ) AS tags
-      FROM 
-        Recipes R
-      LEFT JOIN 
-        Reviews RV ON R.recipe_id = RV.recipe_id
-      WHERE 
-        R.deleted = 0
-      GROUP BY 
-        R.recipe_id,
-        R.recipe_name,
-        R.recipe_ingredients,
-        R.recipe_steps,
-        R.recipe_preparation_time_minutes,
-        R.recipe_cooking_time_minutes,
-        R.recipe_serves,
-        R.recipe_image,
-        R.time_created
+        U.username; 
     `);
     return recipesExtended.recordsets;
   } catch (error) {
@@ -67,7 +72,7 @@ async function getRecipeById(recipeId) {
     const pool = await getPool();
     const recipeById = await pool.request()
       .input('recipe_id', sql.Int, recipeId)
-      .query("SELECT * FROM Recipes WHERE Recipes.recipe_id=@recipe_id");
+      .query(`SELECT * FROM Recipes R WHERE R.recipe_id=@recipe_id AND R.deleted = 0`);
     return recipeById.recordsets;
 
   } catch (error) {
@@ -165,6 +170,7 @@ async function getRecipeExtendedById(recipeId) {
         R.recipe_serves,
         R.recipe_image,
         R.time_created,
+        U.username AS creator_username,
         CAST(AVG(CAST(review_rating AS DECIMAL(10,2))) AS DECIMAL(10,2)) AS avg_rating,
         (
           SELECT 
@@ -180,6 +186,8 @@ async function getRecipeExtendedById(recipeId) {
         Recipes R
       LEFT JOIN 
         Reviews RV ON R.recipe_id = RV.recipe_id
+      LEFT JOIN
+        Users U ON R.user_id = U.user_id
       WHERE 
         R.deleted = 0 AND R.recipe_id=@recipe_id
       GROUP BY 
@@ -191,7 +199,8 @@ async function getRecipeExtendedById(recipeId) {
         R.recipe_cooking_time_minutes,
         R.recipe_serves,
         R.recipe_image,
-        R.time_created
+        R.time_created,
+        U.username; 
     `);
     return recipeExtendedById.recordsets;
 
@@ -234,7 +243,8 @@ async function getRecipesByTags(tags) {
           FROM Recipes r
           JOIN RecipeTags rt ON r.recipe_id = rt.recipe_id
           JOIN Tags t ON rt.tag_id = t.tag_id
-          WHERE t.tag_name IN (${tags.map(tag => `'${tag}'`).join(',')})
+          WHERE t.tag_name IN (${tags.map(tag => `'${tag}'`).join(',')}) AND
+          r.deleted = 0
     `);
     return recipesByTags.recordsets;
 
@@ -254,7 +264,25 @@ async function createFavouriteForRecipe(body){
                 VALUES \
                 (@user_id, @recipe_id);");
     return newFavourite.recordsets;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+}
 
+async function deleteRecipe(recipeId) {
+  try {
+    const pool = await getPool();
+    await pool.request()
+      .input('recipe_id', sql.Int, recipeId)
+      .query(`
+        UPDATE Recipes
+        SET deleted = 1
+        WHERE recipe_id = @recipe_id
+      `);
+    const deletedRecipe = await getRecipeExtendedById(recipeId)
+    console.log(deletedRecipe);
+    return deletedRecipe;
   } catch (error) {
     console.log(error);
     return [];
@@ -277,5 +305,5 @@ async function deleteFavourite(body){
   }
 }
 
-module.exports = { getRecipes, getRecipesExtended, getRecipeExtendedById, getRecipesByTags, getRecipeById, getUserFavouritedRecipes, getUserFavouritedRecipesExtended, createRecipe, createFavouriteForRecipe, deleteFavourite };
+module.exports = { getRecipes, getRecipesExtended, getRecipeExtendedById, getRecipesByTags, getRecipeById, getUserFavouritedRecipes, getUserFavouritedRecipesExtended, createRecipe, createFavouriteForRecipe, deleteFavourite, deleteRecipe };
 

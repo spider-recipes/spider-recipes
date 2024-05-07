@@ -64,4 +64,9 @@ router.get('/getRecipesByTags', async (req, res) => {
   res.send({ recipeByTags });
 });
 
+router.put('/deleteRecipe/:recipeId', async (req, res) => {
+  const deletedRecipe = await RecipeService.deleteRecipe(req.params.recipeId);
+  res.send({ deletedRecipe });
+});
+
 module.exports = router;
