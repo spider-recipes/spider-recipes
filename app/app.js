@@ -29,7 +29,7 @@ app.use('/api', apiRouter);
 app.use('/api/recipe', recipeRouter);
 app.use('/api/tag', tagRouter);
 app.use('/api/recipeTag', recipeTagRouter);
-app.use('/api/user', userRouter);;
+app.use('/api/user', userRouter);
 app.use('/api/review', reviewRouter);
 
 app.get("/api/recipes", (request, response) => {
