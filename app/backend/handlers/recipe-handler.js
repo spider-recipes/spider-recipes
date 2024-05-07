@@ -33,27 +33,6 @@ router.get('/getFavouritedRecipesExtended/:userId', async (req, res) => {
   res.send({ userFavouritedRecipesExtended })
 })
 
-router.post('/addRecipe', async (req, res) => {
-  recipeName = req.body["recipe_name"];
-  console.log(recipeName);
-  const newRecipe = await RecipeService.createRecipe(req.body);
-  res.send({ newRecipe });
-});
-
-router.post('/addFavourite', async (req, res) => {
-  recipe_id = req.body["recipe_id"];
-  console.log(recipe_id);
-  const newFavourite = await RecipeService.createFavouriteForRecipe(req.body);
-  res.send({ newFavourite });
-});
-
-router.delete('/removeFavourite', async (req, res) => {
-  // recipe_id = req.body["recipe_id"];
-  // console.log(recipe_id);
-  const deleteFavourite = await RecipeService.deleteFavourite(req.body);
-  res.send({ deleteFavourite });
-});
-
 router.get('/getRecipeExtended/:recipeId', async (req, res) => {
   const recipeExtendedById = await RecipeService.getRecipeExtendedById(req.params.recipeId)
   res.send({ recipeExtendedById })
@@ -68,5 +47,23 @@ router.put('/deleteRecipe/:recipeId', async (req, res) => {
   const deletedRecipe = await RecipeService.deleteRecipe(req.params.recipeId);
   res.send({ deletedRecipe });
 });
+
+router.post('/addRecipe', async (req, res) => {
+  recipeName = req.body["recipe_name"];
+  console.log(recipeName);
+  const newRecipe = await RecipeService.createRecipe(req.body);
+  res.send({ newRecipe });
+});
+
+router.post('/addFavourite', async (req, res) => {
+  const newFavourite = await RecipeService.createFavouriteForRecipe(req.body);
+  res.send({ newFavourite });
+});
+
+router.delete('/removeFavourite', async (req, res) => {
+  const deleteFavourite = await RecipeService.deleteFavourite(req.body);
+  res.send({ deleteFavourite });
+});
+
 
 module.exports = router;
