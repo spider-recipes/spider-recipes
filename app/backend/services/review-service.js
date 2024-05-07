@@ -18,9 +18,10 @@ async function getReviewsForRecipe(recipeId) {
     console.log("recipeId, ", recipeId);
     const reviewsForRecipe = await pool.request()
       .input('recipe_id', sql.Int, recipeId)
-      .query("SELECT Reviews.* FROM Reviews \
-                      INNER JOIN Recipes ON Reviews.recipe_id = Recipes.recipe_id \
-                      WHERE Recipes.recipe_id=@recipe_id;");
+      .query(`SELECT Reviews.* FROM Reviews 
+                      INNER JOIN Recipes R ON Reviews.recipe_id = R.recipe_id 
+                      WHERE R.recipe_id=@recipe_id AND 
+                      R.deleted = 0`);
     return reviewsForRecipe.recordsets;
   } catch (error) {
     console.log(error);
@@ -33,7 +34,10 @@ async function getRating(recipeId) {
     const pool = await getPool();
     const rating = await pool.request()
       .input('recipe_id', sql.Int, recipeId)
-      .query("SELECT CAST(AVG(CAST(review_rating AS DECIMAL(10,2))) AS DECIMAL(10,2)) AS avg_rating FROM Reviews WHERE recipe_id = @recipe_id");
+      .query(`SELECT CAST(AVG(CAST(review_rating AS DECIMAL(10,2))) AS DECIMAL(10,2)) AS avg_rating 
+              FROM Reviews 
+              INNER JOIN Recipes R ON Reviews.recipe_id = R.recipe_id
+              WHERE Reviews.recipe_id = @recipe_id AND R.deleted = 0;`);
     return rating.recordsets;
   } catch (error) {
     console.log(error);
