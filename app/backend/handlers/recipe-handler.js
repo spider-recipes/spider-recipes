@@ -13,6 +13,11 @@ router.get('/getRecipes', async (req, res) => {
   res.send({ recipes })
 })
 
+router.get('/getRecipesExtended', async (req, res) => {
+  const recipesExtended = await RecipeService.getRecipesExtended()
+  res.send({ recipesExtended })
+})
+
 router.get('/getRecipe/:recipeId', async (req, res) => {
   const recipeById = await RecipeService.getRecipeById(req.params.recipeId)
   res.send({ recipeById })
@@ -42,6 +47,16 @@ router.delete('/removeFavourite', async (req, res) => {
   // console.log(recipe_id);
   const deleteFavourite = await RecipeService.deleteFavourite(req.body);
   res.send({ deleteFavourite });
+});
+
+router.get('/getRecipeExtended/:recipeId', async (req, res) => {
+  const recipeExtendedById = await RecipeService.getRecipeExtendedById(req.params.recipeId)
+  res.send({ recipeExtendedById })
+})
+
+router.get('/getRecipesByTags', async (req, res) => {
+  const recipeByTags = await RecipeService.getRecipesByTags(req.body.tags);
+  res.send({ recipeByTags });
 });
 
 module.exports = router;

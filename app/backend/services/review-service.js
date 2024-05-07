@@ -28,6 +28,18 @@ async function getReviewsForRecipe(recipeId) {
   }
 }
 
+async function getRating(recipeId) {
+  try {
+    const pool = await getPool();
+    const rating = await pool.request()
+      .input('recipe_id', sql.Int, recipeId)
+      .query("SELECT CAST(AVG(CAST(review_rating AS DECIMAL(10,2))) AS DECIMAL(10,2)) AS avg_rating FROM Reviews WHERE recipe_id = @recipe_id");
+    return rating.recordsets;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+}
 async function createReview(body) {
   try {
     const pool = await getPool();
@@ -47,6 +59,4 @@ async function createReview(body) {
     return [];
   }
 }
-
-
-module.exports = { getAllReviews, getReviewsForRecipe, createReview };
+module.exports = { getAllReviews, getReviewsForRecipe, getRating, createReview };
