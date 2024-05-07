@@ -56,7 +56,8 @@ document.addEventListener("DOMContentLoaded", () => {
   document.body.addEventListener("click", e => {
     if (e.target.matches("[data-link]")) {
       e.preventDefault();
-      document.getElementById("nav-links").classList.toggle("visible");
+      document.getElementById("nav-links").classList.remove("visible");
+      window.scrollTo(0, 0);
       navigateTo(e.target.href);
     }
   })
