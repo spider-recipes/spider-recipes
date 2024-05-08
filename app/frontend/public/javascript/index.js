@@ -98,6 +98,7 @@ loginLink.addEventListener("click", async function (event) {
 });
 
 logoutLink.addEventListener("click", async function (event) {
+  localStorage.setItem('user', null);
   auth0Client.logout({
     logoutParams: {
       returnTo: window.location.origin

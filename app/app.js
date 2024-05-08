@@ -26,7 +26,7 @@ let tagRouter = require('./backend/handlers/tag-handler');
 let recipeTagRouter = require('./backend/handlers/recipe-tag-handler');
 let userRouter = require('./backend/handlers/user-handler');
 let reviewRouter = require('./backend/handlers/review-handler');
-// let authRouter = require('./backend/handlers/auth-handler');
+let authRouter = require('./backend/handlers/auth-handler');
 
 // Mount routers
 app.use('/api', apiRouter);

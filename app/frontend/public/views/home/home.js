@@ -126,8 +126,8 @@ export default class extends AbstractView {
         recipe.creator_username,
         recipe.time_created,
         recipe.recipe_id
-      ))
-    });
+      ));
+    }
 
     //window.addEventListener("scroll", this.reveal);
     //this.reveal();
