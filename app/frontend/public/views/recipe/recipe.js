@@ -11,38 +11,25 @@ export default class extends AbstractView
 
   async getHtml()
   {
-    const recipe = {
-      recipe_name: "Recipe Name",
-      recipe_ingredients: "60g of Spider leg;3 cups of broth;Salt;Black pepper",
-      recipe_steps: "To a pan on high heat, add spider legs and salt and pepper to taste.;Once almost cooked, add broth and allow to simmer.;Serve immediately.",
-      recipe_preparation_time_minutes: 2,
-      recipe_cooking_time_minutes: 10,
-      recipe_serves: 3,
-      recipe_image: "/public/images/spider-dish.png",
-      time_created: "1715014718144",
-      username: "Sam"
-    }
-
-    const reviews = [
-      {
-        review_rating: 5,
-        review_message: "Great recipe!",
-        time_created: "1715014718144",
-        username: "John",
-      },
-      {
-        review_rating: 1,
-        review_message: "Very bad!",
-        time_created: "1715014718144",
-        username: "Steve",
-      },
-      {
-        review_rating: 3,
-        review_message: "Okay for dinner. Would add more salt.",
-        time_created: "1715014718144",
-        username: "Mary",
+    let response = await fetch(`/api/recipe/getRecipeExtended/${this.recipeID}`, {
+      method: "GET",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json"
       }
-    ]
+    });
+    let data = await response.json();
+    const recipe = data.recipeExtendedById[0][0];
+
+    response = await fetch(`/api/review/getReviews/${this.recipeID}`, {
+      method: "GET",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+    data = await response.json();
+    const reviews = data.reviewsForRecipe[0];
 
     // Title section
     const titleSection = document.createElement("section");
@@ -62,7 +49,7 @@ export default class extends AbstractView
     // Recipe user
     const recipeUser = document.createElement("span");
     recipeUser.id = "recipe-user";
-    recipeUser.insertAdjacentHTML("beforeend", `Posted by <strong>${recipe.username}</strong>`); 
+    recipeUser.insertAdjacentHTML("beforeend", `Posted by <strong>${recipe.creator_username}</strong>`); 
 
     // Recipe date
     const recipeDate = document.createElement("span");
@@ -70,8 +57,27 @@ export default class extends AbstractView
     const date = new Date(parseInt(recipe.time_created));
     recipeDate.textContent = `Posted on ${date.toDateString()}`;
 
+    // Rating
+    const starsDiv = document.createElement("div");
+
+    const starsFilled = document.createElement("span");
+    starsFilled.className = "star";
+    for(let i = 0; i < parseInt(recipe.avg_rating); i++)
+    {
+      starsFilled.textContent += "star ";
+    }
+
+    const starsEmpty = document.createElement("span");
+    starsEmpty.className = "star starEmpty";
+    for(let i = parseInt(recipe.avg_rating); i < 5; i++)
+    {
+      starsEmpty.textContent += "star ";
+    }
+
+    starsDiv.append(starsFilled, starsEmpty);
+
     // Append to title section
-    titleSection.append(backButton, recipeHeading, recipeUser, recipeDate);
+    titleSection.append(backButton, recipeHeading, recipeUser, recipeDate, starsDiv);
 
     // Recipe section
     const recipeSection = document.createElement("section");
@@ -85,6 +91,19 @@ export default class extends AbstractView
     const recipeImgContainer = document.createElement("div");
     recipeImgContainer.className = "img-container";
     recipeImgContainer.appendChild(recipeImg);
+
+    // Tags
+    const tagsDiv = document.createElement("div");
+    if(recipe.tags)
+    {
+      const tags = recipe.tags.split(",");
+      tagsDiv.className = "tags";
+      tags.forEach(tag => {
+        const tagSpan = document.createElement("span");
+        tagSpan.textContent = tag;
+        tagsDiv.appendChild(tagSpan);
+      });
+    }
 
     // Recipe info
     const recipeInfo = document.createElement("ul");
@@ -143,7 +162,7 @@ export default class extends AbstractView
     });
 
     // Append to recipe section
-    recipeSection.append(recipeImgContainer, recipeInfo, recipeIngredients, recipeSteps);
+    recipeSection.append(recipeImgContainer, tagsDiv, recipeInfo, recipeIngredients, recipeSteps);
 
     // Review section
     const reviewSection = document.createElement("section");
@@ -168,18 +187,18 @@ export default class extends AbstractView
       
       const date = new Date(parseInt(review.time_created));
       
-      usernameSpan.insertAdjacentHTML("beforeend", `<strong>${review.username}</strong>`);
+      usernameSpan.insertAdjacentHTML("beforeend", `<strong>${review.creator_username}</strong>`);
       dateSpan.className = "date";
       dateSpan.textContent = ` - ${date.toDateString()}`;
       
       starsFilledSpan.className = "star";
-      for(let i = 0; i < review.review_rating; i++)
+      for(let i = 0; i < parseInt(review.review_rating); i++)
       {
         starsFilledSpan.textContent += "star ";
       }
         
       starsEmptySpan.className = "star starEmpty";
-      for(let i = review.review_rating; i < 5; i++)
+      for(let i = parseInt(review.review_rating); i < 5; i++)
       {
         starsEmptySpan.textContent += "star ";
       }
@@ -195,9 +214,6 @@ export default class extends AbstractView
     // Append to review section
     reviewSection.append(reviewHeading, recipeReviews);
 
-    const mainContent = document.createElement("main");
-    mainContent.id = "main-content";
-    mainContent.append(titleSection, recipeSection, reviewSection);
-    document.getElementById("main-content").replaceWith(mainContent);
+    document.getElementById("main-content").replaceChildren(titleSection, recipeSection, reviewSection);
   }
 }
