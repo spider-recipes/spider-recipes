@@ -7,7 +7,7 @@ export default class extends AbstractView {
     super(params);
     this.recipeID = params.id;
     this.setTitle("Spider Recipes | Recipe");
-    console.log("user: ", user.authToken);
+    //console.log("user: ", user.authToken);
   }
 
   async getHtml() {
@@ -49,7 +49,7 @@ export default class extends AbstractView {
     // Recipe user
     const recipeUser = document.createElement("span");
     recipeUser.id = "recipe-user";
-    recipeUser.insertAdjacentHTML("beforeend", `Posted by <strong>${recipe.username}</strong>`);
+    recipeUser.insertAdjacentHTML("beforeend", `Posted by <strong>${recipe.creator_username}</strong>`);
 
     // Recipe date
     const recipeDate = document.createElement("span");
@@ -184,7 +184,7 @@ export default class extends AbstractView {
 
       const date = new Date(parseInt(review.time_created));
 
-      usernameSpan.insertAdjacentHTML("beforeend", `<strong>${review.username}</strong>`);
+      usernameSpan.insertAdjacentHTML("beforeend", `<strong>${review.creator_username}</strong>`);
       dateSpan.className = "date";
       dateSpan.textContent = ` - ${date.toDateString()}`;
 

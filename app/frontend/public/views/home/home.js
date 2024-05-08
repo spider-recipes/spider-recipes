@@ -8,7 +8,7 @@ export default class extends AbstractView {
     super(params);
     this.setTitle("Spider Recipes | Home");
     this.filters = [];
-    console.log("user: ", user.userId);
+    //console.log("user: ", user.userId);
   }
 
   reveal() {
@@ -152,15 +152,86 @@ export default class extends AbstractView {
   }
 
   async getHtml() {
-    let response = await fetch("/public/views/home/index.html");
-    const homeHtml = await response.text();
+    // Title section
+    const titleSection = document.createElement("section");
+    titleSection.className = "title-section";
 
-    document.getElementById("main-content").innerHTML = homeHtml;
+    // Title heading
+    const titleHeading = document.createElement("h1");
+    titleHeading.textContent = "Recipes";
 
-    data = await response.json();
+    // Title paragraph
+    const titleParagraph = document.createElement("p");
+    titleParagraph.textContent = "Explore our exquisite spider recipes, where delectable flavours and creative cooking techniques converge to spin a tale of culinary adventure.";
 
-    for (let i = 1; i <= 20; i++) {
-      document.getElementById("cards-container").appendChild(this.makeCard(
+    // Append to title section
+    titleSection.append(titleHeading, titleParagraph);
+
+    // Cards section
+    const cardsSection = document.createElement("section");
+    cardsSection.className = "cards-section";
+
+    // Search bar
+    const searchBar = document.createElement("div");
+    searchBar.className = "search-bar";
+
+    // Search span
+    const searchSpan = document.createElement("span");
+    searchSpan.textContent = "search";
+
+    // Search input
+    const searchInput = document.createElement("input");
+    searchInput.id = "search-input";
+    searchInput.inputType = "text";
+    searchInput.placeholder = "search"
+    searchInput.addEventListener("keyup", e => {
+      this.search(e);
+    });
+
+    // Append to search bar
+    searchBar.append(searchSpan, searchInput);
+
+    // Filters
+    const filtersDiv = document.createElement("div");
+    filtersDiv.className = "filters";
+
+    // Filter spans
+    const filters = ["Sweet", "Savory", "Bake", "Fry", "Favourites"];
+    filters.forEach(filter => {
+      const filterSpan = document.createElement("span");
+      filterSpan.className = "filter";
+      filterSpan.textContent = filter;
+      filterSpan.addEventListener("click", e => {
+        this.filter(e);
+      })
+      filtersDiv.appendChild(filterSpan);
+
+    });
+
+    // Cards container
+    const cardsContainer = document.createElement("ul");
+    cardsContainer.id = "cards-container";
+
+    // Append to card section
+    cardsSection.append(searchBar, filtersDiv, cardsContainer);
+
+    // Append to main
+    document.getElementById("main-content").replaceChildren(titleSection, cardsSection);
+
+    const response = await fetch("/api/recipe/getRecipesExtended", {
+      method: "GET",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+
+    const data = await response.json();
+    this.allRecipes = data.recipesExtended[0];
+    this.currentRecipes = this.allRecipes;
+    
+    this.allRecipes.forEach(recipe => {
+      cardsContainer.appendChild(this.makeCard(
         "/public/images/spider-dish.png",
         recipe.recipe_name,
         recipe.avg_rating,
@@ -169,7 +240,8 @@ export default class extends AbstractView {
         recipe.time_created,
         recipe.recipe_id
       ))
-    };
+    });
+
     //window.addEventListener("scroll", this.reveal);
     //this.reveal();
   }

@@ -82,7 +82,7 @@ const updateUI = async () => {
     ).innerHTML = await auth0Client.getTokenSilently();
 
   } else {
-    document.getElementById("gated-content").classList.add("hidden");
+    document.getElementById("gated-content")?.classList.add("hidden");
   }
 };
 
