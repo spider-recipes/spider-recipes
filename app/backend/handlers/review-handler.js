@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var ReviewService = require('../services/review-service.js');
+const jwtCheck = require('../../auth-middleware.js');
 
 router.get('/getReviews', async (req, res) => {
   const reviews = await ReviewService.getAllReviews();

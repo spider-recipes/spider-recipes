@@ -1,0 +1,5 @@
+USE SpiderRecipes;
+GO
+
+ALTER TABLE Users
+ALTER COLUMN auth_token VARCHAR(1024);

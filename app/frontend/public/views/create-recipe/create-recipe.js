@@ -1,4 +1,8 @@
 import AbstractView from "../AbstractView.js";
+// Retrieving data from local storage
+// localStorage.getItem('userId');
+// localStorage.getItem('token');
+// localStorage.getItem('username');
 
 export default class extends AbstractView {
   constructor(params) {
@@ -23,7 +27,8 @@ export default class extends AbstractView {
       // get secure url from our server
       const { url } = await fetch("/api/recipe/putImage").then(res => res.json());
       console.log(url);
-
+      const response = await fetch("/api/user/getUsers").then(res => res.json());
+      console.log("response: ", response);
       // post the image directly to the s3 bucket
       await fetch(url, {
         method: "PUT",
