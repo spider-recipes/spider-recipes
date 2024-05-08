@@ -1,7 +1,7 @@
 const { randomBytes } = require('crypto');
 const { promisify } = require('util');
 const s3 = require('../config/s3');
-require('dotenv').config(); // Load environment variables from .env file
+require('dotenv').config({ override: true }); // Load environment variables from .env file
 
 const bucketName = process.env.IMAGE_BUCKET_NAME;
 

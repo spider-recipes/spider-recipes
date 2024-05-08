@@ -3,7 +3,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const { join } = require("path");
-require('dotenv').config(); // Load environment variables from .env file
+require('dotenv').config({ override: true }); // Load environment variables from .env file
 const jwtCheck = require('./auth-middleware.js');
 
 const PORT = process.env.PORT || process.env.PORT_LOCAL || 80;
@@ -42,6 +42,10 @@ app.get("/auth_config.json", (req, res) => {
   console.log("Sending auth_config.json");
   console.log(join(__dirname, "auth_config.json"));
   res.sendFile(join(__dirname, "auth_config.json"));
+});
+
+app.get("/api/recipes", (request, response) => {
+
 });
 
 //All other routes route to the single page application

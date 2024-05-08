@@ -18,8 +18,10 @@ async function getReviewsForRecipe(recipeId) {
     console.log("recipeId, ", recipeId);
     const reviewsForRecipe = await pool.request()
       .input('recipe_id', sql.Int, recipeId)
-      .query(`SELECT Reviews.* FROM Reviews 
-                      INNER JOIN Recipes R ON Reviews.recipe_id = R.recipe_id 
+      .query(`SELECT RV.*, U.username AS creator_username 
+                      FROM Reviews RV
+                      INNER JOIN Recipes R ON RV.recipe_id = R.recipe_id 
+                      LEFT JOIN Users U ON RV.user_id = U.user_id
                       WHERE R.recipe_id=@recipe_id AND 
                       R.deleted = 0`);
     return reviewsForRecipe.recordsets;

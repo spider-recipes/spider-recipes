@@ -19,6 +19,7 @@
   background-color: #F5F7FA;
   padding: 6.4rem 3.2rem 6.4rem 3.2rem;
   box-shadow: inset 0 0.1rem 0.4rem 0 rgba(0, 0, 0, 0.1);
+  min-height: 50vh;
 }
 
 .cards-section::before, body::before, .cards-section::after, body::after, #cards-container::before, #cards-container::after{
@@ -61,8 +62,11 @@
 }
 
 .filters {
+
+  display: flex;
   margin: 0 auto 6.4rem auto;
   max-width: 68rem;
+  flex-wrap: wrap;
 }
 
 .filters span{
@@ -73,10 +77,17 @@
   color: #3070BF;
   background-color: white;
   padding: 1rem 2rem 1rem 2rem;
+  margin: 0 0.5rem 0.5rem 0;
+
 }
 
 .filters span:hover {
   cursor: pointer;
+  color: white;
+  background-color: #3070BF;
+}
+
+.filter.active {
   color: white;
   background-color: #3070BF;
 }
@@ -89,8 +100,8 @@
 }
 
 .card {
-  transform: translateY(15rem);
-  opacity: 0;
+  transform: translateY(0);
+  opacity: 1;
   transition: transform 2s ease, opacity 2s ease;
 }
 
@@ -143,7 +154,7 @@
   font-weight: normal;
   font-size: 1.8rem;
   text-overflow: ellipsis;
-  line-height: 1.2;
+  line-height: 1.8;
   overflow: hidden;
   white-space: nowrap;
   margin: 0 0 0.4rem 0;
