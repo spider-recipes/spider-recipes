@@ -3,7 +3,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const { join } = require("path");
-require('dotenv').config(); // Load environment variables from .env file
+require('dotenv').config({ override: true }); // Load environment variables from .env file
 const jwtCheck = require('./auth-middleware.js');
 
 const PORT = process.env.PORT || process.env.PORT_LOCAL || 80;
@@ -35,7 +35,10 @@ app.use('/api/tag', tagRouter);
 app.use('/api/recipeTag', recipeTagRouter);
 app.use('/api/user', userRouter);
 app.use('/api/review', reviewRouter);
-// app.use('/api/auth', authRouter);
+app.use('/api/auth', authRouter);
+app.get("/api/recipes", (request, response) => {
+
+});
 
 // Endpoint to serve the configuration file
 app.get("/auth_config.json", (req, res) => {
@@ -49,13 +52,10 @@ app.get("/*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "frontend", "index.html"));
 });
 
-app.use(function (err, req, res, next) {
-  if (err.name === "UnauthorizedError") {
-    return res.status(401).send({ msg: "Invalid token" });
-  }
 
-  next(err, req, res);
-});
+// app.use((req, res, next) => {
+//   res.status(404).sendFile(path.join(__dirname, "frontend", "public", "views", "404.html"));
+// });
 
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
