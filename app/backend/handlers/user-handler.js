@@ -12,12 +12,17 @@ router.get('/getUserInfo/:userId', async (req, res) => {
   res.send({ userInfo });
 });
 
+router.get('/getUserInfoByUsername/:username', async (req, res) => {
+  const userInfo = await UserService.getUserInfoByUserName(req.params.username);
+  res.send({ userInfo });
+});
+
 router.get('/getProfileInfo/:userId', async (req, res) => {
   const profileInfo = await UserService.getProfileInfo(req.params.userId);
   res.send({ profileInfo });
 });
 
-router.post('/createUser', async (req, res) => {
+router.put('/createUser', async (req, res) => {
   const user = await UserService.createUser(req.body);
   res.send({ user });
 });
