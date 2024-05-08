@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+const jwtCheck = require('../../auth-middleware');
 
 router.get('/getIsAuthenticated', async (req, res) => {
   const isAuthenticated = req.oidc.isAuthenticated();

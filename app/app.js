@@ -2,23 +2,9 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const sql = require('mssql');
+const { join } = require("path");
 require('dotenv').config(); // Load environment variables from .env file
-// const { auth } = require('express-openid-connect');
-// var UserService = require('./backend/services/user-service.js');
-
-// const config = {
-//   authRequired: process.env.AUTHREQUIRED, //Set to false for dev and true for production
-//   auth0Logout: true,
-//   secret: process.env.SECRET,
-//   baseURL: process.env.BASEURL,
-//   clientID: process.env.CLIENTID,
-//   clientSecret: process.env.CLIENTSECRET,
-//   issuerBaseURL: process.env.ISSUER,
-//   authorizationParams: {
-//     response_type: 'code', // This requires you to provide a client secret
-//   }
-// };
+const jwtCheck = require('./auth-middleware.js');
 
 const PORT = process.env.PORT || process.env.PORT_LOCAL || 80;
 
@@ -51,23 +37,25 @@ app.use('/api/user', userRouter);
 app.use('/api/review', reviewRouter);
 // app.use('/api/auth', authRouter);
 
+// Endpoint to serve the configuration file
+app.get("/auth_config.json", (req, res) => {
+  console.log("Sending auth_config.json");
+  console.log(join(__dirname, "auth_config.json"));
+  res.sendFile(join(__dirname, "auth_config.json"));
+});
+
 //All other routes route to the single page application
-app.get("/*", async (req, res) => {
-  // if (req.oidc.isAuthenticated()) {
-  //   const user = {
-  //     username: req.oidc.user.nickname,
-  //     authToken: req.oidc.accessToken.access_token,
-  //     createdDate: '2024-05-07T12:00:00Z'
-  //   }
-  //   console.log(user);
-  //   await UserService.createUser(user);
-  // }
+app.get("/*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "frontend", "index.html"));
 });
 
-// app.use((req, res, next) => {
-//   res.status(404).sendFile(path.join(__dirname, "frontend", "public", "views", "404.html"));
-// });
+app.use(function (err, req, res, next) {
+  if (err.name === "UnauthorizedError") {
+    return res.status(401).send({ msg: "Invalid token" });
+  }
+
+  next(err, req, res);
+});
 
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);

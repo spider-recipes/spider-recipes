@@ -68,7 +68,7 @@ async function createUser(user) {
       // User exists, update the token
       await pool.request()
         .input('username', sql.VarChar(255), user.username)
-        .input('auth_token', sql.VarChar(255), user.authToken)
+        .input('auth_token', sql.VarChar(1024), user.authToken)
         .query(`UPDATE Users SET auth_token = @auth_token WHERE username = @username`);
 
       // Retrieve updated user info
@@ -82,7 +82,7 @@ async function createUser(user) {
       // User doesn't exist, create a new user
       const userInfo = await pool.request()
         .input('username', sql.VarChar(255), user.username)
-        .input('auth_token', sql.VarChar(255), user.authToken)
+        .input('auth_token', sql.VarChar(1024), user.authToken)
         .input('created_date', sql.DateTime, user.createdDate)
         .query(`INSERT INTO Users (username, auth_token, created_date)
                 OUTPUT inserted.user_id, inserted.username, inserted.auth_token, inserted.created_date

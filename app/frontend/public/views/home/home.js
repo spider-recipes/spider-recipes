@@ -1,31 +1,29 @@
 import AbstractView from "../AbstractView.js";
+// Retrieving the user object from local storage
+const user = JSON.parse(localStorage.getItem('user'));
 
-export default class extends AbstractView
-{
-  constructor(params)
-  {
+
+export default class extends AbstractView {
+  constructor(params) {
     super(params);
     this.setTitle("Spider Recipes | Home");
+    console.log("user: ", user.userId);
   }
-  
-  reveal()
-  {
+
+  reveal() {
     let reveals = document.querySelectorAll(".card");
-    reveals.forEach(reveal =>
-    {
+    reveals.forEach(reveal => {
       let windowHeight = window.innerHeight;
       let revealTop = reveal.getBoundingClientRect().top;
       let revealPoint = 150;
 
-      if(revealTop < windowHeight - revealPoint)
-      {
+      if (revealTop < windowHeight - revealPoint) {
         reveal.classList.add("active");
       }
     });
   }
 
-  makeCard(imgSrc, recipeName, rating, userImgSrc, userName, dateCreated)
-  {
+  makeCard(imgSrc, recipeName, rating, userImgSrc, userName, dateCreated) {
     const card = document.createElement("li");
     card.className = "card";
     card.href = `/recipe/${recipeName}`;
@@ -58,15 +56,13 @@ export default class extends AbstractView
     // Rating
     const starsFilled = document.createElement("span");
     starsFilled.className = "icon";
-    for(let i = 0; i < rating; i++)
-    {
+    for (let i = 0; i < rating; i++) {
       starsFilled.innerHTML += "star ";
     }
 
     const starsEmpty = document.createElement("span");
     starsEmpty.className = "icon";
-    for(let i = rating; i < 5; i++)
-    {
+    for (let i = rating; i < 5; i++) {
       starsEmpty.innerHTML += "star ";
     }
     descriptionDiv.append(starsFilled, starsEmpty);
@@ -102,8 +98,7 @@ export default class extends AbstractView
     return card;
   }
 
-  async getHtml()
-  {
+  async getHtml() {
     let response = await fetch("/public/views/home/index.html");
     const homeHtml = await response.text();
 
@@ -111,8 +106,7 @@ export default class extends AbstractView
 
     data = await response.json();
 
-    for(let i = 1; i <= 20; i++)
-    {
+    for (let i = 1; i <= 20; i++) {
       document.getElementById("cards-container").appendChild(this.makeCard(
         "/public/images/spider-dish.png",
         `Spider recipe ${i}`,

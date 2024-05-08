@@ -93,12 +93,12 @@ footer {
     margin-top: 1.5rem;
     margin-left: 5rem;
   }
-  
+
   nav {
     min-height: 8rem;
     max-height: 8rem;
   }
-  
+
   nav span {
     display: none;
   }
@@ -120,4 +120,13 @@ footer {
     margin-top: 1rem;
     margin-right: 3rem;
   }
+}
+
+.hidden {
+  display: none;
+}
+
+label {
+  margin-bottom: 10px;
+  display: block;
 }

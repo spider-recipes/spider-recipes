@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var UserService = require('../services/user-service.js');
+const jwtCheck = require('../../auth-middleware.js');
 
 router.get('/getUsers', async (req, res) => {
   const users = await UserService.getUsers();

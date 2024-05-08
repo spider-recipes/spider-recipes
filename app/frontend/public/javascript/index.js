@@ -3,6 +3,107 @@ import Recipe from "../views/recipe/recipe.js";
 import Profile from "../views/profile/profile.js";
 import NotFound from "../views/not-found/not-found.js";
 import CreateRecipe from "../views/create-recipe/create-recipe.js";
+const fetchAuthConfig = () => fetch("/auth_config.json");
+
+let auth0Client = null;
+var user = null;
+// {userId: 12,
+//  username: "test"
+//  authToken: "fsdfsdgfsdgfsdg"
+//  }
+
+const configureClient = async () => {
+  const response = await fetchAuthConfig();
+  const config = await response.json();
+  auth0Client = await auth0.createAuth0Client({
+    domain: config.domain,
+    clientId: config.clientId,
+    authorizationParams: {
+      audience: config.audience
+    }
+  });
+};
+
+window.onload = async () => {
+  await configureClient();
+  updateUI();
+  const isAuthenticated = await auth0Client.isAuthenticated();
+  if (isAuthenticated) {
+    const token = await auth0Client.getTokenSilently();
+    const authUser = await auth0Client.getUser();
+    const response = await fetch("/api/user/createUser", {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username: `${authUser.nickname}`,
+        authToken: token,
+        createdDate: new Date().toISOString() // Convert date to ISO string
+      }),
+    }).then(res => res.json());
+
+    user = {
+      userId: response.user.user_id,
+      username: authUser.nickname,
+      authToken: token
+    }
+
+    console.log("user: ", user);
+
+    // Storing the user object in local storage
+    localStorage.setItem('user', JSON.stringify(user));
+
+    return;
+  }
+
+  const query = window.location.search;
+  if (query.includes("code=") && query.includes("state=")) {
+
+    await auth0Client.handleRedirectCallback();
+    updateUI();
+    // Use replaceState to redirect the user away and remove the querystring parameters
+    window.history.replaceState({}, document.title, "/");
+  }
+  user = null;
+}
+
+const updateUI = async () => {
+  const isAuthenticated = await auth0Client.isAuthenticated();
+  document.getElementById("btn-logout").disabled = !isAuthenticated;
+  document.getElementById("btn-login").disabled = isAuthenticated;
+
+  if (isAuthenticated) {
+    document.getElementById("gated-content").classList.remove("hidden");
+
+    document.getElementById(
+      "ipt-access-token"
+    ).innerHTML = await auth0Client.getTokenSilently();
+
+  } else {
+    document.getElementById("gated-content").classList.add("hidden");
+  }
+};
+
+const loginLink = document.querySelector('a[href="/login1/"]');
+const logoutLink = document.querySelector('a[href="/logout1/"]');
+
+loginLink.addEventListener("click", async function (event) {
+  await auth0Client.loginWithRedirect({
+    authorizationParams: {
+      redirect_uri: window.location.origin
+    }
+  });
+});
+
+logoutLink.addEventListener("click", async function (event) {
+  auth0Client.logout({
+    logoutParams: {
+      returnTo: window.location.origin
+    }
+  });
+});
 
 const pathToRegex = path => new RegExp("^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$");
 
@@ -68,25 +169,5 @@ document.getElementById("menu").addEventListener("click", () => {
   document.getElementById("nav-links").classList.toggle("visible");
 });
 
-//Sorry guys this is a jank solution because the single page we app does not refresh the page for now
-// Add event listener to login link
-// Function to reload the page after 3 seconds
-// const reloadAfterDelay = () => {
-//   setTimeout(() => {
-//     location.reload(); // Reload the page after 3 seconds
-//   }, 100); // 3000 milliseconds = 3 seconds
-// };
-
-// // Add event listener to login link
-// const loginLink = document.querySelector('a[href="/login/"]');
-// loginLink.addEventListener('click', () => {
-//   reloadAfterDelay(); // Call the reload function after 3 seconds
-// });
-
-// // Add event listener to logout link
-// const logoutLink = document.querySelector('a[href="/logout/"]');
-// logoutLink.addEventListener('click', () => {
-//   reloadAfterDelay(); // Call the reload function after 3 seconds
-// });
 
 
