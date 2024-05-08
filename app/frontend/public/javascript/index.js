@@ -6,26 +6,10 @@ import CreateRecipe from "../views/create-recipe/create-recipe.js";
 const fetchAuthConfig = () => fetch("/auth_config.json");
 
 let auth0Client = null;
-var user = null;
-// {userId: 12,
-//  username: "test"
-//  authToken: "fsdfsdgfsdgfsdg"
-//  }
-
-const configureClient = async () => {
-  const response = await fetchAuthConfig();
-  const config = await response.json();
-  auth0Client = await auth0.createAuth0Client({
-    domain: config.domain,
-    clientId: config.clientId,
-    authorizationParams: {
-      audience: config.audience
-    }
-  });
-};
 
 window.onload = async () => {
   await configureClient();
+
   updateUI();
   const isAuthenticated = await auth0Client.isAuthenticated();
   if (isAuthenticated) {
@@ -44,50 +28,64 @@ window.onload = async () => {
       }),
     }).then(res => res.json());
 
-    user = {
-      userId: response.user.user_id,
-      username: authUser.nickname,
-      authToken: token
-    }
-
-    console.log("user: ", user);
-
-    // Storing the user object in local storage
-    localStorage.setItem('user', JSON.stringify(user));
-
+    localStorage.setItem('userId', response.user.user_id);
+    localStorage.setItem('token', token);
+    localStorage.setItem('username', authUser.nickname);
     return;
   }
+
+  localStorage.setItem('userId', '');
+  localStorage.setItem('token', '');
+  localStorage.setItem('username', '');
 
   const query = window.location.search;
   if (query.includes("code=") && query.includes("state=")) {
 
-    await auth0Client.handleRedirectCallback();
+    await auth0Client.handleRedirectCallback().then(async () => {
+      // Perform actions after successful login, such as refreshing the page
+      window.location.reload();
+      console.log("Redirect callback complete");
+    }).catch(error => {
+      console.error('Error during redirect callback:', error);
+    });
     updateUI();
     // Use replaceState to redirect the user away and remove the querystring parameters
     window.history.replaceState({}, document.title, "/");
   }
-  user = null;
+
 }
+
+const configureClient = async () => {
+  const response = await fetchAuthConfig();
+  const config = await response.json();
+  auth0Client = await auth0.createAuth0Client({
+    domain: config.domain,
+    clientId: config.clientId,
+    authorizationParams: {
+      audience: config.audience
+    }
+  });
+};
 
 const updateUI = async () => {
   const isAuthenticated = await auth0Client.isAuthenticated();
-  document.getElementById("btn-logout").disabled = !isAuthenticated;
-  document.getElementById("btn-login").disabled = isAuthenticated;
+  const logout = document.getElementById("btn-logout");
+  const login = document.getElementById("btn-login");
 
   if (isAuthenticated) {
-    document.getElementById("gated-content").classList.remove("hidden");
-
-    document.getElementById(
-      "ipt-access-token"
-    ).innerHTML = await auth0Client.getTokenSilently();
+    console.log("isAuthenticated: ", isAuthenticated);
+    login.style.display = 'none';
+    logout.style.display = 'block';
 
   } else {
-    document.getElementById("gated-content")?.classList.add("hidden");
+    console.log("isAuthenticated: ", isAuthenticated);
+    login.style.display = 'block';
+    logout.style.display = 'none';
   }
 };
 
-const loginLink = document.querySelector('a[href="/login1/"]');
-const logoutLink = document.querySelector('a[href="/logout1/"]');
+const loginLink = document.querySelector('a[href="/login/"]');
+const logoutLink = document.querySelector('a[href="/logout/"]');
 
 loginLink.addEventListener("click", async function (event) {
   await auth0Client.loginWithRedirect({

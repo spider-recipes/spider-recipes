@@ -1,7 +1,8 @@
 import AbstractView from "../AbstractView.js";
-// Retrieving the user object from local storage
-const user = JSON.parse(localStorage.getItem('user'));
-
+// Retrieving data from local storage
+// localStorage.getItem('userId');
+// localStorage.getItem('token');
+// localStorage.getItem('username');
 
 export default class extends AbstractView {
   constructor(params) {

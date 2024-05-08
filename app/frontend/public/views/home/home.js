@@ -1,14 +1,15 @@
 import AbstractView from "../AbstractView.js";
-// Retrieving the user object from local storage
-const user = JSON.parse(localStorage.getItem('user'));
-
+// Retrieving data from local storage
+// localStorage.getItem('userId');
+// localStorage.getItem('token');
+// localStorage.getItem('username');
 
 export default class extends AbstractView {
   constructor(params) {
     super(params);
     this.setTitle("Spider Recipes | Home");
     this.filters = [];
-    //console.log("user: ", user.userId);
+    console.log(localStorage.getItem('username'));
   }
 
   reveal() {
@@ -229,7 +230,7 @@ export default class extends AbstractView {
     const data = await response.json();
     this.allRecipes = data.recipesExtended[0];
     this.currentRecipes = this.allRecipes;
-    
+
     this.allRecipes.forEach(recipe => {
       cardsContainer.appendChild(this.makeCard(
         "/public/images/spider-dish.png",
