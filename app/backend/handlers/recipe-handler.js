@@ -38,6 +38,11 @@ router.get('/getRecipeExtended/:recipeId', async (req, res) => {
   res.send({ recipeExtendedById })
 })
 
+router.get('/getUserCreatedRecipeExtended/:userId', async (req, res) => {
+  const userCreatedRecipeExtendedById = await RecipeService.getUserCreatedRecipeExtendedById(req.params.userId)
+  res.send({ userCreatedRecipeExtendedById })
+})
+
 router.get('/getRecipesByTags', async (req, res) => {
   const recipeByTags = await RecipeService.getRecipesByTags(req.body.tags);
   res.send({ recipeByTags });

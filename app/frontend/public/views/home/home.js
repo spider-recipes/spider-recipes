@@ -243,7 +243,7 @@ export default class extends AbstractView
 
     const data = await response.json();
     this.allRecipes = data.recipesExtended[0];
-    this.currentRecipes = this.allRecipes;
+    // this.currentRecipes = this.allRecipes;
     
     this.allRecipes.forEach(recipe => {
       cardsContainer.appendChild(this.makeCard(

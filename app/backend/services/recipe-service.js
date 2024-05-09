@@ -209,6 +209,61 @@ async function getRecipeExtendedById(recipeId) {
     return [];
   }
 }
+async function getUserCreatedRecipeExtendedById(userId) {
+  try {
+    const pool = await getPool();
+    const userCreatedRecipeExtendedById = await pool.request()
+      .input('user_id', sql.Int, userId)
+      .query(`
+      SELECT 
+        R.recipe_id,
+        R.recipe_name,
+        R.recipe_ingredients,
+        R.recipe_steps,
+        R.recipe_preparation_time_minutes,
+        R.recipe_cooking_time_minutes,
+        R.recipe_serves,
+        R.recipe_image,
+        R.time_created,
+        U.username AS creator_username,
+        CAST(AVG(CAST(review_rating AS DECIMAL(10,2))) AS DECIMAL(10,2)) AS avg_rating,
+        (
+          SELECT 
+            STRING_AGG(T.tag_name, ', ') AS tags
+          FROM 
+            RecipeTags RT
+          INNER JOIN 
+            Tags T ON RT.tag_id = T.tag_id
+          WHERE 
+            RT.recipe_id = R.recipe_id
+        ) AS tags
+      FROM 
+        Recipes R
+      LEFT JOIN 
+        Reviews RV ON R.recipe_id = RV.recipe_id
+      LEFT JOIN
+        Users U ON R.user_id = U.user_id
+      WHERE 
+        R.deleted = 0 AND R.user_id=@user_id
+      GROUP BY 
+        R.recipe_id,
+        R.recipe_name,
+        R.recipe_ingredients,
+        R.recipe_steps,
+        R.recipe_preparation_time_minutes,
+        R.recipe_cooking_time_minutes,
+        R.recipe_serves,
+        R.recipe_image,
+        R.time_created,
+        U.username; 
+    `);
+    return userCreatedRecipeExtendedById.recordsets;
+
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+}
 
 async function createRecipe(body) {
   try {
@@ -305,5 +360,5 @@ async function deleteFavourite(body){
   }
 }
 
-module.exports = { getRecipes, getRecipesExtended, getRecipeExtendedById, getRecipesByTags, getRecipeById, getUserFavouritedRecipes, getUserFavouritedRecipesExtended, createRecipe, createFavouriteForRecipe, deleteFavourite, deleteRecipe };
+module.exports = { getRecipes, getRecipesExtended, getRecipeExtendedById, getRecipesByTags, getRecipeById, getUserFavouritedRecipes, getUserFavouritedRecipesExtended, getUserCreatedRecipeExtendedById, createRecipe, createFavouriteForRecipe, deleteFavourite, deleteRecipe };
 
