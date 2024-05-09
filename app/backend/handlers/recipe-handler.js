@@ -4,7 +4,7 @@ var S3Service = require('../services/s3-service.js');
 var RecipeService = require('../services/recipe-service.js');
 const jwtCheck = require('../../auth-middleware.js');
 
-router.get('/putImage', jwtCheck, async (req, res) => {
+router.get('/putImage', async (req, res) => {
   const url = await S3Service.generateUploadURL()
   res.send({ url })
 })
@@ -34,7 +34,7 @@ router.get('/getFavouritedRecipesExtended/:userId', jwtCheck, async (req, res) =
   res.send({ userFavouritedRecipesExtended })
 })
 
-router.get('/getRecipeExtended/:recipeId', async (req, res) => {
+router.get('/getRecipeExtended/:recipeId', jwtCheck, async (req, res) => {
   const recipeExtendedById = await RecipeService.getRecipeExtendedById(req.params.recipeId)
   res.send({ recipeExtendedById })
 })

@@ -23,7 +23,7 @@ router.get('/getProfileInfo/:userId', jwtCheck, async (req, res) => {
   res.send({ profileInfo });
 });
 
-router.put('/createUser', jwtCheck, async (req, res) => {
+router.put('/createUser', async (req, res) => {
   const user = await UserService.createUser(req.body);
   res.send({ user });
 });
