@@ -15,17 +15,12 @@ window.onload = async () => {
   if (isAuthenticated) {
     const token = await auth0Client.getTokenSilently();
     const authUser = await auth0Client.getUser();
-    const response = await fetch("/api/user/createUser", {
-      method: 'PUT',
+    const response = await fetch(`/api/user/getUserInfoByUsername/${authUser.nickname}`, {
+      method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        username: `${authUser.nickname}`,
-        authToken: token,
-        createdDate: new Date().toISOString() // Convert date to ISO string
-      }),
+      }
     }).then(res => res.json());
 
     localStorage.setItem('userId', response.user.user_id);
@@ -43,6 +38,29 @@ window.onload = async () => {
 
     await auth0Client.handleRedirectCallback().then(async () => {
       // Perform actions after successful login, such as refreshing the page
+
+      const isAuthenticated = await auth0Client.isAuthenticated();
+      if (isAuthenticated) {
+        const token = await auth0Client.getTokenSilently();
+        const authUser = await auth0Client.getUser();
+        const response = await fetch("/api/user/createUser", {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            username: `${authUser.nickname}`,
+            authToken: token,
+            createdDate: new Date().toISOString() // Convert date to ISO string
+          }),
+        }).then(res => res.json());
+
+        localStorage.setItem('userId', response.user.user_id);
+        localStorage.setItem('token', token);
+        localStorage.setItem('username', authUser.nickname);
+        return;
+      }
       window.location.reload();
       console.log("Redirect callback complete");
     }).catch(error => {
@@ -84,8 +102,8 @@ const updateUI = async () => {
   }
 };
 
-const loginLink = document.querySelector('a[href="/login/"]');
-const logoutLink = document.querySelector('a[href="/logout/"]');
+const loginLink = document.getElementById('btn-login');
+const logoutLink = document.getElementById('btn-logout');
 
 loginLink.addEventListener("click", async function (event) {
   await auth0Client.loginWithRedirect({
@@ -96,12 +114,20 @@ loginLink.addEventListener("click", async function (event) {
 });
 
 logoutLink.addEventListener("click", async function (event) {
-  auth0Client.logout({
+  await auth0Client.logout({
     logoutParams: {
       returnTo: window.location.origin
     }
   });
 });
+
+async function goToLogin() {
+  await auth0Client.loginWithRedirect({
+    authorizationParams: {
+      redirect_uri: window.location.origin
+    }
+  });
+}
 
 const pathToRegex = path => new RegExp("^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$");
 

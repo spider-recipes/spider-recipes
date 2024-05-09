@@ -17,6 +17,7 @@ export default class extends AbstractView {
       method: "GET",
       mode: "cors",
       headers: {
+        "Authorization": `Bearer ${localStorage.getItem('token')}`,
         "Content-Type": "application/json"
       }
     });
@@ -27,6 +28,7 @@ export default class extends AbstractView {
       method: "GET",
       mode: "cors",
       headers: {
+        "Authorization": `Bearer ${localStorage.getItem('token')}`,
         "Content-Type": "application/json"
       }
     });
