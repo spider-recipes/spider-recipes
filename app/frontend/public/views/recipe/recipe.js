@@ -24,7 +24,7 @@ export default class extends AbstractView {
       method: "GET",
       mode: "cors",
       headers: {
-        "Authorization": `Bearer ${localStorage.getItem('token')}`,
+        "Authorization": `${localStorage.getItem('token')}`,
         "Content-Type": "application/json"
       }
     });
@@ -35,7 +35,7 @@ export default class extends AbstractView {
       method: "GET",
       mode: "cors",
       headers: {
-        "Authorization": `Bearer ${localStorage.getItem('token')}`,
+        "Authorization": `${localStorage.getItem('token')}`,
         "Content-Type": "application/json"
       }
     });
@@ -122,8 +122,7 @@ export default class extends AbstractView {
     favorite.textContent = "Add to favourites";
     favouriteDiv.appendChild(favorite);
     this.favRecipes.forEach(fav => {
-      if(fav.recipe_id === parseInt(this.recipeID))
-      {
+      if (fav.recipe_id === parseInt(this.recipeID)) {
         favorite.classList.add("favourited");
         favorite.textContent = "Remove from favourites";
       }
@@ -135,32 +134,30 @@ export default class extends AbstractView {
         recipe_id: this.recipeID
       }
 
-      if(favorite.classList.contains("favourited"))
-      {
+      if (favorite.classList.contains("favourited")) {
         favorite.classList.remove("favourited");
         await fetch(`/api/recipe/removeFavourite`, {
           method: "DELETE",
           mode: "cors",
           headers: {
-            "Authorization": `Bearer ${localStorage.getItem('token')}`,
+            "Authorization": `${localStorage.getItem('token')}`,
             "Content-Type": "application/json"
           },
-          body : JSON.stringify(request)
+          body: JSON.stringify(request)
         });
 
         favorite.textContent = "Add to favourites";
       }
-      else
-      {
+      else {
         favorite.classList.add("favourited");
         await fetch(`/api/recipe/addFavourite`, {
           method: "POST",
           mode: "cors",
           headers: {
-            "Authorization": `Bearer ${localStorage.getItem('token')}`,
+            "Authorization": `${localStorage.getItem('token')}`,
             "Content-Type": "application/json"
           },
-          body : JSON.stringify(request)
+          body: JSON.stringify(request)
         });
 
         favorite.textContent = "Remove from favourites";
@@ -238,12 +235,10 @@ export default class extends AbstractView {
     });
 
     // Append to recipe section
-    if(localStorage.getItem("userId") === "")
-    {
+    if (localStorage.getItem("userId") === "") {
       recipeSection.append(recipeImgContainer, tagsDiv, recipeInfo, recipeIngredients, recipeSteps);
     }
-    else
-    {
+    else {
       recipeSection.append(recipeImgContainer, favouriteDiv, tagsDiv, recipeInfo, recipeIngredients, recipeSteps);
     }
 
@@ -262,23 +257,20 @@ export default class extends AbstractView {
 
     const ratingSpan = document.createElement("span");
     const starArray = [];
-    for(let i = 0; i < 5; i++)
-    {
+    for (let i = 0; i < 5; i++) {
       const star = document.createElement("span");
       star.className = "starClickable";
-      if(i != 0)
+      if (i != 0)
         star.classList.add("starClickableEmpty");
       star.textContent = "star ";
-      star.key = i+1;
+      star.key = i + 1;
 
       star.addEventListener("click", () => {
-        for(let k = 0; k < star.key; k++)
-        {
+        for (let k = 0; k < star.key; k++) {
           starArray[k].classList.remove("starClickableEmpty");
         }
 
-        for(let k = star.key; k < 5; k++)
-        {
+        for (let k = star.key; k < 5; k++) {
           starArray[k].classList.add("starClickableEmpty");
         }
 
@@ -286,25 +278,21 @@ export default class extends AbstractView {
       });
 
       star.addEventListener("mouseenter", () => {
-        for(let k = 0; k < star.key; k++)
-        {
+        for (let k = 0; k < star.key; k++) {
           starArray[k].classList.remove("starClickableEmpty");
         }
 
-        for(let k = star.key; k < 5; k++)
-        {
+        for (let k = star.key; k < 5; k++) {
           starArray[k].classList.add("starClickableEmpty");
         }
       });
 
       star.addEventListener("mouseleave", () => {
-        for(let k = 0; k < this.stars; k++)
-        {
+        for (let k = 0; k < this.stars; k++) {
           starArray[k].classList.remove("starClickableEmpty");
         }
 
-        for(let k = this.stars; k < 5; k++)
-        {
+        for (let k = this.stars; k < 5; k++) {
           starArray[k].classList.add("starClickableEmpty");
         }
       });
@@ -329,10 +317,10 @@ export default class extends AbstractView {
         method: "POST",
         mode: "cors",
         headers: {
-          "Authorization": `Bearer ${localStorage.getItem('token')}`,
+          "Authorization": `${localStorage.getItem('token')}`,
           "Content-Type": "application/json"
         },
-        body : JSON.stringify(request)
+        body: JSON.stringify(request)
       });
 
       this.getHtml();
@@ -381,12 +369,10 @@ export default class extends AbstractView {
     });
 
     // Append to review section
-    if(localStorage.getItem("userId") === "")
-    {
+    if (localStorage.getItem("userId") === "") {
       reviewSection.append(reviewHeading, recipeReviews);
     }
-    else
-    {
+    else {
       reviewSection.append(reviewHeading, reviewInput, ratingSpan, submitBtn, recipeReviews);
     }
 
