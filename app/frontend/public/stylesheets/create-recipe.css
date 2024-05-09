@@ -1,0 +1,248 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    text-align: center;
+}
+
+p {
+    font-size: 16px;
+    display: inline;
+}
+
+form {
+    max-width: 800px; /* Increased width to accommodate two columns */
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex; /* Display form elements in a flex container */
+    flex-wrap: wrap; /* Wrap form elements to the next line if necessary */
+}
+
+/* Divide form into two columns */
+form > div {
+    width: 45%; /* Each column takes up 45% of the form width */
+    margin: 0 2.5%; /* Add a small margin between columns */
+}
+
+label {
+    font-weight: bold;
+    font-size: 28px; /* Set font size to 28px */
+}
+label.prepTimeLabel{
+    font-size: 20px;
+}
+label.cookTimeLabel{
+    font-size: 20px;
+}
+label.servingSizeLabel{
+    font-size: 20px;
+}
+
+input[type="text"] {
+    width: 95%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 20px; /* Set border-radius to 20px */
+}
+
+input.stepTextBox{
+    width: 72%;
+    margin-right: 5px;
+    word-break: break-word;
+}
+
+input.ingredientTextBox{
+    width: 72%;
+    margin-right: 5px;
+    word-break: break-word;
+}
+
+textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 20px; /* Set border-radius to 20px */
+}
+
+/* button {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+} */
+
+input[type="number"] {
+    width: 95%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 20px; /* Set border-radius to 20px */
+}
+
+input.prepTime{
+    max-width: 50px;
+}
+
+input.cookTime{
+    max-width: 50px;
+}
+
+input.servingSize{
+    max-width: 50px;
+}
+
+input[type="file"] {
+    /* display: none; */
+    width: 95%;
+    /*cursor: pointer;
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 20px;
+    border-width: 0.2rem;
+    border-style: solid;
+    border-color: #3070BF;
+    /* color: #3070BF; */
+    /* background-color: white; */
+}
+
+.uploadImageSelect {
+    width: 95%;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 20px;
+    border-width: 0.2rem;
+    border-style: solid;
+    border-color: #3070BF;
+    /* color: #3070BF; */
+    background-color: white;
+}
+
+button {
+    /* padding: 10px 20px; */
+    cursor: pointer;
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+}
+
+button.addStepButton {
+    /* max-width: 100%; */
+    cursor: pointer;
+    width: 100%;
+    padding: 8px;
+    /* margin-bottom: 10px; */
+    border-radius: 20px;
+    border-width: 0.2rem;
+    border-style: solid;
+    border-color: #3070BF;
+    color: #3070BF;
+    background-color: white;
+}
+
+button.addStepButton:hover {
+    cursor: pointer;
+    color: white;
+    background-color: #3070BF;
+}
+
+button.removeStepButton {
+    width: 75px;
+    border-width: 0.2rem;
+    border-style: solid;
+    border-color: #768da8;    
+    background-color: #dae4f2;
+    color: #768da8;
+}
+
+button.removeStepButton:hover {
+    width: 75px;
+    cursor: pointer;
+    color: #dae4f2;
+    background-color: #768da8;
+}
+
+button.addIngredientButton {
+    /* max-width: 100%; */
+    cursor: pointer;
+    width: 100%;
+    padding: 8px;
+    /* margin-bottom: 10px; */
+    border-radius: 20px;
+    border-width: 0.2rem;
+    border-style: solid;
+    border-color: #3070BF;
+    color: #3070BF;
+    background-color: white;
+}
+
+button.addIngredientButton:hover {
+    cursor: pointer;
+    color: white;
+    background-color: #3070BF;
+}
+
+button.removeIngredientButton {
+    width: 75px;
+    border-width: 0.2rem;
+    border-style: solid;
+    border-color: #768da8;    
+    background-color: #dae4f2;
+    color: #768da8;
+}
+
+button.removeIngredientButton:hover {
+    width: 75px;
+    cursor: pointer;
+    color: #dae4f2;
+    background-color: #768da8;
+}
+
+button[type="submit"] {
+    margin-right: 10px;
+    max-width: 70px;
+    border-radius: 2rem;
+    border-width: 0.2rem;
+    border-style: solid;
+    border-color: #3070BF;
+    color: #3070BF;
+    background-color: white;
+    padding: 1rem 2rem 1rem 2rem;
+}
+
+button[type="submit"]:hover {
+    cursor: pointer;
+    color: white;
+    background-color: #3070BF;
+}
+
+button[type="button"] {
+    margin-right: 10px;
+    max-width: 85px;
+    border-radius: 2rem;
+    border-width: 0.2rem;
+    border-style: solid;
+    border-color: #768da8;    
+    background-color: #dae4f2;
+    color: #768da8;
+    padding: 1rem 2rem 1rem 2rem;
+}
+
+button[type="button"]:hover {
+    cursor: pointer;
+    color: #dae4f2;
+    background-color: #768da8;
+}
