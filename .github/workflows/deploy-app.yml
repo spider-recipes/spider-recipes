@@ -39,11 +39,8 @@ jobs:
           echo "IMAGE_BUCKET_NAME=${{ secrets.IMAGE_BUCKET_NAME}}" >> .env
           echo "DB_ENDPOINT=${{ secrets.DB_ENDPOINT}}" >> .env
           echo "AWS_REGION=${{ secrets.AWS_REGION}}" >> .env
-          echo "SECRET"=${{ secrets.SECRET}} >> .env
-          echo "BASEURL"=${{ secrets.BASEURL}} >> .env
           echo "CLIENTID"=${{ secrets.CLIENTID}} >> .env
-          echo "ISSUER"=${{ secrets.ISSUER}} >> .env
-          echo "CLIENTSECRET"=${{ secrets.CLIENTSECRET}} >> .env
+          echo "APISECRET"=${{ secrets.API_SECRET}} >> .env
 
     - name: Package artifact
       run: zip -r ./app.zip .env .dockerignore *
