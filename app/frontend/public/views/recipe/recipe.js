@@ -224,7 +224,7 @@ export default class extends AbstractView {
       const request = {
         review_message: reviewInput.value,
         review_rating: this.stars,
-        user_id: 1,//localStorage.getItem("user_id"),
+        user_id: localStorage.getItem("userId"),
         recipe_id: this.recipeID
       }
 
