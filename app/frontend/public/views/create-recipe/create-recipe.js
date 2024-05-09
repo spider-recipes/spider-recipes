@@ -155,12 +155,14 @@ export default class extends AbstractView {
       Array.from(ingredients).forEach(ingredient => {
         ingredientsString += ingredient.value + ";";
       });
+      ingredientsString = ingredientsString.slice(0, -1);
 
       const steps = document.getElementsByClassName("ingredientTextBox");
       let stepsString = "";
       Array.from(steps).forEach(step => {
         stepsString += step.value + ";";
       });
+      stepsString = stepsString.slice(0, -1);
 
       const request = {
         "recipe_name": recipeForm.elements["recipeName"].value,
