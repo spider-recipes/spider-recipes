@@ -56,12 +56,12 @@ async function getProfileInfo(userId) {
   }
 }
 
-async function updateUserToken(username) {
+async function updateUserToken(username, token) {
   try {
     const pool = await getPool();
     const userInfo = await pool.request()
       .input('username', sql.VarChar(255), username)
-      .input('auth_token', sql.VarChar(1024), 'fdsgsgshshsh')
+      .input('auth_token', sql.VarChar(1024), token)
       .query(`UPDATE Users SET auth_token = @auth_token WHERE username = @username`);
 
     // Retrieve updated user info
@@ -98,14 +98,14 @@ async function checkIfUserExists(username) {
   }
 }
 
-async function createUser(username) {
+async function createUser(username, token) {
   try {
     const pool = await getPool();
     const checkUser = await checkIfUserExists(username);
 
     if (checkUser) {
       // User exists, update the user's auth token
-      const updatedUser = await updateUserToken(username);
+      const updatedUser = await updateUserToken(username, token);
       return updatedUser;
     } else {
       // User doesn't exist, create a new user
