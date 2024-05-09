@@ -84,8 +84,8 @@ const updateUI = async () => {
   }
 };
 
-const loginLink = document.querySelector('a[href="/login/"]');
-const logoutLink = document.querySelector('a[href="/logout/"]');
+const loginLink = document.getElementById('btn-login');
+const logoutLink = document.getElementById('btn-logout');
 
 loginLink.addEventListener("click", async function (event) {
   await auth0Client.loginWithRedirect({
@@ -96,12 +96,20 @@ loginLink.addEventListener("click", async function (event) {
 });
 
 logoutLink.addEventListener("click", async function (event) {
-  auth0Client.logout({
+  await auth0Client.logout({
     logoutParams: {
       returnTo: window.location.origin
     }
   });
 });
+
+async function goToLogin() {
+  await auth0Client.loginWithRedirect({
+    authorizationParams: {
+      redirect_uri: window.location.origin
+    }
+  });
+}
 
 const pathToRegex = path => new RegExp("^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$");
 

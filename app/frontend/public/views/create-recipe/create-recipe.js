@@ -33,6 +33,7 @@ export default class extends AbstractView {
       await fetch(url, {
         method: "PUT",
         headers: {
+          "Authorization": `Bearer ${localStorage.getItem('token')}`,
           "Content-Type": "multipart/form-data"
         },
         body: file
