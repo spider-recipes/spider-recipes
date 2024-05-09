@@ -9,6 +9,7 @@ export default class extends AbstractView {
     super(params);
     this.recipeID = params.id;
     this.setTitle("Spider Recipes | Recipe");
+    this.stars = 1;
     console.log(localStorage.getItem('username'));
   }
 
@@ -64,7 +65,7 @@ export default class extends AbstractView {
     // Recipe date
     const recipeDate = document.createElement("span");
     recipeDate.id = "recipe-date";
-    const date = new Date(parseInt(recipe.time_created));
+    const date = new Date(recipe.time_created.substring(0, 10));
     recipeDate.textContent = `Posted on ${date.toDateString()}`;
 
     // Rating
@@ -179,6 +180,65 @@ export default class extends AbstractView {
     const reviewHeading = document.createElement("h2");
     reviewHeading.textContent = "Reviews";
 
+    //Review form
+    const reviewInput = document.createElement("textarea");
+    reviewInput.className = "review-input";
+    reviewInput.placeholder = "Add your review";
+
+    const ratingSpan = document.createElement("span");
+    const starArray = [];
+    for(let i = 0; i < 5; i++)
+    {
+      const star = document.createElement("span");
+      star.className = "starClickable";
+      if(i != 0)
+        star.classList.add("starClickableEmpty");
+      star.textContent = "star ";
+      star.key = i+1;
+
+      star.addEventListener("click", () => {
+        for(let k = 0; k < star.key; k++)
+        {
+          starArray[k].classList.remove("starClickableEmpty");
+        }
+
+        for(let k = star.key; k < 5; k++)
+        {
+          starArray[k].classList.add("starClickableEmpty");
+        }
+
+        this.stars = star.key;
+      })
+
+      starArray.push(star);
+    }
+    ratingSpan.append(...starArray);
+
+    const submitBtn = document.createElement("button");
+    submitBtn.className = "submitButton";
+    submitBtn.textContent = "Submit review";
+
+    submitBtn.addEventListener("click", async () => {
+      const request = {
+        review_message: reviewInput.value,
+        review_rating: this.stars,
+        user_id: 1,//localStorage.getItem("user_id"),
+        recipe_id: this.recipeID
+      }
+
+      await fetch(`/api/review/addReview`, {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body : JSON.stringify(request)
+      });
+
+      this.getHtml();
+    });
+
+
     // Recipe reviews
     const recipeReviews = document.createElement("ul");
     recipeReviews.id = "recipe-reviews";
@@ -192,7 +252,7 @@ export default class extends AbstractView {
       const starsDiv = document.createElement("div");
       const messageSpan = document.createElement("span");
 
-      const date = new Date(parseInt(review.time_created));
+      const date = new Date(review.time_created.substring(0, 10));
 
       usernameSpan.insertAdjacentHTML("beforeend", `<strong>${review.creator_username}</strong>`);
       dateSpan.className = "date";
@@ -208,16 +268,27 @@ export default class extends AbstractView {
         starsEmptySpan.textContent += "star ";
       }
       starsDiv.append(starsFilledSpan, starsEmptySpan);
+      starsDiv.style.marginBottom = "1rem";
 
       messageSpan.textContent = review.review_message;
+      messageSpan.style.display = "block";
+      messageSpan.style.marginTop = "1rem";
+      messageSpan.style.marginBottom = "1rem";
 
-      reviewLi.append(usernameSpan, dateSpan, starsDiv, messageSpan);
+      reviewLi.append(starsDiv, usernameSpan, dateSpan, messageSpan);
 
       recipeReviews.appendChild(reviewLi);
     });
 
     // Append to review section
-    reviewSection.append(reviewHeading, recipeReviews);
+    if(localStorage.getItem("userId") === "")
+    {
+      reviewSection.append(reviewHeading, recipeReviews);
+    }
+    else
+    {
+      reviewSection.append(reviewHeading, reviewInput, ratingSpan, submitBtn, recipeReviews);
+    }
 
     document.getElementById("main-content").replaceChildren(titleSection, recipeSection, reviewSection);
   }
