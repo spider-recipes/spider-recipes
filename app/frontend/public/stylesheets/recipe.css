@@ -1,5 +1,5 @@
 .title-section {
-  padding: 6.4rem 3.2rem 0 3.2rem;
+  padding: 6.4rem 3.2rem 3.2rem 3.2rem;
   max-width: 68rem;
   margin: 0 auto;
 }
@@ -19,7 +19,7 @@
   color: #142233;
 }
 
-h1 {
+.title-section h1 {
   margin: 0;
   font-size: 6rem;
   color: #142233;
@@ -39,13 +39,39 @@ h1 {
 
 .img-container {
   max-width: 68rem;
-  margin: 0 auto 3rem auto;
+  margin: 0 auto 1rem auto;
 }
 
 img {
   display: block;
   width: 100%;
   height: auto;
+}
+
+.favourite-div {
+  max-width: 68rem;
+  margin: 2rem auto 3rem auto;
+}
+
+.favouriteIcon {
+  font-size: 1rem;
+  color: #E1306C;
+
+  border-style: solid;
+  border-color: #E1306C;
+  border-radius: 2rem;
+  padding: 1rem;
+}
+
+.favouriteIcon:hover {
+  cursor: pointer;
+  color: white;
+  background-color: #E1306C;
+}
+
+.favourited {
+  color: white;
+  background-color: #E1306C;
 }
 
 .tags {
@@ -233,7 +259,7 @@ img {
   border-style: solid;
   border-color: #3070BF;
   padding: 1rem;
-  color: #3070BF;
+  color: #3070bf;
   background-color: white;
 }
 
@@ -280,6 +306,10 @@ img {
     padding: 9.6rem 4.3rem 3rem 4.3rem;
   }
 
+  .title-section h1 {
+    font-size: 8rem;
+  }
+
   .recipe-section {
     padding: 9.6rem 4.3rem 3rem 4.3rem;
   }
@@ -296,6 +326,11 @@ img {
     max-width: 102.4rem;
     margin: 0 auto 2rem auto;
   }
+
+  .favourite-div {
+    max-width: 102.4rem;
+  }
+  
 
   .recipe-info {
     max-width: 96.4rem;

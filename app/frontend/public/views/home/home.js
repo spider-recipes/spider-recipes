@@ -54,7 +54,7 @@ export default class extends AbstractView {
 
     viewableRecipes.forEach(recipe => {
       newNodes.push(this.makeCard(
-        "/public/images/spider-dish.png",
+        recipe.recipe_image,
         recipe.recipe_name,
         recipe.avg_rating,
         "https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff6ccabba-ea38-411f-a673-04f26b5e919c_980x980.jpeg",
@@ -79,12 +79,16 @@ export default class extends AbstractView {
     card.appendChild(recipeLink);
 
     // Image
+    const imgDiv = document.createElement("div");
+    imgDiv.className = "img-div";
+
     const recipeImg = document.createElement("img");
     recipeImg.src = imgSrc;
     recipeImg.href = `/recipe/${key}`;
     recipeImg.alt = `Image of ${recipeName}`;
     recipeImg.setAttribute("data-link", "");
-    recipeLink.appendChild(recipeImg);
+    imgDiv.appendChild(recipeImg);
+    recipeLink.appendChild(imgDiv);
 
     // Description box
     const descriptionDiv = document.createElement("div");
@@ -120,7 +124,13 @@ export default class extends AbstractView {
     favorite.href = `/recipe/${key}`;
     favorite.setAttribute("data-link", "");
     favorite.textContent = "favorite";
-    descriptionDiv.append(favorite);
+    
+    this.favRecipes.forEach(fav => {
+      if(fav.recipe_id === key)
+      {
+        descriptionDiv.append(favorite);
+      }
+    })
 
     const userDiv = document.createElement("div");
 
@@ -249,11 +259,22 @@ export default class extends AbstractView {
     this.allRecipes = data.recipesExtended[0];
     this.currentRecipes = this.allRecipes;
 
+    response = await fetch(`/api/recipe/getFavouritedRecipes/${localStorage.getItem("userId") === "" ? 0 : localStorage.getItem("userId")}`, {
+      method: "GET",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+
+    data = await response.json();
+    this.favRecipes = data.userFavouritedRecipes[0];
+    
     loader.style.display = "none";
 
     this.allRecipes.forEach(recipe => {
       cardsContainer.appendChild(this.makeCard(
-        "/public/images/spider-dish.png",
+        recipe.recipe_image,
         recipe.recipe_name,
         recipe.avg_rating,
         "https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff6ccabba-ea38-411f-a673-04f26b5e919c_980x980.jpeg",

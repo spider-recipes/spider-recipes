@@ -42,6 +42,17 @@ export default class extends AbstractView {
     data = await response.json();
     const reviews = data.reviewsForRecipe[0];
 
+    response = await fetch(`/api/recipe/getFavouritedRecipes/${localStorage.getItem("userId") === "" ? 0 : localStorage.getItem("userId")}`, {
+      method: "GET",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+
+    data = await response.json();
+    this.favRecipes = data.userFavouritedRecipes[0];
+
     loader.style.display = "none";
 
     // Title section
@@ -102,6 +113,59 @@ export default class extends AbstractView {
     const recipeImgContainer = document.createElement("div");
     recipeImgContainer.className = "img-container";
     recipeImgContainer.appendChild(recipeImg);
+
+    // Favourite
+    const favouriteDiv = document.createElement("div");
+    favouriteDiv.className = "favourite-div";
+    const favorite = document.createElement("span");
+    favorite.className = "favouriteIcon";
+    favorite.textContent = "Add to favourites";
+    favouriteDiv.appendChild(favorite);
+    this.favRecipes.forEach(fav => {
+      if(fav.recipe_id === parseInt(this.recipeID))
+      {
+        favorite.classList.add("favourited");
+        favorite.textContent = "Remove from favourites";
+      }
+    })
+
+    favorite.addEventListener("click", async () => {
+      const request = {
+        user_id: localStorage.getItem("userId"),
+        recipe_id: this.recipeID
+      }
+
+      if(favorite.classList.contains("favourited"))
+      {
+        favorite.classList.remove("favourited");
+        await fetch(`/api/recipe/removeFavourite`, {
+          method: "DELETE",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body : JSON.stringify(request)
+        });
+
+        favorite.textContent = "Add to favourites";
+      }
+      else
+      {
+        favorite.classList.add("favourited");
+        await fetch(`/api/recipe/addFavourite`, {
+          method: "POST",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body : JSON.stringify(request)
+        });
+
+        favorite.textContent = "Remove from favourites";
+      }
+
+
+    });
 
     // Tags
     const tagsDiv = document.createElement("div");
@@ -172,7 +236,14 @@ export default class extends AbstractView {
     });
 
     // Append to recipe section
-    recipeSection.append(recipeImgContainer, tagsDiv, recipeInfo, recipeIngredients, recipeSteps);
+    if(localStorage.getItem("userId") === "")
+    {
+      recipeSection.append(recipeImgContainer, tagsDiv, recipeInfo, recipeIngredients, recipeSteps);
+    }
+    else
+    {
+      recipeSection.append(recipeImgContainer, favouriteDiv, tagsDiv, recipeInfo, recipeIngredients, recipeSteps);
+    }
 
     // Review section
     const reviewSection = document.createElement("section");
@@ -210,7 +281,31 @@ export default class extends AbstractView {
         }
 
         this.stars = star.key;
-      })
+      });
+
+      star.addEventListener("mouseenter", () => {
+        for(let k = 0; k < star.key; k++)
+        {
+          starArray[k].classList.remove("starClickableEmpty");
+        }
+
+        for(let k = star.key; k < 5; k++)
+        {
+          starArray[k].classList.add("starClickableEmpty");
+        }
+      });
+
+      star.addEventListener("mouseleave", () => {
+        for(let k = 0; k < this.stars; k++)
+        {
+          starArray[k].classList.remove("starClickableEmpty");
+        }
+
+        for(let k = this.stars; k < 5; k++)
+        {
+          starArray[k].classList.add("starClickableEmpty");
+        }
+      });
 
       starArray.push(star);
     }
