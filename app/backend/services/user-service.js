@@ -45,9 +45,9 @@ async function getProfileInfo(userId) {
     const pool = await getPool();
     const profileInfo = await pool.request()
       .input('user_id', sql.Int, userId)
-      .query("SELECT Users.user_id, Users.username, Users.created_date FROM Users, Reviews.*, Recipes.* FROM Users \
-                        INNER JOIN Reviews ON Users.user_id = Reviews.user_id \
-                        INNER JOIN Recipes ON Users.user_id = Recipes.user_id \
+      .query("SELECT Users.*, Recipes.*, Reviews.* FROM Users \
+                        LEFT JOIN Recipes ON Users.user_id = Recipes.user_id \
+                        LEFT JOIN Reviews ON Users.user_id = Reviews.user_id \
                         WHERE Users.user_id=@user_id;");
     return profileInfo.recordsets;
   } catch (error) {
