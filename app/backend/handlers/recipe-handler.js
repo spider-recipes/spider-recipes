@@ -34,7 +34,7 @@ router.get('/getFavouritedRecipesExtended/:userId', jwtCheck, async (req, res) =
   res.send({ userFavouritedRecipesExtended })
 })
 
-router.get('/getRecipeExtended/:recipeId', jwtCheck, async (req, res) => {
+router.get('/getRecipeExtended/:recipeId', async (req, res) => {
   const recipeExtendedById = await RecipeService.getRecipeExtendedById(req.params.recipeId)
   res.send({ recipeExtendedById })
 })
