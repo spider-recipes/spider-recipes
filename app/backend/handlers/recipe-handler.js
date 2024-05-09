@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var S3Service = require('../services/s3-service.js');
 var RecipeService = require('../services/recipe-service.js');
+const jwtCheck = require('../../auth-middleware.js');
 
 router.get('/putImage', async (req, res) => {
   const url = await S3Service.generateUploadURL()

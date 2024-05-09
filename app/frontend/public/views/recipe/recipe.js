@@ -1,20 +1,23 @@
 import AbstractView from "../AbstractView.js";
+// Retrieving data from local storage
+// localStorage.getItem('userId');
+// localStorage.getItem('token');
+// localStorage.getItem('username');
 
-export default class extends AbstractView
-{
-  constructor(params)
-  {
+export default class extends AbstractView {
+  constructor(params) {
     super(params);
     this.recipeID = params.id;
     this.setTitle("Spider Recipes | Recipe");
+    console.log(localStorage.getItem('username'));
   }
 
-  async getHtml()
-  {
+  async getHtml() {
     let response = await fetch(`/api/recipe/getRecipeExtended/${this.recipeID}`, {
       method: "GET",
       mode: "cors",
       headers: {
+        "Authorization": `Bearer ${localStorage.getItem('token')}`,
         "Content-Type": "application/json"
       }
     });
@@ -25,6 +28,7 @@ export default class extends AbstractView
       method: "GET",
       mode: "cors",
       headers: {
+        "Authorization": `Bearer ${localStorage.getItem('token')}`,
         "Content-Type": "application/json"
       }
     });
@@ -49,7 +53,7 @@ export default class extends AbstractView
     // Recipe user
     const recipeUser = document.createElement("span");
     recipeUser.id = "recipe-user";
-    recipeUser.insertAdjacentHTML("beforeend", `Posted by <strong>${recipe.creator_username}</strong>`); 
+    recipeUser.insertAdjacentHTML("beforeend", `Posted by <strong>${recipe.creator_username}</strong>`);
 
     // Recipe date
     const recipeDate = document.createElement("span");
@@ -62,15 +66,13 @@ export default class extends AbstractView
 
     const starsFilled = document.createElement("span");
     starsFilled.className = "star";
-    for(let i = 0; i < parseInt(recipe.avg_rating); i++)
-    {
+    for (let i = 0; i < parseInt(recipe.avg_rating); i++) {
       starsFilled.textContent += "star ";
     }
 
     const starsEmpty = document.createElement("span");
     starsEmpty.className = "star starEmpty";
-    for(let i = parseInt(recipe.avg_rating); i < 5; i++)
-    {
+    for (let i = parseInt(recipe.avg_rating); i < 5; i++) {
       starsEmpty.textContent += "star ";
     }
 
@@ -94,8 +96,7 @@ export default class extends AbstractView
 
     // Tags
     const tagsDiv = document.createElement("div");
-    if(recipe.tags)
-    {
+    if (recipe.tags) {
       const tags = recipe.tags.split(",");
       tagsDiv.className = "tags";
       tags.forEach(tag => {
@@ -175,7 +176,7 @@ export default class extends AbstractView
     // Recipe reviews
     const recipeReviews = document.createElement("ul");
     recipeReviews.id = "recipe-reviews";
-    
+
     reviews.forEach(review => {
       const reviewLi = document.createElement("li");
       const usernameSpan = document.createElement("span");
@@ -184,31 +185,29 @@ export default class extends AbstractView
       const starsEmptySpan = document.createElement("span");
       const starsDiv = document.createElement("div");
       const messageSpan = document.createElement("span");
-      
+
       const date = new Date(parseInt(review.time_created));
-      
+
       usernameSpan.insertAdjacentHTML("beforeend", `<strong>${review.creator_username}</strong>`);
       dateSpan.className = "date";
       dateSpan.textContent = ` - ${date.toDateString()}`;
-      
+
       starsFilledSpan.className = "star";
-      for(let i = 0; i < parseInt(review.review_rating); i++)
-      {
+      for (let i = 0; i < review.review_rating; i++) {
         starsFilledSpan.textContent += "star ";
       }
-        
+
       starsEmptySpan.className = "star starEmpty";
-      for(let i = parseInt(review.review_rating); i < 5; i++)
-      {
+      for (let i = review.review_rating; i < 5; i++) {
         starsEmptySpan.textContent += "star ";
       }
-        starsDiv.append(starsFilledSpan, starsEmptySpan);
-        
-        messageSpan.textContent = review.review_message;
-        
-        reviewLi.append(usernameSpan, dateSpan, starsDiv, messageSpan);
-        
-        recipeReviews.appendChild(reviewLi);
+      starsDiv.append(starsFilledSpan, starsEmptySpan);
+
+      messageSpan.textContent = review.review_message;
+
+      reviewLi.append(usernameSpan, dateSpan, starsDiv, messageSpan);
+
+      recipeReviews.appendChild(reviewLi);
     });
 
     // Append to review section

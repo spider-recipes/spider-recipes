@@ -1,39 +1,36 @@
 import AbstractView from "../AbstractView.js";
+// Retrieving data from local storage
+// localStorage.getItem('userId');
+// localStorage.getItem('token');
+// localStorage.getItem('username');
 
-export default class extends AbstractView
-{
-  constructor(params)
-  {
+export default class extends AbstractView {
+  constructor(params) {
     super(params);
     this.setTitle("Spider Recipes | Home");
     this.filters = [];
+    console.log(localStorage.getItem('username'));
   }
-  
-  reveal()
-  {
+
+  reveal() {
     let reveals = document.querySelectorAll(".card");
-    reveals.forEach(reveal =>
-    {
+    reveals.forEach(reveal => {
       let windowHeight = window.innerHeight;
       let revealTop = reveal.getBoundingClientRect().top;
       let revealPoint = 150;
 
-      if(revealTop < windowHeight - revealPoint)
-      {
+      if (revealTop < windowHeight - revealPoint) {
         reveal.classList.add("active");
       }
     });
   }
 
-  filter(e)
-  {
+  filter(e) {
     e.target.classList.toggle("active");
-    if(e.target.classList.value.includes("active"))
-    {
+    if (e.target.classList.value.includes("active")) {
       this.filters.push(e.target.textContent);
     }
-    else
-    {
+    else {
       this.filters = this.filters.filter((element) => {
         return element !== e.target.textContent;
       });
@@ -42,18 +39,15 @@ export default class extends AbstractView
     this.renderFilteredRecipes(document.getElementById("search-input").value);
   }
 
-  search(e)
-  {
+  search(e) {
     this.renderFilteredRecipes(e.target.value);
   }
 
-  renderFilteredRecipes(searchString)
-  {
+  renderFilteredRecipes(searchString) {
     let viewableRecipes = [];
     let newNodes = [];
     this.allRecipes.forEach(recipe => {
-      if(recipe.recipe_name.toLowerCase().includes(searchString.toLowerCase()) && this.filters.every(item => recipe.tags !== null ? recipe.tags.includes(item) : false))
-      {
+      if (recipe.recipe_name.toLowerCase().includes(searchString.toLowerCase()) && this.filters.every(item => recipe.tags !== null ? recipe.tags.includes(item) : false)) {
         viewableRecipes.push(recipe);
       }
     });
@@ -73,8 +67,7 @@ export default class extends AbstractView
     document.getElementById("cards-container").replaceChildren(...newNodes);
   }
 
-  makeCard(imgSrc, recipeName, rating, userImgSrc, userName, dateCreated, key)
-  {
+  makeCard(imgSrc, recipeName, rating, userImgSrc, userName, dateCreated, key) {
     const card = document.createElement("li");
     card.className = "card";
     card.href = `/recipe/${key}`;
@@ -110,20 +103,14 @@ export default class extends AbstractView
     // Rating
     const starsFilled = document.createElement("span");
     starsFilled.className = "icon";
-    starsFilled.href = `/recipe/${key}`;
-    starsFilled.setAttribute("data-link", "");
-    for(let i = 0; i < parseInt(rating); i++)
-    {
-      starsFilled.textContent += "star ";
+    for (let i = 0; i < rating; i++) {
+      starsFilled.innerHTML += "star ";
     }
 
     const starsEmpty = document.createElement("span");
     starsEmpty.className = "icon";
-    starsEmpty.href = `/recipe/${key}`;
-    starsEmpty.setAttribute("data-link", "");
-    for(let i = parseInt(rating); i < 5; i++)
-    {
-      starsEmpty.textContent += "star ";
+    for (let i = rating; i < 5; i++) {
+      starsEmpty.innerHTML += "star ";
     }
     descriptionDiv.append(starsFilled, starsEmpty);
 
@@ -165,8 +152,7 @@ export default class extends AbstractView
     return card;
   }
 
-  async getHtml()
-  {
+  async getHtml() {
     // Title section
     const titleSection = document.createElement("section");
     titleSection.className = "title-section";
@@ -237,14 +223,15 @@ export default class extends AbstractView
       method: "GET",
       mode: "cors",
       headers: {
+        "Authorization": `Bearer ${localStorage.getItem('token')}`,
         "Content-Type": "application/json"
       }
     });
 
     const data = await response.json();
     this.allRecipes = data.recipesExtended[0];
-    // this.currentRecipes = this.allRecipes;
-    
+    this.currentRecipes = this.allRecipes;
+
     this.allRecipes.forEach(recipe => {
       cardsContainer.appendChild(this.makeCard(
         "/public/images/spider-dish.png",
