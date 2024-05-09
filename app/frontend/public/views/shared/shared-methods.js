@@ -1,11 +1,13 @@
 export default function makeCard(
+  
   imgSrc,
   recipeName,
   rating,
   userImgSrc,
   userName,
   dateCreated,
-  key
+  key,
+  favRecipes
 ) {
   const card = document.createElement("li");
     card.className = "card";
@@ -64,12 +66,10 @@ export default function makeCard(
     favorite.setAttribute("data-link", "");
     favorite.textContent = "favorite";
     
-    this.favRecipes.forEach(fav => {
-      if(fav.recipe_id === key)
-      {
-        descriptionDiv.append(favorite);
-      }
-    })
+    if(favRecipes)
+    {
+      descriptionDiv.append(favorite);
+    }
 
     const userDiv = document.createElement("div");
 

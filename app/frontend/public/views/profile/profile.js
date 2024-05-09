@@ -132,7 +132,8 @@ export default class extends AbstractView {
           "https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff6ccabba-ea38-411f-a673-04f26b5e919c_980x980.jpeg",
           recipe.creator_username,
           recipe.time_created,
-          recipe.recipe_id
+          recipe.recipe_id,
+          true
         )
       );
     });
@@ -156,7 +157,8 @@ export default class extends AbstractView {
             "https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff6ccabba-ea38-411f-a673-04f26b5e919c_980x980.jpeg",
             recipe.creator_username,
             recipe.time_created,
-            recipe.recipe_id
+            recipe.recipe_id,
+            false
           )
         );
         
