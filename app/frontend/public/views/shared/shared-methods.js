@@ -8,89 +8,95 @@ export default function makeCard(
   key
 ) {
   const card = document.createElement("li");
-  card.className = "card";
-  card.href = `/recipe/${key}`;
-  card.setAttribute("data-link", "");
+    card.className = "card";
+    card.href = `/recipe/${key}`;
+    card.setAttribute("data-link", "");
 
-  const recipeLink = document.createElement("a");
-  recipeLink.href = `/recipe/${key}`;
-  recipeLink.setAttribute("data-link", "");
-  card.appendChild(recipeLink);
+    const recipeLink = document.createElement("a");
+    recipeLink.href = `/recipe/${key}`;
+    recipeLink.setAttribute("data-link", "");
+    card.appendChild(recipeLink);
 
-  // Image
-  const recipeImg = document.createElement("img");
-  recipeImg.src = imgSrc;
-  recipeImg.href = `/recipe/${key}`;
-  recipeImg.alt = `Image of ${recipeName}`;
-  recipeImg.setAttribute("data-link", "");
-  recipeLink.appendChild(recipeImg);
+    // Image
+    const imgDiv = document.createElement("div");
+    imgDiv.className = "img-div";
 
-  // Description box
-  const descriptionDiv = document.createElement("div");
-  descriptionDiv.className = "description";
-  descriptionDiv.href = `/recipe/${key}`;
-  descriptionDiv.setAttribute("data-link", "");
-  recipeLink.appendChild(descriptionDiv);
+    const recipeImg = document.createElement("img");
+    recipeImg.src = imgSrc;
+    recipeImg.href = `/recipe/${key}`;
+    recipeImg.alt = `Image of ${recipeName}`;
+    recipeImg.setAttribute("data-link", "");
+    imgDiv.appendChild(recipeImg);
+    recipeLink.appendChild(imgDiv);
 
-  // Recipe name
-  const recipeNameH4 = document.createElement("h4");
-  recipeNameH4.textContent = recipeName;
-  recipeNameH4.href = `/recipe/${key}`;
-  recipeNameH4.setAttribute("data-link", "");
-  descriptionDiv.appendChild(recipeNameH4);
+    // Description box
+    const descriptionDiv = document.createElement("div");
+    descriptionDiv.className = "description";
+    descriptionDiv.href = `/recipe/${key}`;
+    descriptionDiv.setAttribute("data-link", "");
+    recipeLink.appendChild(descriptionDiv);
 
-  // Rating
-  const starsFilled = document.createElement("span");
-  starsFilled.className = "icon";
-  starsFilled.href = `/recipe/${key}`;
-  starsFilled.setAttribute("data-link", "");
-  for (let i = 0; i < parseInt(rating); i++) {
-    starsFilled.textContent += "star ";
-  }
+    // Recipe name
+    const recipeNameH4 = document.createElement("h4");
+    recipeNameH4.textContent = recipeName;
+    recipeNameH4.href = `/recipe/${key}`;
+    recipeNameH4.setAttribute("data-link", "");
+    descriptionDiv.appendChild(recipeNameH4);
 
-  const starsEmpty = document.createElement("span");
-  starsEmpty.className = "icon";
-  starsEmpty.href = `/recipe/${key}`;
-  starsEmpty.setAttribute("data-link", "");
-  for (let i = parseInt(rating); i < 5; i++) {
-    starsEmpty.textContent += "star ";
-  }
-  descriptionDiv.append(starsFilled, starsEmpty);
+    // Rating
+    const starsFilled = document.createElement("span");
+    starsFilled.className = "icon";
+    for (let i = 0; i < rating; i++) {
+      starsFilled.innerHTML += "star ";
+    }
 
-  // Favourite
-  const favorite = document.createElement("span");
-  favorite.className = "icon";
-  favorite.href = `/recipe/${key}`;
-  favorite.setAttribute("data-link", "");
-  favorite.textContent = "favorite";
-  descriptionDiv.append(favorite);
+    const starsEmpty = document.createElement("span");
+    starsEmpty.className = "icon";
+    for (let i = rating; i < 5; i++) {
+      starsEmpty.innerHTML += "star ";
+    }
+    descriptionDiv.append(starsFilled, starsEmpty);
 
-  const userDiv = document.createElement("div");
+    // Favourite
+    const favorite = document.createElement("span");
+    favorite.className = "icon";
+    favorite.href = `/recipe/${key}`;
+    favorite.setAttribute("data-link", "");
+    favorite.textContent = "favorite";
+    
+    this.favRecipes.forEach(fav => {
+      if(fav.recipe_id === key)
+      {
+        descriptionDiv.append(favorite);
+      }
+    })
 
-  // User image
-  const userImage = document.createElement("img");
-  userImage.src = userImgSrc;
-  userDiv.append(userImage);
+    const userDiv = document.createElement("div");
 
-  // User name
-  const userSpan = document.createElement("span");
+    // User image
+    const userImage = document.createElement("img");
+    userImage.src = userImgSrc;
+    userDiv.append(userImage);
 
-  const userNameSpan = document.createElement("p");
-  userNameSpan.href = `/recipe/${key}`;
-  userNameSpan.setAttribute("data-link", "");
-  userNameSpan.textContent = userName;
-  userSpan.append(userNameSpan);
+    // User name
+    const userSpan = document.createElement("span");
 
-  // Date created
-  const date = new Date(dateCreated);
-  const dateSpan = document.createElement("p");
-  dateSpan.href = `/recipe/${key}`;
-  dateSpan.setAttribute("data-link", "");
-  dateSpan.textContent = date.toDateString();
-  userSpan.append(dateSpan);
+    const userNameSpan = document.createElement("p");
+    userNameSpan.href = `/recipe/${key}`;
+    userNameSpan.setAttribute("data-link", "");
+    userNameSpan.textContent = userName;
+    userSpan.append(userNameSpan);
 
-  userDiv.append(userSpan);
-  descriptionDiv.append(userDiv);
+    // Date created
+    const date = new Date(dateCreated);
+    const dateSpan = document.createElement("p");
+    dateSpan.href = `/recipe/${key}`;
+    dateSpan.setAttribute("data-link", "");
+    dateSpan.textContent = date.toDateString();
+    userSpan.append(dateSpan);
 
-  return card;
+    userDiv.append(userSpan);
+    descriptionDiv.append(userDiv);
+
+    return card;
 }
