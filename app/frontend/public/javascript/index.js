@@ -9,7 +9,6 @@ let auth0Client = null;
 
 window.onload = async () => {
   await configureClient();
-
   updateUI();
   const isAuthenticated = await auth0Client.isAuthenticated();
   if (isAuthenticated) {
@@ -23,7 +22,7 @@ window.onload = async () => {
       }
     }).then(res => res.json());
 
-    localStorage.setItem('userId', response.user.user_id);
+    localStorage.setItem('userId', response.userInfo.user_id);
     localStorage.setItem('token', token);
     localStorage.setItem('username', authUser.nickname);
     return;
@@ -59,10 +58,11 @@ window.onload = async () => {
         localStorage.setItem('userId', response.user.user_id);
         localStorage.setItem('token', token);
         localStorage.setItem('username', authUser.nickname);
+        window.location.reload();
+        console.log("Redirect callback complete");
         return;
       }
-      window.location.reload();
-      console.log("Redirect callback complete");
+
     }).catch(error => {
       console.error('Error during redirect callback:', error);
     });

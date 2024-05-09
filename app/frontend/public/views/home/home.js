@@ -54,7 +54,7 @@ export default class extends AbstractView {
 
     viewableRecipes.forEach(recipe => {
       newNodes.push(this.makeCard(
-        "/public/images/spider-dish.png",
+        recipe.recipe_image,
         recipe.recipe_name,
         recipe.avg_rating,
         "https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff6ccabba-ea38-411f-a673-04f26b5e919c_980x980.jpeg",
@@ -79,12 +79,16 @@ export default class extends AbstractView {
     card.appendChild(recipeLink);
 
     // Image
+    const imgDiv = document.createElement("div");
+    imgDiv.className = "img-div";
+
     const recipeImg = document.createElement("img");
     recipeImg.src = imgSrc;
     recipeImg.href = `/recipe/${key}`;
     recipeImg.alt = `Image of ${recipeName}`;
     recipeImg.setAttribute("data-link", "");
-    recipeLink.appendChild(recipeImg);
+    imgDiv.appendChild(recipeImg);
+    recipeLink.appendChild(imgDiv);
 
     // Description box
     const descriptionDiv = document.createElement("div");
@@ -120,7 +124,13 @@ export default class extends AbstractView {
     favorite.href = `/recipe/${key}`;
     favorite.setAttribute("data-link", "");
     favorite.textContent = "favorite";
-    descriptionDiv.append(favorite);
+    
+    this.favRecipes.forEach(fav => {
+      if(fav.recipe_id === key)
+      {
+        descriptionDiv.append(favorite);
+      }
+    })
 
     const userDiv = document.createElement("div");
 
@@ -153,6 +163,10 @@ export default class extends AbstractView {
   }
 
   async getHtml() {
+    //Start loader
+    const loader = document.createElement("div");
+    loader.className = "loader";
+
     // Title section
     const titleSection = document.createElement("section");
     titleSection.className = "title-section";
@@ -196,30 +210,22 @@ export default class extends AbstractView {
     const filtersDiv = document.createElement("div");
     filtersDiv.className = "filters";
 
-    // Filter spans
-    const filters = ["Sweet", "Savory", "Bake", "Fry", "Favourites"];
-    filters.forEach(filter => {
-      const filterSpan = document.createElement("span");
-      filterSpan.className = "filter";
-      filterSpan.textContent = filter;
-      filterSpan.addEventListener("click", e => {
-        this.filter(e);
-      })
-      filtersDiv.appendChild(filterSpan);
-
-    });
 
     // Cards container
     const cardsContainer = document.createElement("ul");
     cardsContainer.id = "cards-container";
 
     // Append to card section
-    cardsSection.append(searchBar, filtersDiv, cardsContainer);
+    cardsSection.append(searchBar, filtersDiv, loader, cardsContainer);
 
     // Append to main
     document.getElementById("main-content").replaceChildren(titleSection, cardsSection);
 
-    const response = await fetch("/api/recipe/getRecipesExtended", {
+    console.log("token at call", localStorage.getItem('token'));
+
+    //Load db data
+    // Filter spans
+    let response = await fetch("/api/tag/getTags", {
       method: "GET",
       mode: "cors",
       headers: {
@@ -228,13 +234,47 @@ export default class extends AbstractView {
       }
     });
 
-    const data = await response.json();
+    let data = await response.json();
+    this.tags = data.tags[0];
+
+    this.tags.forEach(filter => {
+      const filterSpan = document.createElement("span");
+      filterSpan.className = "filter";
+      filterSpan.textContent = filter.tag_name;
+      filterSpan.addEventListener("click", e => {
+        this.filter(e);
+      })
+      filtersDiv.appendChild(filterSpan);
+    });
+
+    response = await fetch("/api/recipe/getRecipesExtended", {
+      method: "GET",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+
+    data = await response.json();
     this.allRecipes = data.recipesExtended[0];
     this.currentRecipes = this.allRecipes;
 
+    response = await fetch(`/api/recipe/getFavouritedRecipes/${localStorage.getItem("userId") === "" ? 0 : localStorage.getItem("userId")}`, {
+      method: "GET",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+
+    data = await response.json();
+    this.favRecipes = data.userFavouritedRecipes[0];
+    
+    loader.style.display = "none";
+
     this.allRecipes.forEach(recipe => {
       cardsContainer.appendChild(this.makeCard(
-        "/public/images/spider-dish.png",
+        recipe.recipe_image,
         recipe.recipe_name,
         recipe.avg_rating,
         "https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff6ccabba-ea38-411f-a673-04f26b5e919c_980x980.jpeg",
