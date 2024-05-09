@@ -24,12 +24,12 @@ router.get('/getRecipe/:recipeId', async (req, res) => {
   res.send({ recipeById })
 })
 
-router.get('/getFavouritedRecipes/:userId', jwtCheck, async (req, res) => {
+router.get('/getFavouritedRecipes/:userId', async (req, res) => {
   const userFavouritedRecipes = await RecipeService.getUserFavouritedRecipes(req.params.userId)
   res.send({ userFavouritedRecipes })
 })
 
-router.get('/getFavouritedRecipesExtended/:userId', jwtCheck, async (req, res) => {
+router.get('/getFavouritedRecipesExtended/:userId', async (req, res) => {
   const userFavouritedRecipesExtended = await RecipeService.getUserFavouritedRecipesExtended(req.params.userId)
   res.send({ userFavouritedRecipesExtended })
 })
