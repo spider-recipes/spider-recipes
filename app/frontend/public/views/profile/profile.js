@@ -11,7 +11,7 @@ export default class extends AbstractView {
     this.setTitle("Spider Recipes | Profile");
     // console.log(localStorage.getItem('username'));
     this.userID = localStorage.getItem("userId");
-    this.userID = 1;
+    // this.userID = 1;
   }
 
   async getHtml() {
@@ -135,12 +135,14 @@ export default class extends AbstractView {
     console.log("Second recipe ids:", recipe_ids);
 
     userCreatedRecipesExtended.forEach((recipe) => {
-      console.log(" 3rd recipe ids:", recipe_ids);
-      console.log("user made recipe:", recipe);
+      console.log(recipe);
       if (recipe.recipe_id in recipe_ids) {
         // do nothing
+        
       } else {
+        console.log("Not this recipe to the list");
         recipe_ids.push(recipe.recipe_id);
+
         cardsContainer.appendChild(
           makeCard(
             recipe.recipe_image,
@@ -152,6 +154,7 @@ export default class extends AbstractView {
             recipe.recipe_id
           )
         );
+        
       }
     });
 
