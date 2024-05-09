@@ -1,7 +1,7 @@
 name: Deploy app on port 80
 
 on:
-  push:
+  pull_request:
     branches:
       - main
     paths:
