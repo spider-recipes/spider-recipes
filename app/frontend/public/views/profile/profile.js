@@ -9,8 +9,8 @@ export default class extends AbstractView {
   constructor(params) {
     super(params);
     this.setTitle("Spider Recipes | Profile");
-    console.log(localStorage.getItem('username'));
-    this.userID = params.id;
+    // console.log(localStorage.getItem('username'));
+    this.userID = localStorage.getItem('userId');
     this.userID = 1;
   }
 
