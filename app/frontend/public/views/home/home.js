@@ -153,6 +153,10 @@ export default class extends AbstractView {
   }
 
   async getHtml() {
+    //Start loader
+    const loader = document.createElement("div");
+    loader.className = "loader";
+
     // Title section
     const titleSection = document.createElement("section");
     titleSection.className = "title-section";
@@ -196,33 +200,22 @@ export default class extends AbstractView {
     const filtersDiv = document.createElement("div");
     filtersDiv.className = "filters";
 
-    // Filter spans
-    const filters = ["Sweet", "Savory", "Bake", "Fry", "Favourites"];
-    filters.forEach(filter => {
-      const filterSpan = document.createElement("span");
-      filterSpan.className = "filter";
-      filterSpan.textContent = filter;
-      filterSpan.addEventListener("click", e => {
-        this.filter(e);
-      })
-      filtersDiv.appendChild(filterSpan);
-
-    });
 
     // Cards container
     const cardsContainer = document.createElement("ul");
     cardsContainer.id = "cards-container";
 
     // Append to card section
-    cardsSection.append(searchBar, filtersDiv, cardsContainer);
+    cardsSection.append(searchBar, filtersDiv, loader, cardsContainer);
 
     // Append to main
     document.getElementById("main-content").replaceChildren(titleSection, cardsSection);
 
     console.log("token at call", localStorage.getItem('token'));
-    console.log(`Bearer ${localStorage.getItem('token')}`)
 
-    const response = await fetch("/api/recipe/getRecipesExtended", {
+    //Load db data
+    // Filter spans
+    let response = await fetch("/api/tag/getTags", {
       method: "GET",
       mode: "cors",
       headers: {
@@ -231,9 +224,32 @@ export default class extends AbstractView {
       }
     });
 
-    const data = await response.json();
+    let data = await response.json();
+    this.tags = data.tags[0];
+
+    this.tags.forEach(filter => {
+      const filterSpan = document.createElement("span");
+      filterSpan.className = "filter";
+      filterSpan.textContent = filter.tag_name;
+      filterSpan.addEventListener("click", e => {
+        this.filter(e);
+      })
+      filtersDiv.appendChild(filterSpan);
+    });
+
+    response = await fetch("/api/recipe/getRecipesExtended", {
+      method: "GET",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+
+    data = await response.json();
     this.allRecipes = data.recipesExtended[0];
     this.currentRecipes = this.allRecipes;
+
+    loader.style.display = "none";
 
     this.allRecipes.forEach(recipe => {
       cardsContainer.appendChild(this.makeCard(

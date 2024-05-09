@@ -159,8 +159,21 @@ img {
 }
 
 .review-section h2 {
-  margin: 0;
+  margin: 0 0 2rem 0;
   font-size: 3rem;
+}
+
+.review-section textarea {
+  width: calc(100% - 2rem);
+  border-style: solid;
+  border-radius: 0.5rem;
+  resize: vertical;
+  padding: 1rem;
+  margin-bottom: 2rem;
+}
+
+.review-section input:focus {
+  outline: none;
 }
 
 .review-section ul {
@@ -170,9 +183,9 @@ img {
 
 .review-section ul li {
   list-style: none;
-  padding: 0 0 1rem 0;
-  margin-bottom: 2rem;
-  border-bottom: 0.1rem solid #506073;
+  padding: 2rem 0 0 0;
+  margin-top: 2rem;
+  border-top: 0.1rem solid #506073;
   font-size: 1.5rem;
 }
 
@@ -193,6 +206,41 @@ img {
 
 .starEmpty {
   color: rgb(61, 61, 61);;
+}
+
+.starClickable {
+  font-family: "Material Symbols Outlined";
+  font-size: 3rem;
+  word-spacing: -3rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  color: #3070BF;
+}
+
+.starClickableEmpty {
+  color: #DAE4F2;
+}
+
+.starClickable:hover {
+  cursor: pointer;
+}
+
+.submitButton {
+  float: right;
+  display: block;
+  border-radius: 2rem;
+  border-style: solid;
+  border-color: #3070BF;
+  padding: 1rem;
+  color: #3070BF;
+  background-color: white;
+}
+
+.submitButton:hover {
+  cursor: pointer;
+  background-color: #3070BF;
+  color: white; 
 }
 
 @media only screen and (min-width: 42.8rem) {
