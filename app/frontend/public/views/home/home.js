@@ -211,6 +211,8 @@ export default class extends AbstractView {
     // Append to main
     document.getElementById("main-content").replaceChildren(titleSection, cardsSection);
 
+    console.log("token at call", localStorage.getItem('token'));
+
     //Load db data
     // Filter spans
     let response = await fetch("/api/tag/getTags", {
@@ -246,7 +248,7 @@ export default class extends AbstractView {
     data = await response.json();
     this.allRecipes = data.recipesExtended[0];
     this.currentRecipes = this.allRecipes;
-    
+
     loader.style.display = "none";
 
     this.allRecipes.forEach(recipe => {

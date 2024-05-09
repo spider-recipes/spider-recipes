@@ -4,7 +4,7 @@ var sql = require('mssql');
 async function getUsers() {
   try {
     const pool = await getPool();
-    const users = await pool.request().query("SELECT * FROM Users");
+    const users = await pool.request().query("SELECT user_id, username, created_date FROM Users");
     return users.recordsets;
   } catch (error) {
     console.log(error);
@@ -33,7 +33,7 @@ async function getUserInfoByUserName(username) {
       .input('username', sql.NVarChar, username)
       .query("SELECT * FROM Users \
               WHERE Users.username=@username;");
-    return userInfo.recordsets;
+    return userInfo.recordsets[0][0];
   } catch (error) {
     console.log(error);
     return [];
@@ -56,28 +56,57 @@ async function getProfileInfo(userId) {
   }
 }
 
-async function createUser(user) {
+async function updateUserToken(user) {
+  try {
+    const pool = await getPool();
+    const userInfo = await pool.request()
+      .input('username', sql.VarChar(255), user.username)
+      .input('auth_token', sql.VarChar(1024), user.authToken)
+      .query(`UPDATE Users SET auth_token = @auth_token WHERE username = @username`);
+
+    // Retrieve updated user info
+    const updateUser = await pool.request()
+      .input('username', sql.VarChar(255), user.username)
+      .query(`SELECT * FROM Users WHERE username = @username`);
+
+    return updateUser.recordset[0];
+
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+}
+
+async function checkIfUserExists(user) {
   try {
     const pool = await getPool();
     // Check if the user already exists
     const checkUser = await pool.request()
       .input('username', sql.VarChar(255), user.username)
-      .query(`SELECT TOP 1 * FROM Users WHERE username = @username`);
+      .query(`SELECT TOP 1 Users.user_id, Users.username, Users.created_date FROM Users WHERE username = @username`);
 
     if (checkUser.recordset.length > 0) {
-      // User exists, update the token
-      await pool.request()
-        .input('username', sql.VarChar(255), user.username)
-        .input('auth_token', sql.VarChar(1024), user.authToken)
-        .query(`UPDATE Users SET auth_token = @auth_token WHERE username = @username`);
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+  catch (error) {
+    console.log(error);
+    return false;
+  }
+}
 
-      // Retrieve updated user info
-      const updateUser = await pool.request()
-        .input('username', sql.VarChar(255), user.username)
-        .query(`SELECT * FROM Users WHERE username = @username`);
+async function createUser(user) {
+  try {
+    const pool = await getPool();
+    const checkUser = await checkIfUserExists(user);
 
-      // Return updated user info
-      return updateUser.recordset[0];
+    if (checkUser) {
+      // User exists, update the user's auth token
+      const updatedUser = await updateUserToken(user);
+      return updatedUser;
     } else {
       // User doesn't exist, create a new user
       const userInfo = await pool.request()
