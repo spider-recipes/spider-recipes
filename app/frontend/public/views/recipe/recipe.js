@@ -142,6 +142,7 @@ export default class extends AbstractView {
           method: "DELETE",
           mode: "cors",
           headers: {
+            "Authorization": `Bearer ${localStorage.getItem('token')}`,
             "Content-Type": "application/json"
           },
           body : JSON.stringify(request)
@@ -156,6 +157,7 @@ export default class extends AbstractView {
           method: "POST",
           mode: "cors",
           headers: {
+            "Authorization": `Bearer ${localStorage.getItem('token')}`,
             "Content-Type": "application/json"
           },
           body : JSON.stringify(request)
@@ -327,6 +329,7 @@ export default class extends AbstractView {
         method: "POST",
         mode: "cors",
         headers: {
+          "Authorization": `Bearer ${localStorage.getItem('token')}`,
           "Content-Type": "application/json"
         },
         body : JSON.stringify(request)
