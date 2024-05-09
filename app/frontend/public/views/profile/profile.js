@@ -10,7 +10,7 @@ export default class extends AbstractView {
     super(params);
     this.setTitle("Spider Recipes | Profile");
     // console.log(localStorage.getItem('username'));
-    this.userID = localStorage.getItem('userId');
+    this.userID = localStorage.getItem("userId");
     this.userID = 1;
   }
 
@@ -45,12 +45,12 @@ export default class extends AbstractView {
     profileSection.className = "profile-section";
 
     const gridContainer = document.createElement("div");
-    gridContainer.className = "grid-container"
+    gridContainer.className = "grid-container";
 
     // Username element
     const usernameHeading = document.createElement("div");
     usernameHeading.className = "profile-heading-left";
-    
+
     // Username heading
     const profileHeadingName = document.createElement("h2");
     profileHeadingName.textContent = "Username";
@@ -95,22 +95,29 @@ export default class extends AbstractView {
     const favouritedRecipesExtended = data.userFavouritedRecipesExtended[0];
     console.log(favouritedRecipesExtended);
 
-    // // Get userCreatedRecipesExtended
-    // response = await fetch(`/api/recipe/getFavouritedRecipesExtended/${this.userID}`, {
-    //   method: "GET",
-    //   mode: "cors",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // });
-    // data = await response.json();
-    // const favouritedRecipesExtended = data.userFavouritedRecipesExtended[0];
-    // console.log(favouritedRecipesExtended);
+    // Get userCreatedRecipesExtended
+    response = await fetch(
+      `/api/recipe/getUserCreatedRecipeExtended/${this.userID}`,
+      {
+        method: "GET",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    data = await response.json();
+    const userCreatedRecipesExtended = data.userCreatedRecipeExtendedById[0];
+    console.log(userCreatedRecipesExtended);
 
     const cardsContainer = document.createElement("ul");
     cardsContainer.id = "cards-container";
+    let recipe_ids = [];
+
+    console.log("First recipe ids:", recipe_ids);
 
     favouritedRecipesExtended.forEach((recipe) => {
+      recipe_ids.push(recipe.recipe_id);
       console.log("fav recipe:", recipe);
       cardsContainer.appendChild(
         makeCard(
@@ -124,12 +131,34 @@ export default class extends AbstractView {
         )
       );
     });
+    
+    console.log("Second recipe ids:", recipe_ids);
+
+    userCreatedRecipesExtended.forEach((recipe) => {
+      console.log(" 3rd recipe ids:", recipe_ids);
+      console.log("user made recipe:", recipe);
+      if (recipe.recipe_id in recipe_ids) {
+        // do nothing
+      } else {
+        recipe_ids.push(recipe.recipe_id);
+        cardsContainer.appendChild(
+          makeCard(
+            recipe.recipe_image,
+            recipe.recipe_name,
+            recipe.avg_rating,
+            "https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff6ccabba-ea38-411f-a673-04f26b5e919c_980x980.jpeg",
+            recipe.creator_username,
+            recipe.time_created,
+            recipe.recipe_id
+          )
+        );
+      }
+    });
 
     profileSection.append(gridContainer, cardsContainer);
 
-    document.getElementById("main-content").replaceChildren(titleSection, profileSection);
-    
+    document
+      .getElementById("main-content")
+      .replaceChildren(titleSection, profileSection);
   }
-
-  
 }
