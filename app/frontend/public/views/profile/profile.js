@@ -59,7 +59,8 @@ export default class extends AbstractView {
     profileHeadingName.textContent = "Username";
 
     // Username span
-    const usernameSpan = document.createElement("p");
+    const usernameSpan = document.createElement("div");
+    usernameSpan.className = "p1";
     console.log(profileInfo[0].username);
     usernameSpan.textContent = profileInfo[0].username;
 
@@ -74,7 +75,8 @@ export default class extends AbstractView {
     joinDateHeadingName.textContent = "Join date";
 
     // Join date span
-    const joinDateSpan = document.createElement("p");
+    const joinDateSpan = document.createElement("div");
+    joinDateSpan.className = "p1";
     console.log(profileInfo[0].created_date);
     joinDateSpan.textContent = profileInfo[0].created_date;
 
