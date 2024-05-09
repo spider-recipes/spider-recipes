@@ -11,18 +11,18 @@ h1 {
 
 p {
     font-size: 16px;
-    display: inline;
+    align-self: auto;
 }
 
 form {
-    max-width: 800px; /* Increased width to accommodate two columns */
+    max-width: 800px;
     margin: 0 auto;
     background-color: #fff;
     padding: 20px;
     border-radius: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    display: flex; /* Display form elements in a flex container */
-    flex-wrap: wrap; /* Wrap form elements to the next line if necessary */
+    display: flex;
+    flex-wrap: wrap;
 }
 
 /* Divide form into two columns */
@@ -31,18 +31,29 @@ form > div {
     margin: 0 2.5%; /* Add a small margin between columns */
 }
 
+.my-block {
+    display: flex;
+    flex-flow: row wrap;
+    justify-self: center;
+    gap: 1rem;
+}
+
 label {
     font-weight: bold;
-    font-size: 28px; /* Set font size to 28px */
+    font-size: 28px;
+    margin-bottom: 2px;
 }
 label.prepTimeLabel{
     font-size: 20px;
+    align-self: center;
 }
 label.cookTimeLabel{
     font-size: 20px;
+    align-self: center;
 }
 label.servingSizeLabel{
     font-size: 20px;
+    align-self: center;
 }
 
 input[type="text"] {
@@ -50,7 +61,7 @@ input[type="text"] {
     padding: 8px;
     margin-bottom: 10px;
     border: 1px solid #ccc;
-    border-radius: 20px; /* Set border-radius to 20px */
+    border-radius: 2rem;
 }
 
 input.stepTextBox{
@@ -65,86 +76,64 @@ input.ingredientTextBox{
     word-break: break-word;
 }
 
-textarea {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 20px; /* Set border-radius to 20px */
-}
-
-/* button {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 20px;
-} */
-
 input[type="number"] {
     width: 95%;
     padding: 8px;
-    margin-bottom: 10px;
+    margin-bottom: 2px;
     border: 1px solid #ccc;
-    border-radius: 20px; /* Set border-radius to 20px */
+    border-radius: 2rem;
 }
 
 input.prepTime{
-    max-width: 50px;
+    max-width: 5rem;
+    align-self: center;
 }
 
 input.cookTime{
-    max-width: 50px;
+    max-width: 5rem;
+    align-self: center;
 }
 
 input.servingSize{
-    max-width: 50px;
+    max-width: 5rem;
+    align-self: center;
 }
 
 input[type="file"] {
-    /* display: none; */
-    width: 95%;
-    /*cursor: pointer;
-    padding: 8px;
-    margin-bottom: 10px;
-    border-radius: 20px;
-    border-width: 0.2rem;
-    border-style: solid;
-    border-color: #3070BF;
-    /* color: #3070BF; */
-    /* background-color: white; */
-}
-
-.uploadImageSelect {
-    width: 95%;
-    font-size: 18px;
     cursor: pointer;
-    padding: 8px;
-    margin-bottom: 10px;
-    border-radius: 20px;
-    border-width: 0.2rem;
-    border-style: solid;
-    border-color: #3070BF;
-    /* color: #3070BF; */
-    background-color: white;
 }
 
 button {
-    /* padding: 10px 20px; */
     cursor: pointer;
     width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
     border: 1px solid #ccc;
-    border-radius: 20px;
+    border-radius: 2rem;
+}
+
+button[type='submitImage'] {
+        cursor: pointer;
+        width: 100px;
+        padding: 8px;
+        border-radius: 20px;
+        border-width: 0.2rem;
+        border-style: solid;
+        border-color: #3070BF;
+        color: #3070BF;
+        background-color: white;
+}
+
+button[type='submitImage']:hover {
+    cursor: pointer;
+    color: white;
+    background-color: #3070BF;
 }
 
 button.addStepButton {
-    /* max-width: 100%; */
     cursor: pointer;
     width: 100%;
     padding: 8px;
-    /* margin-bottom: 10px; */
     border-radius: 20px;
     border-width: 0.2rem;
     border-style: solid;
@@ -176,11 +165,9 @@ button.removeStepButton:hover {
 }
 
 button.addIngredientButton {
-    /* max-width: 100%; */
     cursor: pointer;
     width: 100%;
     padding: 8px;
-    /* margin-bottom: 10px; */
     border-radius: 20px;
     border-width: 0.2rem;
     border-style: solid;
@@ -211,9 +198,9 @@ button.removeIngredientButton:hover {
     background-color: #768da8;
 }
 
-button[type="submit"] {
+button[type="submitRecipe"] {
     margin-right: 10px;
-    max-width: 70px;
+    max-width: 85px;
     border-radius: 2rem;
     border-width: 0.2rem;
     border-style: solid;
@@ -221,15 +208,16 @@ button[type="submit"] {
     color: #3070BF;
     background-color: white;
     padding: 1rem 2rem 1rem 2rem;
+    justify-self: right;
 }
 
-button[type="submit"]:hover {
+button[type="submitRecipe"]:hover {
     cursor: pointer;
     color: white;
     background-color: #3070BF;
 }
 
-button[type="button"] {
+button[type="cancelButton"] {
     margin-right: 10px;
     max-width: 85px;
     border-radius: 2rem;
@@ -241,7 +229,7 @@ button[type="button"] {
     padding: 1rem 2rem 1rem 2rem;
 }
 
-button[type="button"]:hover {
+button[type="cancelButton"]:hover {
     cursor: pointer;
     color: #dae4f2;
     background-color: #768da8;
