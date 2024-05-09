@@ -30,10 +30,13 @@ export default class extends AbstractView {
 
     // PROFILE SECTION -----------------------------------------------------------------------------------------------------
 
+    // console.log(`token: ${localStorage.getItem('token')}`);
+
     let response = await fetch(`/api/user/getProfileInfo/${this.userID}`, {
       method: "GET",
       mode: "cors",
       headers: {
+        "Authorization": `Bearer ${localStorage.getItem('token')}`,
         "Content-Type": "application/json",
       },
     });
@@ -87,6 +90,7 @@ export default class extends AbstractView {
         method: "GET",
         mode: "cors",
         headers: {
+          "Authorization": `Bearer ${localStorage.getItem('token')}`,
           "Content-Type": "application/json",
         },
       }
@@ -102,6 +106,7 @@ export default class extends AbstractView {
         method: "GET",
         mode: "cors",
         headers: {
+          "Authorization": `Bearer ${localStorage.getItem('token')}`,
           "Content-Type": "application/json",
         },
       }
