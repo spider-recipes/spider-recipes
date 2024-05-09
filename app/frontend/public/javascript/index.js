@@ -23,7 +23,7 @@ window.onload = async () => {
       }
     }).then(res => res.json());
 
-    localStorage.setItem('userId', response.user.user_id);
+    localStorage.setItem('userId', response.userInfo.user_id);
     localStorage.setItem('token', token);
     localStorage.setItem('username', authUser.nickname);
     return;

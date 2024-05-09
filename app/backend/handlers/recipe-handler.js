@@ -15,6 +15,7 @@ router.get('/getRecipes', async (req, res) => {
 })
 
 router.get('/getRecipesExtended', async (req, res) => {
+  // console.log(req.headers)
   const recipesExtended = await RecipeService.getRecipesExtended()
   res.send({ recipesExtended })
 })
@@ -51,7 +52,6 @@ router.put('/deleteRecipe/:recipeId', async (req, res) => {
 
 router.post('/addRecipe', async (req, res) => {
   recipeName = req.body["recipe_name"];
-  console.log(recipeName);
   const newRecipe = await RecipeService.createRecipe(req.body);
   res.send({ newRecipe });
 });

@@ -219,6 +219,9 @@ export default class extends AbstractView {
     // Append to main
     document.getElementById("main-content").replaceChildren(titleSection, cardsSection);
 
+    console.log("token at call", localStorage.getItem('token'));
+    console.log(`Bearer ${localStorage.getItem('token')}`)
+
     const response = await fetch("/api/recipe/getRecipesExtended", {
       method: "GET",
       mode: "cors",
