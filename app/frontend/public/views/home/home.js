@@ -209,12 +209,15 @@ export default class extends AbstractView {
 
     });
 
+    const loader = document.createElement("div");
+    loader.className = "loader";
+
     // Cards container
     const cardsContainer = document.createElement("ul");
     cardsContainer.id = "cards-container";
 
     // Append to card section
-    cardsSection.append(searchBar, filtersDiv, cardsContainer);
+    cardsSection.append(searchBar, filtersDiv, loader, cardsContainer);
 
     // Append to main
     document.getElementById("main-content").replaceChildren(titleSection, cardsSection);
@@ -228,6 +231,7 @@ export default class extends AbstractView {
     });
 
     const data = await response.json();
+    loader.style.display = "none";
     this.allRecipes = data.recipesExtended[0];
     this.currentRecipes = this.allRecipes;
 

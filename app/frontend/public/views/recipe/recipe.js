@@ -13,6 +13,12 @@ export default class extends AbstractView {
   }
 
   async getHtml() {
+    //Display loader
+    const loader = document.createElement("div");
+    loader.className = "loader";
+
+    document.getElementById("main-content").replaceChildren(loader);
+
     let response = await fetch(`/api/recipe/getRecipeExtended/${this.recipeID}`, {
       method: "GET",
       mode: "cors",
@@ -32,6 +38,8 @@ export default class extends AbstractView {
     });
     data = await response.json();
     const reviews = data.reviewsForRecipe[0];
+
+    loader.style.display = "none";
 
     // Title section
     const titleSection = document.createElement("section");
