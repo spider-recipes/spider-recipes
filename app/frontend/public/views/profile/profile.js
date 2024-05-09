@@ -36,7 +36,7 @@ export default class extends AbstractView {
       method: "GET",
       mode: "cors",
       headers: {
-        "Authorization": `Bearer ${localStorage.getItem('token')}`,
+        "Authorization": `${localStorage.getItem('token')}`,
         "Content-Type": "application/json",
       },
     });
@@ -90,7 +90,7 @@ export default class extends AbstractView {
         method: "GET",
         mode: "cors",
         headers: {
-          "Authorization": `Bearer ${localStorage.getItem('token')}`,
+          "Authorization": `${localStorage.getItem('token')}`,
           "Content-Type": "application/json",
         },
       }
@@ -106,7 +106,7 @@ export default class extends AbstractView {
         method: "GET",
         mode: "cors",
         headers: {
-          "Authorization": `Bearer ${localStorage.getItem('token')}`,
+          "Authorization": `${localStorage.getItem('token')}`,
           "Content-Type": "application/json",
         },
       }
@@ -137,14 +137,14 @@ export default class extends AbstractView {
         )
       );
     });
-    
+
     console.log("Second recipe ids:", recipe_ids);
 
     userCreatedRecipesExtended.forEach((recipe) => {
       console.log(recipe);
       if (recipe.recipe_id in recipe_ids) {
         // do nothing
-        
+
       } else {
         console.log("Not this recipe to the list");
         recipe_ids.push(recipe.recipe_id);
@@ -161,7 +161,7 @@ export default class extends AbstractView {
             false
           )
         );
-        
+
       }
     });
 

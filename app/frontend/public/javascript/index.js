@@ -3,100 +3,46 @@ import Recipe from "../views/recipe/recipe.js";
 import Profile from "../views/profile/profile.js";
 import NotFound from "../views/not-found/not-found.js";
 import CreateRecipe from "../views/create-recipe/create-recipe.js";
-const fetchAuthConfig = () => fetch("/auth_config.json");
-
-let auth0Client = null;
 
 window.onload = async () => {
   await configureClient();
-  updateUI();
-  const isAuthenticated = await auth0Client.isAuthenticated();
-  if (isAuthenticated) {
-    const token = await auth0Client.getTokenSilently();
-    const authUser = await auth0Client.getUser();
-    const response = await fetch(`/api/user/getUserInfoByUsername/${authUser.nickname}`, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      }
-    }).then(res => res.json());
-
-    localStorage.setItem('userId', response.userInfo.user_id);
-    localStorage.setItem('token', token);
-    localStorage.setItem('username', authUser.nickname);
-    return;
-  }
-
-  localStorage.setItem('userId', '');
-  localStorage.setItem('token', '');
-  localStorage.setItem('username', '');
-
-  const query = window.location.search;
-  if (query.includes("code=") && query.includes("state=")) {
-
-    await auth0Client.handleRedirectCallback().then(async () => {
-      // Perform actions after successful login, such as refreshing the page
-
-      const isAuthenticated = await auth0Client.isAuthenticated();
-      if (isAuthenticated) {
-        const token = await auth0Client.getTokenSilently();
-        const authUser = await auth0Client.getUser();
-        const response = await fetch("/api/user/createUser", {
-          method: 'PUT',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            username: `${authUser.nickname}`,
-            authToken: token,
-            createdDate: new Date().toISOString() // Convert date to ISO string
-          }),
-        }).then(res => res.json());
-
-        localStorage.setItem('userId', response.user.user_id);
-        localStorage.setItem('token', token);
-        localStorage.setItem('username', authUser.nickname);
-        window.location.reload();
-        console.log("Redirect callback complete");
-        return;
-      }
-
-    }).catch(error => {
-      console.error('Error during redirect callback:', error);
-    });
-    updateUI();
-    // Use replaceState to redirect the user away and remove the querystring parameters
-    window.history.replaceState({}, document.title, "/");
-  }
-
+  await updateUI();
 }
 
 const configureClient = async () => {
-  const response = await fetchAuthConfig();
-  const config = await response.json();
-  auth0Client = await auth0.createAuth0Client({
-    domain: config.domain,
-    clientId: config.clientId,
-    authorizationParams: {
-      audience: config.audience
-    }
-  });
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const paramValue = urlParams.get('code');
+
+  if (paramValue) {
+    const response = await fetch("/api/auth/getJwt", {
+      method: 'GET',
+      headers: {
+        'Token': `${paramValue}`,
+        'Content-Type': 'application/json'
+      }
+    })
+
+    const userDetails = await response.json();
+
+    localStorage.setItem('token', userDetails.token);
+    localStorage.setItem('username', userDetails.username);
+    localStorage.setItem('userId', userDetails.userId);
+    window.location.href = "/";
+  }
 };
 
 const updateUI = async () => {
-  const isAuthenticated = await auth0Client.isAuthenticated();
   const logout = document.getElementById("btn-logout");
   const login = document.getElementById("btn-login");
 
-  if (isAuthenticated) {
-    console.log("isAuthenticated: ", isAuthenticated);
+  if (localStorage.getItem('token') != '') {
+    console.log("isAuthenticated: ", true);
     login.style.display = 'none';
     logout.style.display = 'block';
 
   } else {
-    console.log("isAuthenticated: ", isAuthenticated);
+    console.log("isAuthenticated: ", false);
     login.style.display = 'block';
     logout.style.display = 'none';
   }
@@ -106,28 +52,17 @@ const loginLink = document.getElementById('btn-login');
 const logoutLink = document.getElementById('btn-logout');
 
 loginLink.addEventListener("click", async function (event) {
-  await auth0Client.loginWithRedirect({
-    authorizationParams: {
-      redirect_uri: window.location.origin
-    }
-  });
+  const giturl = 'https://github.com/login/oauth/authorize?client_id=Ov23liSccSMzhCE6OZ1n'
+  window.location.href = giturl;
 });
 
 logoutLink.addEventListener("click", async function (event) {
-  await auth0Client.logout({
-    logoutParams: {
-      returnTo: window.location.origin
-    }
-  });
-});
+  localStorage.setItem('userId', '');
+  localStorage.setItem('token', '');
+  localStorage.setItem('username', '');
 
-async function goToLogin() {
-  await auth0Client.loginWithRedirect({
-    authorizationParams: {
-      redirect_uri: window.location.origin
-    }
-  });
-}
+  window.location.href = "/";
+});
 
 const pathToRegex = path => new RegExp("^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$");
 

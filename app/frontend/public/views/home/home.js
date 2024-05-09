@@ -124,10 +124,9 @@ export default class extends AbstractView {
     favorite.href = `/recipe/${key}`;
     favorite.setAttribute("data-link", "");
     favorite.textContent = "favorite";
-    
+
     this.favRecipes.forEach(fav => {
-      if(fav.recipe_id === key)
-      {
+      if (fav.recipe_id === key) {
         descriptionDiv.append(favorite);
       }
     })
@@ -229,7 +228,7 @@ export default class extends AbstractView {
       method: "GET",
       mode: "cors",
       headers: {
-        "Authorization": `Bearer ${localStorage.getItem('token')}`,
+        "Authorization": `${localStorage.getItem('token')}`,
         "Content-Type": "application/json"
       }
     });
@@ -269,7 +268,7 @@ export default class extends AbstractView {
 
     data = await response.json();
     this.favRecipes = data.userFavouritedRecipes[0];
-    
+
     loader.style.display = "none";
 
     this.allRecipes.forEach(recipe => {
