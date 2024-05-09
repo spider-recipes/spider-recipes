@@ -1,5 +1,5 @@
 {
   "domain": "dev-lbish2wd68s0ugf0.us.auth0.com",
   "clientId": "NYe6J984tTtx0XjaN498ahj7KqeVJK81",
-  "audience": "https://spider-recipes/api"
+  "audience": "https://spider-recipes-hs256/api"
 }
