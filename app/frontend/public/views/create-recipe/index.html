@@ -1,66 +1,56 @@
-<h1>Create Recipe Page</h1>
+<section class="title-section">
+  <h1>Submit your recipes</h1>
+  <p>
+    Whether you've concocted a classic arachnid dish or crafted a unique spin on spider cuisine, this is your canvas to showcase your culinary ingenuity. 
+    Share your recipes, tantalize taste buds, and inspire others to embark on their own culinary adventures.
+  </p>
+</section>
 
-<form id="imageForm">
-  <label for="imageInput">Upload Image:</label>
-  <input id="imageInput" type="file" accept="image/*">
-  <button type="submitImage">Upload</button>
-  <div id="imageContainer">
-    <!-- Image will append here -->
-  </div>
-</form>
-
-<form id="recipeForm" action="#" method="post" enctype="multipart/form-data">
-  <div>
-      <label for="recipeName">Recipe Name:</label>
-      <input type="text" id="recipeName" name="recipeName" required><br><br>
-
-      <div>
-        <label for="addStepContainer">Steps:</label>
-        <div id="addStepContainer">
-        <!-- Textboxes will be appended here dynamically -->
-        </div>
-        <button id="addStepButton" class="addStepButton">Add Step</button><br><br>
-      </div>
-
-      <div class="filters">
-        <br><br>
-        <span>Vegan</span>
-        <span>Sweet</span>
-        <span>Savory</span>
-        <span>Hot</span>
-        <span>Cold</span>
-        <span>Bake</span>
-        <span>Fry</span>
-      </div>
-  </div>
-  <div>
-    <div class="my-block">
-      <label class="prepTimeLabel" for="prepTime">Preparation Time:</label>
-      <input type="number" id="prepTime" class="prepTime" name="prepTime">
-      <p>minutes</p>
+<section class="form-section">
+  <form id="recipe-form">
+    <label for="imageInput">Upload Image</label>
+    <label class="image-input-custom">
+      <input id="image-input" type="file" accept="image/*">
+      Choose image
+    </label>
+    <div id="uploaded-image-container">
+      <img id="image-preview" alt="Uploaded image">
     </div>
 
-    <div class="my-block">
-      <label class="cookTimeLabel" for="cookTime">Cooking Time:</label>
-      <input type="number" id="cookTime" class="cookTime" name="cookTime">
-      <p>minutes</p>
+    <label for="recipeName">Recipe Name</label>
+    <input type="text" id="recipeName" name="recipeName" required>
+
+    <label for="tags">Tags</label>
+    <div id="tags">
+       <!-- Checkboxes will be appended here dynamically -->
     </div>
 
-    <div class="my-block">
-      <label class="servingSizeLabel" for="servingSize">Serving Size:</label> 
-      <input type="number" id="servingSize" class="servingSize" name="servingSize">
-      <p>people</p>
-    </div>
+    <label class="prepTimeLabel" for="prepTime">Preparation Time</label>
+    <input type="number" id="prepTime" name="prepTime" required>
+    <span>minutes</span>
 
-    <div>
-      <label for="addIngredientContainer">Ingredients:</label>
-      <div id="addIngredientContainer">
-        <!-- Textboxes will be appended here dynamically -->
-      </div>
-      <button id="addIngredientButton" class="addIngredientButton">Add Ingredient</button><br><br>
-    </div>
+    <label class="cookTimeLabel" for="cookTime">Cooking Time</label>
+    <input type="number" id="cookTime" class="cookTime" name="cookTime" required>
+    <span>minutes</span>
 
-      <button type="cancelButton" onclick="cancel()">Cancel</button>
-      <button type="submitRecipe">Submit</button>
-  </div>
-</form>
+    <label class="servingSizeLabel" for="servingSize">Serving Size</label> 
+    <input type="number" id="servingSize" class="servingSize" name="servingSize" required>
+    <span>people</span>
+
+    <label for="addIngredientContainer">Ingredients</label>
+    <div id="addIngredientContainer">
+      <input type="text" name="addIngredient" placeholder="Ingredient..." class="ingredientTextBox" required>
+      <!-- Textboxes will be appended here dynamically -->
+    </div>
+    <button id="addIngredientButton" class="addIngredientButton">Add Ingredient</button>
+
+    <label for="addStepContainer">Steps</label>
+    <div id="addStepContainer">
+      <input type="text" name="addStep" placeholder="Step..." class="stepTextBox" required>
+    <!-- Textboxes will be appended here dynamically -->
+    </div>
+    <button id="addStepButton" class="addStepButton">Add Step</button>
+
+    <button type="submitRecipe" id="submitRecipe">Submit</button>
+  </form>
+</section>
