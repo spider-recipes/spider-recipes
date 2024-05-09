@@ -15,12 +15,15 @@ export default class extends AbstractView {
     const html = await response.text();
     document.getElementById("main-content").innerHTML = html;
   }
-
+  
   async initScripts() {
     const imageForm = document.querySelector("#imageForm");
     const imageInput = document.querySelector("#imageInput");
 
-    imageForm.addEventListener("submit", async event => {
+    const recipeForm = document.querySelector("#recipeForm");
+    // const recipeInput = document.querySelector("#recipeInput");
+
+    imageForm.addEventListener("submitImage", async event => {
       event.preventDefault();
       const file = imageInput.files[0];
 
@@ -43,7 +46,67 @@ export default class extends AbstractView {
 
       const img = document.createElement("img");
       img.src = imageUrl;
-      document.body.appendChild(img);
+      img.alt = 'PLACEHOLDER';
+      document.getElementById('imageContainer').appendChild(img);
+    });
+
+    recipeForm.addEventListener("submitRecipe", async event => {
+      //get form info
+      //call api
+    });
+
+    document.getElementById("addStepButton").addEventListener("click", (e) => {
+      e.preventDefault();
+      // Create a new input element
+      var textBox = document.createElement('input');
+      textBox.type = "text";
+      textBox.name = "addStep";
+      textBox.placeholder = "Step...";
+      textBox.className = "stepTextBox";
+
+      // Create a button to remove the textbox
+      var removeButton = document.createElement("button");
+      removeButton.textContent = "Remove";
+      removeButton.className = "removeStepButton";
+      removeButton.onclick = function() {
+        textBox.remove();
+        removeButton.remove();
+    };
+
+      // Create a div to contain the textbox and the remove button
+      var container = document.createElement("div");
+      container.appendChild(textBox);
+      container.appendChild(removeButton);
+
+      // Append the new input element to the container
+      document.getElementById("addStepContainer").appendChild(container);
+    });
+
+    document.getElementById("addIngredientButton").addEventListener("click", (e) => {
+      e.preventDefault();
+      // Create a new input element
+      var textBox = document.createElement('input');
+      textBox.type = "text";
+      textBox.name = "addIngredient";
+      textBox.placeholder = "Ingredient...";
+      textBox.className = "ingredientTextBox";
+
+      // Create a button to remove the textbox
+      var removeButton = document.createElement("button");
+      removeButton.textContent = "Remove";
+      removeButton.className = "removeStepButton";
+      removeButton.onclick = function() {
+        textBox.remove();
+        removeButton.remove();
+    };
+
+      // Create a div to contain the textbox and the remove button
+      var container = document.createElement("div");
+      container.appendChild(textBox);
+      container.appendChild(removeButton);
+
+      // Append the new input element to the container
+      document.getElementById("addIngredientContainer").appendChild(container);
     });
   }
 }

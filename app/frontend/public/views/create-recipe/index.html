@@ -1,6 +1,66 @@
 <h1>Create Recipe Page</h1>
 
 <form id="imageForm">
+  <label for="imageInput">Upload Image:</label>
   <input id="imageInput" type="file" accept="image/*">
-  <button type="submit">Upload</button>
+  <button type="submitImage">Upload</button>
+  <div id="imageContainer">
+    <!-- Image will append here -->
+  </div>
+</form>
+
+<form id="recipeForm" action="#" method="post" enctype="multipart/form-data">
+  <div>
+      <label for="recipeName">Recipe Name:</label>
+      <input type="text" id="recipeName" name="recipeName" required><br><br>
+
+      <div>
+        <label for="addStepContainer">Steps:</label>
+        <div id="addStepContainer">
+        <!-- Textboxes will be appended here dynamically -->
+        </div>
+        <button id="addStepButton" class="addStepButton">Add Step</button><br><br>
+      </div>
+
+      <div class="filters">
+        <br><br>
+        <span>Vegan</span>
+        <span>Sweet</span>
+        <span>Savory</span>
+        <span>Hot</span>
+        <span>Cold</span>
+        <span>Bake</span>
+        <span>Fry</span>
+      </div>
+  </div>
+  <div>
+    <div class="my-block">
+      <label class="prepTimeLabel" for="prepTime">Preparation Time:</label>
+      <input type="number" id="prepTime" class="prepTime" name="prepTime">
+      <p>minutes</p>
+    </div>
+
+    <div class="my-block">
+      <label class="cookTimeLabel" for="cookTime">Cooking Time:</label>
+      <input type="number" id="cookTime" class="cookTime" name="cookTime">
+      <p>minutes</p>
+    </div>
+
+    <div class="my-block">
+      <label class="servingSizeLabel" for="servingSize">Serving Size:</label> 
+      <input type="number" id="servingSize" class="servingSize" name="servingSize">
+      <p>people</p>
+    </div>
+
+    <div>
+      <label for="addIngredientContainer">Ingredients:</label>
+      <div id="addIngredientContainer">
+        <!-- Textboxes will be appended here dynamically -->
+      </div>
+      <button id="addIngredientButton" class="addIngredientButton">Add Ingredient</button><br><br>
+    </div>
+
+      <button type="cancelButton" onclick="cancel()">Cancel</button>
+      <button type="submitRecipe">Submit</button>
+  </div>
 </form>

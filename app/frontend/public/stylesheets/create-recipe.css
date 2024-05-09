@@ -1,0 +1,236 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    text-align: center;
+}
+
+p {
+    font-size: 16px;
+    align-self: auto;
+}
+
+form {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* Divide form into two columns */
+form > div {
+    width: 45%; /* Each column takes up 45% of the form width */
+    margin: 0 2.5%; /* Add a small margin between columns */
+}
+
+.my-block {
+    display: flex;
+    flex-flow: row wrap;
+    justify-self: center;
+    gap: 1rem;
+}
+
+label {
+    font-weight: bold;
+    font-size: 28px;
+    margin-bottom: 2px;
+}
+label.prepTimeLabel{
+    font-size: 20px;
+    align-self: center;
+}
+label.cookTimeLabel{
+    font-size: 20px;
+    align-self: center;
+}
+label.servingSizeLabel{
+    font-size: 20px;
+    align-self: center;
+}
+
+input[type="text"] {
+    width: 95%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 2rem;
+}
+
+input.stepTextBox{
+    width: 72%;
+    margin-right: 5px;
+    word-break: break-word;
+}
+
+input.ingredientTextBox{
+    width: 72%;
+    margin-right: 5px;
+    word-break: break-word;
+}
+
+input[type="number"] {
+    width: 95%;
+    padding: 8px;
+    margin-bottom: 2px;
+    border: 1px solid #ccc;
+    border-radius: 2rem;
+}
+
+input.prepTime{
+    max-width: 5rem;
+    align-self: center;
+}
+
+input.cookTime{
+    max-width: 5rem;
+    align-self: center;
+}
+
+input.servingSize{
+    max-width: 5rem;
+    align-self: center;
+}
+
+input[type="file"] {
+    cursor: pointer;
+}
+
+button {
+    cursor: pointer;
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 2rem;
+}
+
+button[type='submitImage'] {
+        cursor: pointer;
+        width: 100px;
+        padding: 8px;
+        border-radius: 20px;
+        border-width: 0.2rem;
+        border-style: solid;
+        border-color: #3070BF;
+        color: #3070BF;
+        background-color: white;
+}
+
+button[type='submitImage']:hover {
+    cursor: pointer;
+    color: white;
+    background-color: #3070BF;
+}
+
+button.addStepButton {
+    cursor: pointer;
+    width: 100%;
+    padding: 8px;
+    border-radius: 20px;
+    border-width: 0.2rem;
+    border-style: solid;
+    border-color: #3070BF;
+    color: #3070BF;
+    background-color: white;
+}
+
+button.addStepButton:hover {
+    cursor: pointer;
+    color: white;
+    background-color: #3070BF;
+}
+
+button.removeStepButton {
+    width: 75px;
+    border-width: 0.2rem;
+    border-style: solid;
+    border-color: #768da8;    
+    background-color: #dae4f2;
+    color: #768da8;
+}
+
+button.removeStepButton:hover {
+    width: 75px;
+    cursor: pointer;
+    color: #dae4f2;
+    background-color: #768da8;
+}
+
+button.addIngredientButton {
+    cursor: pointer;
+    width: 100%;
+    padding: 8px;
+    border-radius: 20px;
+    border-width: 0.2rem;
+    border-style: solid;
+    border-color: #3070BF;
+    color: #3070BF;
+    background-color: white;
+}
+
+button.addIngredientButton:hover {
+    cursor: pointer;
+    color: white;
+    background-color: #3070BF;
+}
+
+button.removeIngredientButton {
+    width: 75px;
+    border-width: 0.2rem;
+    border-style: solid;
+    border-color: #768da8;    
+    background-color: #dae4f2;
+    color: #768da8;
+}
+
+button.removeIngredientButton:hover {
+    width: 75px;
+    cursor: pointer;
+    color: #dae4f2;
+    background-color: #768da8;
+}
+
+button[type="submitRecipe"] {
+    margin-right: 10px;
+    max-width: 85px;
+    border-radius: 2rem;
+    border-width: 0.2rem;
+    border-style: solid;
+    border-color: #3070BF;
+    color: #3070BF;
+    background-color: white;
+    padding: 1rem 2rem 1rem 2rem;
+    justify-self: right;
+}
+
+button[type="submitRecipe"]:hover {
+    cursor: pointer;
+    color: white;
+    background-color: #3070BF;
+}
+
+button[type="cancelButton"] {
+    margin-right: 10px;
+    max-width: 85px;
+    border-radius: 2rem;
+    border-width: 0.2rem;
+    border-style: solid;
+    border-color: #768da8;    
+    background-color: #dae4f2;
+    color: #768da8;
+    padding: 1rem 2rem 1rem 2rem;
+}
+
+button[type="cancelButton"]:hover {
+    cursor: pointer;
+    color: #dae4f2;
+    background-color: #768da8;
+}
