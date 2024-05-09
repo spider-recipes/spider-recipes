@@ -43,7 +43,6 @@ jobs:
           echo "BASEURL"=${{ secrets.BASEURL}} >> .env
           echo "CLIENTID"=${{ secrets.CLIENTID}} >> .env
           echo "ISSUER"=${{ secrets.ISSUER}} >> .env
-          echo "AUTHREQUIRED"=true >> .env
           echo "CLIENTSECRET"=${{ secrets.CLIENTSECRET}} >> .env
 
     - name: Package artifact

@@ -18,7 +18,7 @@ router.get('/getRating/:recipeId', async (req, res) => {
   res.send({ rating });
 });
 
-router.post('/addReview', async (req, res) => {
+router.post('/addReview', jwtCheck, async (req, res) => {
   review_rating = req.body["review_rating"];
   console.log(review_rating);
   const newReview = await ReviewService.createReview(req.body);
