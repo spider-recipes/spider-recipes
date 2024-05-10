@@ -84,7 +84,7 @@ export default class extends AbstractView {
     const joinDateSpan = document.createElement("div");
     joinDateSpan.className = "p1";
     console.log(profileInfo[0].created_date);
-    joinDateSpan.textContent = profileInfo[0].created_date;
+    joinDateSpan.textContent = profileInfo[0].created_date.substr(0,10);
 
     joinDateHeading.append(joinDateHeadingName, joinDateSpan);
 
