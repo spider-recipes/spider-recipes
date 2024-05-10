@@ -43,7 +43,7 @@ export default class extends AbstractView {
     const reviews = data.reviewsForRecipe[0];
 
 
-    if (localStorage.getItem("userId") !== "") {
+    if (localStorage.getItem("userId") !== "" && localStorage.getItem("userId") !== null) {
       response = await fetch(`/api/recipe/getFavouritedRecipes/${localStorage.getItem("userId")}`, {
         method: "GET",
         mode: "cors",
@@ -242,7 +242,7 @@ export default class extends AbstractView {
     });
 
     // Append to recipe section
-    if (localStorage.getItem("userId") === "") {
+    if (localStorage.getItem("userId") === "" || localStorage.getItem("userId") === null) {
       recipeSection.append(recipeImgContainer, tagsDiv, recipeInfo, recipeIngredients, recipeSteps);
     }
     else {
@@ -383,7 +383,7 @@ export default class extends AbstractView {
     });
 
     // Append to review section
-    if (localStorage.getItem("userId") === "") {
+    if (localStorage.getItem("userId") === "" || localStorage.getItem("userId") === null) {
       reviewSection.append(reviewHeading, recipeReviews);
     }
     else {
