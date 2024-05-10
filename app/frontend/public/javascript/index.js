@@ -38,7 +38,7 @@ const updateUI = async () => {
   const profile = document.getElementById("btn-profile");
   const create_recipe = document.getElementById("btn-create-recipe");
 
-  if (localStorage.getItem('token') != '') {
+  if (localStorage.getItem('token') !== '' && localStorage.getItem('token') !== null) {
     console.log("isAuthenticated: ", true);
     login.style.display = 'none';
     logout.style.display = 'block';

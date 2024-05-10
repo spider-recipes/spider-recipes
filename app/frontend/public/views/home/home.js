@@ -256,7 +256,7 @@ export default class extends AbstractView {
     this.allRecipes = data.recipesExtended[0];
     this.currentRecipes = this.allRecipes;
 
-    if (localStorage.getItem("userId") !== "") {
+    if (localStorage.getItem("userId") !== "" && localStorage.getItem("userId") !== null) {
       response = await fetch(`/api/recipe/getFavouritedRecipes/${localStorage.getItem("userId")}`, {
         method: "GET",
         mode: "cors",

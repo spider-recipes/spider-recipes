@@ -1,7 +1,8 @@
 <section class="title-section">
   <h1>Submit your recipes</h1>
   <p>
-    Whether you've concocted a classic arachnid dish or crafted a unique spin on spider cuisine, this is your canvas to showcase your culinary ingenuity. 
+    Whether you've concocted a classic arachnid dish or crafted a unique spin on spider cuisine, this is your canvas to
+    showcase your culinary ingenuity.
     Share your recipes, tantalize taste buds, and inspire others to embark on their own culinary adventures.
   </p>
 </section>
@@ -18,11 +19,11 @@
     </div>
 
     <label for="recipeName">Recipe Name</label>
-    <input type="text" id="recipeName" name="recipeName" required>
+    <input type="text" id="recipeName" name="recipeName" maxlength="250" required>
 
     <label for="tags">Tags</label>
     <div id="tags">
-       <!-- Checkboxes will be appended here dynamically -->
+      <!-- Checkboxes will be appended here dynamically -->
     </div>
 
     <label class="prepTimeLabel" for="prepTime">Preparation Time</label>
@@ -33,7 +34,7 @@
     <input type="number" id="cookTime" class="cookTime" name="cookTime" required>
     <span>minutes</span>
 
-    <label class="servingSizeLabel" for="servingSize">Serving Size</label> 
+    <label class="servingSizeLabel" for="servingSize">Serving Size</label>
     <input type="number" id="servingSize" class="servingSize" name="servingSize" required>
     <span>people</span>
 
@@ -47,7 +48,7 @@
     <label for="addStepContainer">Steps</label>
     <div id="addStepContainer">
       <input type="text" name="addStep" placeholder="Step..." class="stepTextBox" required>
-    <!-- Textboxes will be appended here dynamically -->
+      <!-- Textboxes will be appended here dynamically -->
     </div>
     <button id="addStepButton" class="addStepButton">Add Step</button>
 
