@@ -37,20 +37,18 @@ export default class extends AbstractView {
     const imageInput = document.getElementById("image-input");
     imageInput.addEventListener("change", () => {
       const file = imageInput.files;
-      if(file)
-      {
+      if (file) {
         const fileReader = new FileReader();
         const preview = document.getElementById("image-preview");
         fileReader.onload = event => {
           preview.setAttribute("src", event.target.result);
         }
         fileReader.readAsDataURL(file[0]);
-        
+
         //document.getElementById("image-form").appendChild(uploadButton);
       }
-      else
-      {
-       // document.getElementById("image-form").removeChild(uploadButton);
+      else {
+        // document.getElementById("image-form").removeChild(uploadButton);
       }
     });
 
@@ -99,7 +97,7 @@ export default class extends AbstractView {
 
       document.getElementById("tags").append(container);
     });
-    
+
     // Add ingredients dynamically
     document.getElementById("addIngredientButton").addEventListener("click", (e) => {
       e.preventDefault();
@@ -185,12 +183,10 @@ export default class extends AbstractView {
         },
         body: JSON.stringify(request)
       });
-
-      console.log(request);
       this.getHtml();
     });
   }
-  
+
   async initScripts() {
   }
 }

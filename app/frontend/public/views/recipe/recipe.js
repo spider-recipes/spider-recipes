@@ -313,18 +313,25 @@ export default class extends AbstractView {
         recipe_id: this.recipeID
       }
 
-      await fetch(`/api/review/addReview`, {
-        method: "POST",
-        mode: "cors",
-        headers: {
-          "Authorization": `${localStorage.getItem('token')}`,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(request)
-      });
+      if (request.review_message !== "") {
+        await fetch(`/api/review/addReview`, {
+          method: "POST",
+          mode: "cors",
+          headers: {
+            "Authorization": `${localStorage.getItem('token')}`,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(request)
+        });
 
-      this.getHtml();
+        this.getHtml();
+      } else {
+        window.alert("Please enter a review message");
+      }
+
     });
+
+
 
 
     // Recipe reviews

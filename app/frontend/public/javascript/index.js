@@ -35,16 +35,22 @@ const configureClient = async () => {
 const updateUI = async () => {
   const logout = document.getElementById("btn-logout");
   const login = document.getElementById("btn-login");
+  const profile = document.getElementById("btn-profile");
+  const create_recipe = document.getElementById("btn-create-recipe");
 
   if (localStorage.getItem('token') != '') {
     console.log("isAuthenticated: ", true);
     login.style.display = 'none';
     logout.style.display = 'block';
+    profile.style.display = 'block';
+    create_recipe.style.display = 'block';
 
   } else {
     console.log("isAuthenticated: ", false);
     login.style.display = 'block';
     logout.style.display = 'none';
+    profile.style.display = 'none';
+    create_recipe.style.display = 'none';
   }
 };
 
