@@ -107,14 +107,14 @@ export default class extends AbstractView {
     // Rating
     const starsFilled = document.createElement("span");
     starsFilled.className = "icon";
-    for (let i = 0; i < rating; i++) {
-      starsFilled.innerHTML += "star ";
+    for (let i = 0; i < parseInt(rating); i++) {
+      starsFilled.textContent += "star ";
     }
 
     const starsEmpty = document.createElement("span");
     starsEmpty.className = "icon";
-    for (let i = rating; i < 5; i++) {
-      starsEmpty.innerHTML += "star ";
+    for (let i = parseInt(rating); i < 5; i++) {
+      starsEmpty.textContent += "star ";
     }
     descriptionDiv.append(starsFilled, starsEmpty);
 
