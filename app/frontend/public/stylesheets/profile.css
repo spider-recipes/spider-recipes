@@ -61,20 +61,11 @@
   padding: 0 2rem 0 0;
 }
 
-@media only screen and (min-width: 70rem) {
+@media only screen and (min-width: 85rem) {
 
   .grid-container {
     /* margin: 0 auto; */
     /* max-width: 104rem; */
-    margin: 0 12rem 1rem 12rem;
-  }
-}
-
-
-@media only screen and (min-width: 40rem) {
-  .grid-container {
-    /* margin: 0 auto; */
-    /* max-width: 104rem; */
-    margin: 0 auto 1rem auto;
+    margin: 0 15rem 1rem;
   }
 }
