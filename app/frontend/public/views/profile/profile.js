@@ -15,6 +15,12 @@ export default class extends AbstractView {
   }
 
   async getHtml() {
+    //Start loader
+    const loader = document.createElement("div");
+    loader.className = "loader";
+
+    document.getElementById("main-content").replaceChildren(loader);
+
     // TITLE SECTION -----------------------------------------------------------------------------------------------------
     const titleSection = document.createElement("section");
     titleSection.className = "title-section";
@@ -114,6 +120,8 @@ export default class extends AbstractView {
     data = await response.json();
     const userCreatedRecipesExtended = data.userCreatedRecipeExtendedById[0];
     console.log(userCreatedRecipesExtended);
+
+    loader.style.display = "none";
 
     const cardsContainer = document.createElement("ul");
     cardsContainer.id = "cards-container";

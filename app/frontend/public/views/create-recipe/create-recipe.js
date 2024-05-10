@@ -187,6 +187,7 @@ export default class extends AbstractView {
       });
 
       console.log(request);
+      this.getHtml();
     });
   }
   
