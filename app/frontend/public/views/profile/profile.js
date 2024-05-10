@@ -48,7 +48,6 @@ export default class extends AbstractView {
     });
     let data = await response.json();
     const profileInfo = data.profileInfo[0];
-    console.log(profileInfo);
 
     const profileSection = document.createElement("section");
     profileSection.className = "profile-section";
@@ -67,7 +66,6 @@ export default class extends AbstractView {
     // Username span
     const usernameSpan = document.createElement("div");
     usernameSpan.className = "p1";
-    console.log(profileInfo[0].username);
     usernameSpan.textContent = profileInfo[0].username;
 
     usernameHeading.append(profileHeadingName, usernameSpan);
@@ -83,8 +81,7 @@ export default class extends AbstractView {
     // Join date span
     const joinDateSpan = document.createElement("div");
     joinDateSpan.className = "p1";
-    console.log(profileInfo[0].created_date);
-    joinDateSpan.textContent = profileInfo[0].created_date.substr(0,10);
+    joinDateSpan.textContent = profileInfo[0].created_date.substr(0, 10);
 
     joinDateHeading.append(joinDateHeadingName, joinDateSpan);
 
@@ -105,7 +102,6 @@ export default class extends AbstractView {
     );
     data = await response.json();
     const favouritedRecipesExtended = data.userFavouritedRecipesExtended[0];
-    console.log(favouritedRecipesExtended);
 
     // Get userCreatedRecipesExtended
     response = await fetch(
@@ -121,7 +117,6 @@ export default class extends AbstractView {
     );
     data = await response.json();
     const userCreatedRecipesExtended = data.userCreatedRecipeExtendedById[0];
-    console.log(userCreatedRecipesExtended);
 
     loader.style.display = "none";
 
@@ -129,11 +124,8 @@ export default class extends AbstractView {
     cardsContainer.id = "cards-container";
     let recipe_ids = [];
 
-    console.log("First recipe ids:", recipe_ids);
-
     favouritedRecipesExtended.forEach((recipe) => {
       recipe_ids.push(recipe.recipe_id);
-      console.log("fav recipe:", recipe);
       cardsContainer.appendChild(
         makeCard(
           recipe.recipe_image,
@@ -148,15 +140,11 @@ export default class extends AbstractView {
       );
     });
 
-    console.log("Second recipe ids:", recipe_ids);
-
     userCreatedRecipesExtended.forEach((recipe) => {
-      console.log(recipe);
       if (recipe.recipe_id in recipe_ids) {
         // do nothing
 
       } else {
-        console.log("Not this recipe to the list");
         recipe_ids.push(recipe.recipe_id);
 
         cardsContainer.appendChild(

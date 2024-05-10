@@ -25,6 +25,8 @@ router.get('/getJwt', async (req, res) => {
 
   const user = await userResponse.json();
   const username = user.login;
+
+  //ignore this
   const rawBytes = await randomBytes(16)
   const obseleteToken = rawBytes.toString('hex')
 

@@ -86,8 +86,13 @@ nav li a:hover {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .hidden {
@@ -146,4 +151,9 @@ footer {
 label {
   margin-bottom: 1rem;
   display: block;
+}
+
+#btn-login:hover,
+#btn-logout:hover {
+  cursor: pointer;
 }

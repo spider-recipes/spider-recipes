@@ -35,13 +35,6 @@ app.use('/api/user', userRouter);
 app.use('/api/review', reviewRouter);
 app.use('/api/auth', authRouter);
 
-// Endpoint to serve the configuration file
-app.get("/auth_config.json", (req, res) => {
-  console.log("Sending auth_config.json");
-  console.log(join(__dirname, "auth_config.json"));
-  res.sendFile(join(__dirname, "auth_config.json"));
-});
-
 app.get("/api/recipes", (request, response) => {
 
 });
