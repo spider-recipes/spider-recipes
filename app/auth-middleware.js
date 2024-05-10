@@ -7,7 +7,7 @@ function jwtCheck(req, res, next) {
   if (!token) return res.status(401).json({ error: 'Access denied' });
   try {
     const decoded = jwtGen.verify(token, process.env.JWT_SECRET);
-    req.userName = decoded.username;
+    req.username = decoded.username;
     req.userId = decoded.userId;
     next();
   } catch (error) {

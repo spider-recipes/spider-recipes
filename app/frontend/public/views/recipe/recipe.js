@@ -42,16 +42,23 @@ export default class extends AbstractView {
     data = await response.json();
     const reviews = data.reviewsForRecipe[0];
 
-    response = await fetch(`/api/recipe/getFavouritedRecipes/${localStorage.getItem("userId") === "" ? 0 : localStorage.getItem("userId")}`, {
-      method: "GET",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    });
 
-    data = await response.json();
-    this.favRecipes = data.userFavouritedRecipes[0];
+    if (localStorage.getItem("userId") !== "") {
+      response = await fetch(`/api/recipe/getFavouritedRecipes/${localStorage.getItem("userId")}`, {
+        method: "GET",
+        mode: "cors",
+        headers: {
+          "Authorization": `${localStorage.getItem('token')}`,
+          "Content-Type": "application/json"
+        }
+      });
+
+      data = await response.json();
+      this.favRecipes = data.userFavouritedRecipes[0];
+    }
+    else {
+      this.favRecipes = [];
+    }
 
     loader.style.display = "none";
 

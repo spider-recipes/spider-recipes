@@ -9,17 +9,17 @@ router.get('/getUsers', async (req, res) => {
 });
 
 router.get('/getUserInfo/:userId', async (req, res) => {
-  const userInfo = await UserService.getUserInfo(req.params.userId);
+  const userInfo = await UserService.getUserInfo(req.userId);
   res.send({ userInfo });
 });
 
 router.get('/getUserInfoByUsername/:username', jwtCheck, async (req, res) => {
-  const userInfo = await UserService.getUserInfoByUserName(req.params.username);
+  const userInfo = await UserService.getUserInfoByUserName(req.username);
   res.send({ userInfo });
 });
 
 router.get('/getProfileInfo/:userId', jwtCheck, async (req, res) => {
-  const profileInfo = await UserService.getProfileInfo(req.params.userId);
+  const profileInfo = await UserService.getProfileInfo(req.userId);
   res.send({ profileInfo });
 });
 

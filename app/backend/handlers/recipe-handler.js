@@ -24,13 +24,13 @@ router.get('/getRecipe/:recipeId', async (req, res) => {
   res.send({ recipeById })
 })
 
-router.get('/getFavouritedRecipes/:userId', async (req, res) => {
-  const userFavouritedRecipes = await RecipeService.getUserFavouritedRecipes(req.params.userId)
+router.get('/getFavouritedRecipes/:userId', jwtCheck, async (req, res) => {
+  const userFavouritedRecipes = await RecipeService.getUserFavouritedRecipes(req.userId)
   res.send({ userFavouritedRecipes })
 })
 
-router.get('/getFavouritedRecipesExtended/:userId', async (req, res) => {
-  const userFavouritedRecipesExtended = await RecipeService.getUserFavouritedRecipesExtended(req.params.userId)
+router.get('/getFavouritedRecipesExtended/:userId', jwtCheck, async (req, res) => {
+  const userFavouritedRecipesExtended = await RecipeService.getUserFavouritedRecipesExtended(req.userId)
   res.send({ userFavouritedRecipesExtended })
 })
 
@@ -39,8 +39,8 @@ router.get('/getRecipeExtended/:recipeId', async (req, res) => {
   res.send({ recipeExtendedById })
 })
 
-router.get('/getUserCreatedRecipeExtended/:userId', async (req, res) => {
-  const userCreatedRecipeExtendedById = await RecipeService.getUserCreatedRecipeExtendedById(req.params.userId)
+router.get('/getUserCreatedRecipeExtended/:userId', jwtCheck, async (req, res) => {
+  const userCreatedRecipeExtendedById = await RecipeService.getUserCreatedRecipeExtendedById(req.userId)
   res.send({ userCreatedRecipeExtendedById })
 })
 
@@ -50,23 +50,23 @@ router.get('/getRecipesByTags', async (req, res) => {
 });
 
 router.put('/deleteRecipe/:recipeId', jwtCheck, async (req, res) => {
-  const deletedRecipe = await RecipeService.deleteRecipe(req.params.recipeId);
+  const deletedRecipe = await RecipeService.deleteRecipe(req.params.recipeId, req.userId);
   res.send({ deletedRecipe });
 });
 
 router.post('/addRecipe', jwtCheck, async (req, res) => {
   recipeName = req.body["recipe_name"];
-  const newRecipe = await RecipeService.createRecipe(req.body);
+  const newRecipe = await RecipeService.createRecipe(req.body, req.userId);
   res.send({ newRecipe });
 });
 
 router.post('/addFavourite', jwtCheck, async (req, res) => {
-  const newFavourite = await RecipeService.createFavouriteForRecipe(req.body);
+  const newFavourite = await RecipeService.createFavouriteForRecipe(req.body, req.userId);
   res.send({ newFavourite });
 });
 
 router.delete('/removeFavourite', jwtCheck, async (req, res) => {
-  const deleteFavourite = await RecipeService.deleteFavourite(req.body);
+  const deleteFavourite = await RecipeService.deleteFavourite(req.body, req.userId);
   res.send({ deleteFavourite });
 });
 

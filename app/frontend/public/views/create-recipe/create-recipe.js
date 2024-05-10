@@ -15,6 +15,7 @@ export default class extends AbstractView {
     const html = await response.text();
 
     document.getElementById("main-content").innerHTML = html;
+    document.getElementById("submitRecipe").disabled = false;
 
     response = await fetch("/api/tag/getTags", {
       method: "GET",
@@ -131,6 +132,7 @@ export default class extends AbstractView {
 
     recipeForm.addEventListener("submit", async event => {
       event.preventDefault();
+      document.getElementById("submitRecipe").disabled = true;
       const file = imageInput.files[0];
 
       // get secure url from our server
@@ -181,7 +183,12 @@ export default class extends AbstractView {
           "Authorization": `${localStorage.getItem('token')}`,
           "Content-Type": "application/json"
         },
+
         body: JSON.stringify(request)
+      }).then(res => {
+        if (res.status === 200) {
+          window.alert("Recipe submitted");
+        }
       });
       this.getHtml();
     });

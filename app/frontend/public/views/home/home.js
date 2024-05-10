@@ -256,16 +256,22 @@ export default class extends AbstractView {
     this.allRecipes = data.recipesExtended[0];
     this.currentRecipes = this.allRecipes;
 
-    response = await fetch(`/api/recipe/getFavouritedRecipes/${localStorage.getItem("userId") === "" ? 0 : localStorage.getItem("userId")}`, {
-      method: "GET",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    });
+    if (localStorage.getItem("userId") !== "") {
+      response = await fetch(`/api/recipe/getFavouritedRecipes/${localStorage.getItem("userId")}`, {
+        method: "GET",
+        mode: "cors",
+        headers: {
+          "Authorization": `${localStorage.getItem('token')}`,
+          "Content-Type": "application/json"
+        }
+      });
 
-    data = await response.json();
-    this.favRecipes = data.userFavouritedRecipes[0];
+      data = await response.json();
+      this.favRecipes = data.userFavouritedRecipes[0];
+    }
+    else {
+      this.favRecipes = [];
+    }
 
     loader.style.display = "none";
 

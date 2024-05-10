@@ -87,7 +87,7 @@ const router = async () => {
     { path: "/", view: Home },
     { path: "/recipe/:id", view: Recipe },
     { path: "/profile", view: Profile },
-    { path: "/create-recipe", view: CreateRecipe },
+    { path: "/create-recipe", view: localStorage.getItem('token') === '' ? Home : CreateRecipe },
   ];
 
   const viewMatches = routes.map(route => {
