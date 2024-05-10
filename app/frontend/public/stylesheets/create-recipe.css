@@ -1,0 +1,120 @@
+.form-section {
+  background-color: #F5F7FA;
+  padding: 6.4rem 3.2rem 6.4rem 3.2rem;
+  box-shadow: inset 0 0.1rem 0.4rem 0 rgba(0, 0, 0, 0.1);
+  min-height: 50vh;
+}
+
+form {
+  max-width: 68rem;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 2rem;
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
+}
+
+form label {
+  font-weight: bold;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.image-input-custom {
+  font-size: 1rem;
+  font-weight: normal;
+  border-style: solid;
+  border-color: #3070BF;
+  border-radius: 1rem;
+  border-width: 0.2rem;
+  display: inline-block;
+  padding: 0.5rem;
+  color: white;
+  background-color: #3070BF;
+}
+
+.image-input-custom:hover {
+  cursor: pointer;
+}
+
+#uploaded-image-container {
+  margin-bottom: 1rem;
+}
+
+input[type="text"] {
+  width: calc(100% - 1.6rem);
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+  border: 0.1rem solid #ccc;
+  border-radius: 1rem;
+}
+
+button {
+  font-size: 1rem;
+  font-weight: normal;
+  border-style: solid;
+  border-color: #3070BF;
+  border-radius: 1rem;
+  border-width: 0.2rem;
+  display: inline-block;
+  padding: 0.5rem;
+  color: white;
+  background-color: #3070BF;
+  margin-bottom: 1rem;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+.stepTextBox, .ingredientTextBox {
+  width: calc(90% - 1.6rem) !important;
+  margin-right: 1rem;
+}
+
+.removeStepButton {
+  font-weight: bold;
+  font-size: 2rem;
+  color: #E1306C;
+}
+
+.removeStepButton:hover {
+  cursor: pointer;
+}
+
+.checkbox-label {
+  display: inline-block;
+  font-weight: normal;
+  font-size: 1rem;
+}
+
+input[type="number"] {
+  width: 5rem;
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+  border: 0.1rem solid #ccc;
+  border-radius: 1rem;
+}
+
+button[type='submitRecipe'] {
+  display: block;
+  font-size: 1rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  border-width: 0.2rem;
+  border-style: solid;
+  border-color: #3070BF;
+  color: #3070BF;
+  background-color: white;
+  width: fit-content;
+  margin: 2rem 0;
+}
+
+button[type='submitRecipe']:hover {
+  cursor: pointer;
+  color: white;
+  background-color: #3070BF;
+}

@@ -26,7 +26,6 @@ VALUES
 ('Spider cake', 'Cake batter;Black and red food colouring', 'Add half of cake batter to baking dish and decorate with black and red food colouring to resemble a spider.;Add the other half of the batter and cook until set.;Allow to cool before slicing.', 10, 35, 5, 'image_link2', GETDATE(), 1),
 ('Spider sugar webs', 'White sugar;Water', 'Heat sugar and water until it reaches 80 degrees celsius.;With a toothpick, dip into the mixture and pull strands out. Lay them on a piece of baking paper and let cool.;Once cooled, make into spiderweb shape and enjoy.', 2, 15, 2, 'image_link3', GETDATE(), 5);
 
-
 -- Insert into FavouritedRecipes table
 INSERT INTO FavouritedRecipes (user_id, recipe_id)
 VALUES 
