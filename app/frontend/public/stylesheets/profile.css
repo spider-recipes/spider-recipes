@@ -61,24 +61,11 @@
   padding: 0 2rem 0 0;
 }
 
-@media only screen and (min-width: 83rem) {
-  /* .profile-section {
-    max-width: 102.4rem;
-    padding: 9.6rem 4.3rem 0 4.3rem;
-  } */
+@media only screen and (min-width: 85rem) {
 
   .grid-container {
     /* margin: 0 auto; */
     /* max-width: 104rem; */
-    margin: 0 8rem 1rem 8rem;
+    margin: 0 15rem 1rem;
   }
-
-  /* 
-  .profile-heading-left {
-    padding: 0 9rem 0 9rem;
-  }
-
-  .profile-date-right {
-    padding: 0 9rem 0 9rem;
-  } */
 }
