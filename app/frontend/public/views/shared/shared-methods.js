@@ -82,6 +82,7 @@ export default function makeCard(
     const userSpan = document.createElement("span");
 
     const userNameSpan = document.createElement("p");
+    // userNameSpan.className = "p1";
     userNameSpan.href = `/recipe/${key}`;
     userNameSpan.setAttribute("data-link", "");
     userNameSpan.textContent = userName;

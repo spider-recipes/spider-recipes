@@ -111,7 +111,7 @@ async function createUser(username, token) {
       // User doesn't exist, create a new user
       const userInfo = await pool.request()
         .input('username', sql.VarChar(255), username)
-        .input('auth_token', sql.VarChar(1024), 'fdsgsgshshsh')
+        .input('auth_token', sql.VarChar(1024), token)
         .input('created_date', sql.DateTime, new Date().toISOString())
         .query(`INSERT INTO Users (username, auth_token, created_date)
                 OUTPUT inserted.user_id, inserted.username, inserted.auth_token, inserted.created_date
