@@ -30,7 +30,7 @@ export default class extends AbstractView {
 
     const titleDesc = document.createElement("p");
     titleDesc.textContent =
-      "This is your profile page. You can view your username and join date, as well as your favourited and your created recipes. You can also edit your username, and logout.";
+      "This is your profile page. You can view your username and join date, as well as your favourited and your created recipes.";
 
     titleSection.append(titleHeading, titleDesc);
 
@@ -102,6 +102,8 @@ export default class extends AbstractView {
     );
     data = await response.json();
     const favouritedRecipesExtended = data.userFavouritedRecipesExtended[0];
+
+
 
     // Get userCreatedRecipesExtended
     response = await fetch(
